@@ -40,12 +40,14 @@
     "eslint-config-prettier": "^6.7.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-react": "^7.16.0",
+    "git-branch-is": "^3.1.0",
     "prettier": "^1.19.1",
     "pretty-quick": "^2.0.1"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged",
+      "pre-push": "git-branch-is -r \"^((?!master).)*$\""
     }
   },
   "lint-staged": {
