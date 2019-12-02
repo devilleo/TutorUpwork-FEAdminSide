@@ -1,0 +1,76 @@
+.login-form {
+  min-width: 350px;
+  padding: 20px;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+.login-form-forgot {
+  float: right;
+}
+.login-form-button {
+  width: 100%;
+  background: linear-gradient(-45deg, #23a6d5, #23d5ab);
+  border-color: #23d5ab;
+}
+.login-form-button:hover,
+.login-form-button:focus,
+.login-form-button:active {
+  background: linear-gradient(-45deg, #ee7752, #e73c7e);
+  border-color: #ee7752;
+}
+
+.ant-layout-content {
+  min-height: 100vh !important;
+}
+.loginRow {
+  min-height: 100vh !important;
+}
+.ant-input {
+  border: none;
+}
+
+.googleBtn {
+  margin-right: 20px !important ;
+  border: 0px !important;
+  box-shadow: 0;
+}
+.googleBtn div {
+  margin-right: 0px !important;
+  border-radius: 0px !important;
+  border: 0px !important;
+  padding: 0px !important;
+  height: 40px;
+}
+.googleBtn svg {
+  width: 40px;
+  height: 40px;
+  padding: 10px;
+}
+
+.googleBtn span {
+  width: 0px !important;
+  height: 0px !important;
+  padding: 0px !important;
+}
+
+.socialBtnLogin {
+  display: flex;
+  justify-content: center;
+}
+.fbBtn {
+  margin: 0;
+  width: 42px;
+  height: 42px;
+  background-color: #4c69ba;
+  color: white;
+  border-color: #4c69ba;
+  border-radius: 2px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 2px 2px 0px, rgba(0, 0, 0, 0.24) 0px 0px 1px 0px;
+}
+p {
+  margin-top: 5px;
+  line-height: 20px;
+}
+.ant-form-item {
+  margin-bottom: 5px;
+}

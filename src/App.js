@@ -1,15 +1,32 @@
 import React from 'react';
-import logo from './logo.svg';
+import { Layout } from 'antd';
+import { Switch, Route } from 'react-router';
+import Footer from './components/layout/footer';
+import Header from './components/layout/header';
+
+import Login from './components/login';
 import './App.css';
 
-function App() {
+const { Content } = Layout;
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-      </header>
+    <div>
+      <Header />
+      <div className="App">
+        <Content>
+          <Switch>
+            <Route exact path={`${process.env.PUBLIC_URL}/`}>
+              <Login />
+            </Route>
+            <Route exact path={`${process.env.PUBLIC_URL}/login`}>
+              <Login />
+            </Route>
+          </Switch>
+        </Content>
+      </div>
+      <Footer />
     </div>
   );
-}
+};
 
 export default App;
