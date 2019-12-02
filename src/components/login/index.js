@@ -1,9 +1,6 @@
 import React from 'react';
 import { Form, Icon, Input, Button, Row, Typography } from 'antd';
 import '../css/form.css';
-import { Link } from 'react-router-dom';
-import FacebookLogin from 'react-facebook-login';
-import GoogleLogin from 'react-google-login';
 
 const LoginForm = () => {
   const handleSubmit = e => {
@@ -15,7 +12,7 @@ const LoginForm = () => {
     <div className="loginPage">
       <Row type="flex" justify="center" align="middle" className="loginRow">
         <Form onSubmit={handleSubmit} className="login-form customLoginForm">
-          <Title level={3}>Đăng nhập</Title>
+          <Title level={3}>Đăng nhập Admin</Title>
           <Form.Item>
             <Input
               type="email"
@@ -31,35 +28,12 @@ const LoginForm = () => {
               type="password"
               placeholder="Password"
             />
-            <a className="login-form-forgot" href="/">
-              Quên mật khẩu ?
-            </a>
           </Form.Item>
 
           <Form.Item>
             <Button type="primary" htmlType="submit" className="login-form-button">
               Đăng nhập
             </Button>
-            <p>hoặc đăng nhập bằng</p>
-            <div className="socialBtnLogin">
-              <GoogleLogin
-                className="googleBtn"
-                clientId=""
-                // onSuccess={}
-                // onFailure={}
-                buttonText=""
-              />
-              <FacebookLogin
-                textButton=""
-                appId=""
-                fields="name,email,picture"
-                icon="fa-facebook"
-                // callback={}
-                cssClass="fbBtn"
-              />
-            </div>
-            <p>Chưa có tài khoản ?</p>
-            <Link to="/register"> Đăng ký ngay !</Link>
           </Form.Item>
         </Form>
       </Row>

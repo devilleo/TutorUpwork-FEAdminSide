@@ -3,6 +3,7 @@
   padding: 20px;
   border-radius: 5px;
   background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
 }
 .login-form-forgot {
   float: right;
@@ -23,7 +24,8 @@
   min-height: 100vh !important;
 }
 .loginRow {
-  min-height: 100vh !important;
+  /* min-height: 90vh !important; */
+  height: 90vh;
 }
 .ant-input {
   border: none;

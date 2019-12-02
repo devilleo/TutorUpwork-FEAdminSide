@@ -2,7 +2,7 @@ import React from 'react';
 import { Layout, Input, Avatar, Row, Col } from 'antd';
 import './header.css';
 
-const footer = () => {
+const header = () => {
   const { Header } = Layout;
   const { Search } = Input;
   return (
@@ -22,12 +22,12 @@ const footer = () => {
           />
         </Col>
 
-        <Col span={4}>
-          <Avatar shape="square" size={40} icon="user" />
+        <Col span={4} style={{ height: '100%' }}>
+          <Avatar shape="square" icon="user" />
         </Col>
       </Row>
     </Header>
   );
 };
 
-export default footer;
+export default header;
