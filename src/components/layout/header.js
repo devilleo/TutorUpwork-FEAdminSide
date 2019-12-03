@@ -1,30 +1,34 @@
 import React from 'react';
-import { Layout, Input, Avatar, Row, Col } from 'antd';
+import { Layout, Avatar, Row, Col } from 'antd';
 import './header.css';
 
 const header = () => {
   const { Header } = Layout;
-  const { Search } = Input;
+  const displayAvatar = false;
+  const styleLogo = { textAlign: 'center', height: '100%' };
+  if (displayAvatar) {
+    styleLogo.textAlign = 'left';
+  }
   return (
-    <Header className="header" style={{ color: 'white', textAlign: 'center', fontWeight: 'bold' }}>
-      <Row
-        type="flex"
-        justify="space-around"
-        align="middle"
-        style={{ width: '90%', height: '100%' }}
-      >
-        <Col span={16} style={{ height: '100%' }}>
-          <img alt="" src="/img/logo.png" style={{ height: '80%' }} />
-          <Search
-            onSearch={value => console.log(value)}
-            style={{ width: '50%' }}
-            className="searchHeader"
-          />
+    <Header
+      className="header"
+      style={{
+        color: 'white',
+        textAlign: 'center',
+        fontWeight: 'bold',
+        paddingLeft: '20%',
+        paddingRight: '20%',
+      }}
+    >
+      <Row type="flex" justify="space-around" align="middle" style={{ height: '100%' }}>
+        <Col id="divLogo" span={16} style={styleLogo}>
+          <img alt="" src="/img/logo.png" style={{ height: '100%' }} />
         </Col>
-
-        <Col span={4} style={{ height: '100%' }}>
-          <Avatar shape="square" icon="user" />
-        </Col>
+        {displayAvatar && (
+          <Col id="buttonUser" span={4} style={{ height: '100%', textAlign: 'right' }}>
+            <Avatar shape="square" icon="user" />
+          </Col>
+        )}
       </Row>
     </Header>
   );

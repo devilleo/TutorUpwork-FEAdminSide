@@ -6,7 +6,16 @@ const footer = () => {
   const { Footer } = Layout;
 
   return (
-    <Footer className="footer" style={{ textAlign: 'center', fontWeight: 'bold' }}>
+    <Footer
+      className="footer"
+      style={{
+        textAlign: 'center',
+        fontWeight: 'bold',
+        display: 'flex',
+        justifyContent: 'center',
+        flexDirection: 'column',
+      }}
+    >
       FIT - HCMUS - Phát triển ứng dụng web nâng cao
     </Footer>
   );
