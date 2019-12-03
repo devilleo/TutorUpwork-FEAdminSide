@@ -2,12 +2,11 @@ import React from 'react';
 import { Layout, Menu, Icon } from 'antd';
 import './sider.css';
 
-const MyCustomSider = props => {
+const MyCustomSider = () => {
   // eslint-disable-next-line react/prop-types
-  const { collapsed } = props;
   const { Sider } = Layout;
   return (
-    <Sider collapsed={collapsed} className="myCustomSider">
+    <Sider collapsible className="myCustomSider">
       <Menu
         style={{ backgroundColor: 'transparent' }}
         className="myCustomSider"
