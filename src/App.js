@@ -10,7 +10,6 @@ import HomePage from './components/homepage/index';
 import MyCustomSider from './components/sider/index';
 import AdminManagement from './components/homepage/adminManagement/index';
 
-
 import './App.css';
 
 const App = () => {
@@ -29,7 +28,6 @@ const App = () => {
                 opacity: '0.8',
                 backgroundColor: 'transparent',
                 minHeight: '90vh',
-                padding: '30px',
               }}
             >
               <Route exact path={`${process.env.PUBLIC_URL}/`} component={HomePage} />
@@ -40,7 +38,6 @@ const App = () => {
                 component={AdminManagement}
               />
             </div>
-
             <Footer />
           </Content>
         </Layout>
