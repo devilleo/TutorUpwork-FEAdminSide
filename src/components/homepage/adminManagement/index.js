@@ -1,7 +1,7 @@
 import React from 'react';
 import { Col } from 'antd';
 
-import ModalAddNewAdmin from './Modal_AddNewAdmin';
+import ModalAddNewAdmin from '../../../containers/addNewAdminContainer';
 
 class AdminManagement extends React.Component {
   constructor(props) {

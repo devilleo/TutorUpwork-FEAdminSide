@@ -9,3 +9,13 @@ export const isAddNewAdminSucceed = (state = false, action) => {
       return state;
   }
 };
+
+export const isLogin = (state = false, action) => {
+  switch (action.type) {
+    case 'LOGIN_SUCCEED': {
+      return true;
+    }
+    default:
+      return state;
+  }
+};

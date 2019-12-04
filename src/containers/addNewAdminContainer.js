@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import adminManagement from '../components/homepage/adminManagement/index';
+import adminManagement from '../components/homepage/adminManagement/Modal_AddNewAdmin';
 import { addNewAdminRequest } from '../actions/adminManagementAction';
 
 const mapStateToProps = state => {
@@ -10,7 +10,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = run => {
   const actions = {
-    addNewAdmin: (email, password, role, cb) => run(addNewAdminRequest(email, password, role, cb)),
+    addNewAdmin: (email, password, role, name, cb) =>
+      run(addNewAdminRequest(email, password, role, name, cb)),
   };
   return actions;
 };

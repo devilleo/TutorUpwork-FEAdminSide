@@ -1,17 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import $ from 'jquery';
-import { Form, Input, Modal, Select, Button } from 'antd';
+import { Form, Input, Modal, Button } from 'antd';
 
 const ModalAddNewAdmin = props => {
   // eslint-disable-next-line react/prop-types
-  const { visible, handleok, confirmloading, handlecancel } = props;
+  const { visible, handleok, confirmloading, handlecancel, addNewAdmin } = props;
+  const [isLoading, setIsLoading] = useState(false);
+
+  const done = () => {
+    setIsLoading(false);
+  };
 
   const submit = e => {
     e.preventDefault();
-    // khong get đc thông tin của form ở đây!!!
+    setIsLoading(true);
     const formVal = $('.formAddNewAdmin').serializeArray();
-    console.log(formVal);
+    addNewAdmin(formVal[0].value, formVal[1].value, formVal[2].value, 'admin1', done);
   };
+
   return (
     <Modal
       title="Thêm mới admin"
@@ -20,31 +26,31 @@ const ModalAddNewAdmin = props => {
       confirmLoading={confirmloading}
       onCancel={handlecancel}
     >
-      <Form onSubmit={submit} className="formAddNewAdmin">
-        <Form.Item label="Họ tên">
-          <Input required placeholder="nhập họ tên..." />
-        </Form.Item>
+      <Form onSubmit={e => submit(e)} className="formAddNewAdmin">
         <Form.Item label="Email">
-          <Input required placeholder="email..." />
+          <Input type="email" name="email" required placeholder="email..." />
         </Form.Item>
         <Form.Item label="Mật khẩu">
-          <Input type="password" required placeholder="email..." />
+          <Input minLength="6" name="password" type="password" required placeholder="password..." />
         </Form.Item>
-        <Form.Item label="Chức vụ" hasFeedback>
-          <Select defaultValue="1">
-            <Select.Option value="1">Thượng tá</Select.Option>
-            <Select.Option value="2">Thiếu tá</Select.Option>
-            <Select.Option value="3">Lam di</Select.Option>
+        <Form.Item label="Họ tên">
+          <Input name="name" required placeholder="nhập họ tên..." />
+        </Form.Item>
+        {/* <Form.Item label="Chức vụ" hasFeedback>
+          <Select name="role" defaultValue="adminLV1">
+            <Select.Option value="adminLV1">Admin Level 1</Select.Option>
+            <Select.Option value="adminLV2">Admin Level 2</Select.Option>
           </Select>
-        </Form.Item>
+        </Form.Item> */}
         <Form.Item>
           <Button
             type="primary"
             htmlType="submit"
             className="login-form-button registerBtn"
             style={{ fontWeight: 'bold' }}
+            loading={isLoading}
           >
-            Đăng ký
+            Thêm
           </Button>
         </Form.Item>
       </Form>
