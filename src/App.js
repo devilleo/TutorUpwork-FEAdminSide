@@ -38,7 +38,6 @@ const App = () => {
                 component={AdminManagement}
               />
             </div>
-
             <Footer />
           </Content>
         </Layout>

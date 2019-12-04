@@ -276,7 +276,7 @@ const AdminManagement = () => {
                         viewBox="64 64 896 896"
                         focusable="false"
                         className=""
-                        data-icon="right"
+                        data-icon="double-right"
                         width="1em"
                         height="1em"
                         fill="currentColor"
