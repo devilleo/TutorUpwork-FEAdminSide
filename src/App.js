@@ -23,7 +23,14 @@ const App = () => {
 
           <Content>
             <Header />
-            <div style={{ opacity: '0.8', backgroundColor: 'transparent', minHeight: '90vh' }}>
+            <div
+              style={{
+                opacity: '0.8',
+                backgroundColor: 'transparent',
+                minHeight: '90vh',
+                padding: '30px',
+              }}
+            >
               <Route exact path={`${process.env.PUBLIC_URL}/`} component={HomePage} />
               <Route exact path={`${process.env.PUBLIC_URL}/login`} component={Login} />
               <Route
