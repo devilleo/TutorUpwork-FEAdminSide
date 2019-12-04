@@ -6,13 +6,9 @@ const HomePage = () => {
   const { Content } = Layout;
   // eslint-disable-next-line react/prop-types
   return (
-    <div className="homePage">
-      <Layout style={{ opacity: '0.8', backgroundColor: 'transparent' }}>
-        <Content>
-          <div />
-        </Content>
-      </Layout>
-    </div>
+    <Content>
+      <div />
+    </Content>
   );
 };
 
