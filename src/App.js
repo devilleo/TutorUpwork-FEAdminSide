@@ -28,7 +28,6 @@ const App = () => {
                 opacity: '0.8',
                 backgroundColor: 'transparent',
                 minHeight: '90vh',
-                padding: '30px',
               }}
             >
               <Route exact path={`${process.env.PUBLIC_URL}/`} component={HomePage} />
