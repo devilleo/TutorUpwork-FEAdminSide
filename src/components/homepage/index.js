@@ -9,7 +9,7 @@ const HomePage = () => {
     <div className="homePage">
       <Layout style={{ opacity: '0.8', backgroundColor: 'transparent' }}>
         <Content>
-          <div>nothing</div>
+          <div />
         </Content>
       </Layout>
     </div>
