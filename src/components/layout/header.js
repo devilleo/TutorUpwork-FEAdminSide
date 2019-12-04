@@ -39,11 +39,6 @@ const header = () => {
         >
           {displayAvatar && <Avatar shape="square" icon="user" />}
         </Col>
-        {displayAvatar && (
-          <Col id="buttonUser" span={4} style={{ height: '100%', textAlign: 'right' }}>
-            <Avatar shape="square" icon="user" />
-          </Col>
-        )}
       </Row>
     </Header>
   );
