@@ -1,14 +1,13 @@
 import { connect } from 'react-redux';
-import app from '../App';
+import header from '../components/layout/header';
 
 const mapStateToProps = state => {
   return {
     adminInfo: state.adminInfo,
-    isLogin: state.isLogin,
   };
 };
 
 const mapDispatchToProps = () => {
   return {};
 };
-export default connect(mapStateToProps, mapDispatchToProps)(app);
+export default connect(mapStateToProps, mapDispatchToProps)(header);

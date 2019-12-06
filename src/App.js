@@ -1,26 +1,26 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router';
 import { BrowserRouter as Router } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { Layout } from 'antd';
+
 import Footer from './components/layout/footer';
-import Header from './components/layout/header';
+import Header from './containers/headerContainer';
 
 import Login from './containers/loginContainer';
-import HomePage from './components/homepage/index';
 import MyCustomSider from './components/sider/index';
 import AdminManagement from './components/homepage/adminManagement/index';
 
 import './App.css';
 
 const App = props => {
-  const { isLogin } = props;
+  const { adminInfo } = props;
   const { Content } = Layout;
   return (
     <div>
       <Router>
         <Layout style={{ backgroundColor: 'transparent' }}>
-          {/* //TODO: hide sider below if not logged in */}
-          <MyCustomSider />
+          {adminInfo.token !== '' && <MyCustomSider />}
 
           <Content>
             <Header />
@@ -32,13 +32,13 @@ const App = props => {
               }}
             >
               <Route path={`${process.env.PUBLIC_URL}/`}>
-                {isLogin ? <AdminManagement /> : <Redirect to="/login" />}
+                {adminInfo.token !== '' ? <AdminManagement /> : <Redirect to="/login" />}
               </Route>
               <Route path={`${process.env.PUBLIC_URL}/login`}>
-                {isLogin ? <Redirect to="/adminmanagement" /> : <Login />}
+                {adminInfo.token !== '' ? <Redirect to="/adminmanagement" /> : <Login />}
               </Route>
               <Route path={`${process.env.PUBLIC_URL}/adminmanagement`}>
-                {isLogin ? <AdminManagement /> : <Redirect to="/login" />}
+                {adminInfo.token !== '' ? <AdminManagement /> : <Redirect to="/login" />}
               </Route>
             </div>
             <Footer />
@@ -47,6 +47,14 @@ const App = props => {
       </Router>
     </div>
   );
+};
+
+App.propTypes = {
+  adminInfo: PropTypes.objectOf(PropTypes.string, PropTypes.string),
+};
+
+App.defaultProps = {
+  adminInfo: { token: '', role: '' },
 };
 
 export default App;

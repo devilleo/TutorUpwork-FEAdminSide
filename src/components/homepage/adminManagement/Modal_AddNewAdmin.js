@@ -1,21 +1,20 @@
 import React, { useState } from 'react';
 import $ from 'jquery';
+import PropTypes from 'prop-types';
 import { Form, Input, Modal, Button } from 'antd';
 
 const ModalAddNewAdmin = props => {
-  // eslint-disable-next-line react/prop-types
-  const { visible, handleok, confirmloading, handlecancel, addNewAdmin } = props;
+  const { visible, handleok, confirmloading, handlecancel, addNewAdmin, adminInfo } = props;
   const [isLoading, setIsLoading] = useState(false);
 
   const done = () => {
     setIsLoading(false);
   };
-
   const submit = e => {
     e.preventDefault();
     setIsLoading(true);
     const formVal = $('.formAddNewAdmin').serializeArray();
-    addNewAdmin(formVal[0].value, formVal[1].value, formVal[2].value, 'admin1', done);
+    addNewAdmin(adminInfo.token, formVal[0].value, formVal[1].value, formVal[2].value, done);
   };
 
   return (
@@ -56,6 +55,24 @@ const ModalAddNewAdmin = props => {
       </Form>
     </Modal>
   );
+};
+
+ModalAddNewAdmin.propTypes = {
+  adminInfo: PropTypes.objectOf(PropTypes.string, PropTypes.string),
+  visible: PropTypes.bool,
+  handleok: PropTypes.func,
+  confirmloading: PropTypes.bool,
+  handlecancel: PropTypes.func,
+  addNewAdmin: PropTypes.func,
+};
+
+ModalAddNewAdmin.defaultProps = {
+  adminInfo: { token: '', role: '' },
+  visible: false,
+  handleok: () => {},
+  confirmloading: false,
+  handlecancel: () => {},
+  addNewAdmin: () => {},
 };
 
 export default ModalAddNewAdmin;

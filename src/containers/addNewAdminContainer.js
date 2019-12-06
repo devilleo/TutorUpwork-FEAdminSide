@@ -5,13 +5,14 @@ import { addNewAdminRequest } from '../actions/adminManagementAction';
 const mapStateToProps = state => {
   return {
     isAddNewAdminSucceed: state.isAddNewAdminSucceed,
+    adminInfo: state.adminInfo,
   };
 };
 
 const mapDispatchToProps = run => {
   const actions = {
-    addNewAdmin: (email, password, role, name, cb) =>
-      run(addNewAdminRequest(email, password, role, name, cb)),
+    addNewAdmin: (token, email, password, name, cb) =>
+      run(addNewAdminRequest(token, email, password, name, cb)),
   };
   return actions;
 };
