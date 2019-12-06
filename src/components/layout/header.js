@@ -1,11 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Layout, Avatar, Row, Col } from 'antd';
 import './header.css';
 
-const header = () => {
+const header = props => {
+  const { adminInfo } = props;
   const { Header } = Layout;
-  // eslint-disable-next-line react/prop-types
-  const displayAvatar = true;
   const styleLogo = { textAlign: 'center', height: '100%' };
   const styleHeader = {
     color: 'white',
@@ -14,7 +14,7 @@ const header = () => {
     paddingLeft: '20%',
     paddingRight: '20%',
   };
-  if (displayAvatar) {
+  if (adminInfo.token !== '') {
     styleHeader.paddingLeft = '0px';
     styleHeader.paddingRight = '0px';
   }
@@ -37,11 +37,19 @@ const header = () => {
             // verticalAlign: 'middle',
           }}
         >
-          {displayAvatar && <Avatar shape="square" icon="user" />}
+          {adminInfo.token !== '' && <Avatar shape="square" icon="user" />}
         </Col>
       </Row>
     </Header>
   );
+};
+
+header.propTypes = {
+  adminInfo: PropTypes.objectOf(PropTypes.string, PropTypes.string),
+};
+
+header.defaultProps = {
+  adminInfo: { token: '', role: '' },
 };
 
 export default header;

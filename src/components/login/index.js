@@ -1,16 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { Form, Icon, Input, Button, Row, Typography } from 'antd';
 import $ from 'jquery';
 import '../css/form.css';
 
 const LoginForm = props => {
   const { login } = props;
+
   const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    setIsLoading(false);
+  }, [isLoading]);
+
   const done = () => {
     setIsLoading(false);
   };
   const handleSubmit = e => {
-    e.preventDefault();
     e.preventDefault();
     setIsLoading(true);
     const formVal = $('.customLoginForm').serializeArray();
@@ -54,6 +59,14 @@ const LoginForm = props => {
       </Form>
     </Row>
   );
+};
+
+LoginForm.propTypes = {
+  login: PropTypes.func,
+};
+
+LoginForm.defaultProps = {
+  login: () => {},
 };
 
 export default LoginForm;

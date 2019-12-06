@@ -19,3 +19,17 @@ export const isLogin = (state = false, action) => {
       return state;
   }
 };
+
+export const adminInfo = (state = { token: '', role: '' }, action) => {
+  switch (action.type) {
+    case 'LOGIN_SUCCEED': {
+      return {
+        ...state,
+        token: action.token,
+        role: action.role,
+      };
+    }
+    default:
+      return state;
+  }
+};

@@ -4,23 +4,22 @@ import $ from 'jquery';
 import API from '../service/API';
 
 // eslint-disable-next-line import/prefer-default-export
-export const addNewAdminRequest = (email, password, role, name, cb) => dispatch => {
-  const data = $.param({ email, password, role, name });
+export const addNewAdminRequest = (token, emailF, passwordF, nameF, cb) => dispatch => {
   return fetch(API.REGISTER, {
     method: 'POST',
-    body: data,
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+      secret_token: token,
     },
+    body: `email=${emailF}&password=${passwordF}&name=${nameF}`,
   })
     .then(response => response.json())
     .then(res => {
-      console.log(res.status);
       if (res.status === 'success') {
         dispatch({ type: 'REGISTER_SUCCEED' });
         Swal.fire('Thông báo', 'Thành công', 'success');
       } else {
-        Swal.fire('Thông báo', 'Không thành công', 'error');
+        Swal.fire('Thông báo', res.message, 'error');
       }
     })
     .catch(() => {
@@ -43,7 +42,7 @@ export const loginRequest = (email, password, cb) => dispatch => {
     .then(response => response.json())
     .then(res => {
       if (res.status === 'success') {
-        dispatch({ type: 'LOGIN_SUCCEED' });
+        dispatch({ type: 'LOGIN_SUCCEED', token: res.token, role: res.role });
         Swal.fire('Thông báo', 'Thành công', 'success');
       } else {
         Swal.fire('Thông báo', res.message, 'error');
