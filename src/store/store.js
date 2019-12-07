@@ -29,11 +29,12 @@ store.subscribe(
   throttle(() => {
     // store necessary reducer in local storage
     saveState({
-      role: store.getState().adminInfo.role,
+      adminRole: store.getState().adminRole,
+      isLogin: store.getState().isLogin,
     });
 
     // store token in cookie
-    cookies.set('token', store.getState().adminInfo.token, { path: '/' });
+    cookies.set('token', store.getState().adminToken, { path: '/' });
   }, 1000),
 );
 

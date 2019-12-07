@@ -13,7 +13,6 @@ const LoginForm = props => {
   }, [isLoading]);
 
   const done = () => {
-    localStorage.setItem('token', 'ahihi1');
     setIsLoading(false);
   };
   const handleSubmit = e => {

@@ -1,9 +1,18 @@
-export const adminInfo = (state = { token: '', role: '' }, action) => {
+export const isLogin = (state = false, action) => {
+  switch (action.type) {
+    case 'LOGIN_SUCCEED': {
+      return true;
+    }
+    default:
+      return state;
+  }
+};
+
+export const adminRole = (state = '', action) => {
   switch (action.type) {
     case 'LOGIN_SUCCEED': {
       return {
         ...state,
-        token: action.token,
         role: action.role,
       };
     }
@@ -12,9 +21,14 @@ export const adminInfo = (state = { token: '', role: '' }, action) => {
   }
 };
 
-// the following reducer just to fix eslint
-export const trashReducerrrr = (state = false, action) => {
+export const adminToken = (state = '', action) => {
   switch (action.type) {
+    case 'LOGIN_SUCCEED': {
+      return {
+        ...state,
+        token: action.token,
+      };
+    }
     default:
       return state;
   }

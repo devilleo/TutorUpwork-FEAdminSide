@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
-import adminManagement from '../components/homepage/adminManagement/Modal_AddNewAdmin';
+import tutorManagement from '../components/homepage/tutorManagement/Modal_AddNewTutor';
 import { addNewTutorRequest } from '../actions/tutorManagementAction';
 
 const mapStateToProps = state => {
   return {
     isAddNewTutorsSucceed: state.isAddNewTutorsSucceed,
-    adminInfo: state.adminInfo,
+    adminToken: state.adminToken,
   };
 };
 
@@ -16,4 +16,4 @@ const mapDispatchToProps = run => {
   };
   return actions;
 };
-export default connect(mapStateToProps, mapDispatchToProps)(adminManagement);
+export default connect(mapStateToProps, mapDispatchToProps)(tutorManagement);

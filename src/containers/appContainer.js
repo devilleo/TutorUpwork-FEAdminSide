@@ -3,7 +3,6 @@ import app from '../App';
 
 const mapStateToProps = state => {
   return {
-    adminInfo: state.adminInfo,
     isLogin: state.isLogin,
   };
 };

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import Cookies from 'universal-cookie';
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 import { Form, Input, Modal, Button } from 'antd';
 
 const ModalAddNewTutor = props => {
-  const { visible, handleok, confirmloading, handlecancel, addNewAdmin, adminInfo } = props;
+  const { visible, handleok, confirmloading, handlecancel, addNewTutor } = props;
   const [isLoading, setIsLoading] = useState(false);
 
   const done = () => {
@@ -12,9 +13,21 @@ const ModalAddNewTutor = props => {
   };
   const submit = e => {
     e.preventDefault();
+    // eslint-disable-next-line no-alert
+    alert('chưa làm chức năng này...');
+    return;
+    // eslint-disable-next-line no-unreachable
     setIsLoading(true);
+    const cookies = new Cookies();
     const formVal = $('.formAddNewAdmin').serializeArray();
-    addNewAdmin(adminInfo.token, formVal[0].value, formVal[1].value, formVal[2].value, done);
+    // eslint-disable-next-line max-len
+    addNewTutor(
+      cookies.get('token').token,
+      formVal[0].value,
+      formVal[1].value,
+      formVal[2].value,
+      done,
+    );
   };
 
   return (
@@ -58,21 +71,19 @@ const ModalAddNewTutor = props => {
 };
 
 ModalAddNewTutor.propTypes = {
-  adminInfo: PropTypes.objectOf(PropTypes.string, PropTypes.string),
   visible: PropTypes.bool,
   handleok: PropTypes.func,
   confirmloading: PropTypes.bool,
   handlecancel: PropTypes.func,
-  addNewAdmin: PropTypes.func,
+  addNewTutor: PropTypes.func,
 };
 
 ModalAddNewTutor.defaultProps = {
-  adminInfo: { token: '', role: '' },
   visible: false,
   handleok: () => {},
   confirmloading: false,
   handlecancel: () => {},
-  addNewAdmin: () => {},
+  addNewTutor: () => {},
 };
 
 export default ModalAddNewTutor;

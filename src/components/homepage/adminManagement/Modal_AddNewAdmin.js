@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
+import Cookies from 'universal-cookie';
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 import { Form, Input, Modal, Button } from 'antd';
 
 const ModalAddNewAdmin = props => {
-  const { visible, handleok, confirmloading, handlecancel, addNewAdmin, adminInfo } = props;
+  const { visible, handleok, confirmloading, handlecancel, addNewAdmin } = props;
   const [isLoading, setIsLoading] = useState(false);
-
   const done = () => {
     setIsLoading(false);
   };
@@ -14,7 +14,15 @@ const ModalAddNewAdmin = props => {
     e.preventDefault();
     setIsLoading(true);
     const formVal = $('.formAddNewAdmin').serializeArray();
-    addNewAdmin(adminInfo.token, formVal[0].value, formVal[1].value, formVal[2].value, done);
+    const cookies = new Cookies();
+    // eslint-disable-next-line max-len
+    addNewAdmin(
+      cookies.get('token').token,
+      formVal[0].value,
+      formVal[1].value,
+      formVal[2].value,
+      done,
+    );
   };
 
   return (
@@ -58,7 +66,6 @@ const ModalAddNewAdmin = props => {
 };
 
 ModalAddNewAdmin.propTypes = {
-  adminInfo: PropTypes.objectOf(PropTypes.string, PropTypes.string),
   visible: PropTypes.bool,
   handleok: PropTypes.func,
   confirmloading: PropTypes.bool,
@@ -67,7 +74,6 @@ ModalAddNewAdmin.propTypes = {
 };
 
 ModalAddNewAdmin.defaultProps = {
-  adminInfo: { token: '', role: '' },
   visible: false,
   handleok: () => {},
   confirmloading: false,

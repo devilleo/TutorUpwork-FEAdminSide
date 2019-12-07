@@ -3,7 +3,7 @@ import header from '../components/layout/header';
 
 const mapStateToProps = state => {
   return {
-    adminInfo: state.adminInfo,
+    isLogin: state.isLogin,
   };
 };
 
