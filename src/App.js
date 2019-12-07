@@ -10,6 +10,7 @@ import Header from './containers/headerContainer';
 import Login from './containers/loginContainer';
 import MyCustomSider from './components/sider/index';
 import AdminManagement from './components/homepage/adminManagement/index';
+import TutorManagement from './components/homepage/tutorManagement/index';
 
 import './App.css';
 
@@ -31,13 +32,16 @@ const App = props => {
                 minHeight: '90vh',
               }}
             >
-              <Route path={`${process.env.PUBLIC_URL}/`}>
+              <Route exact path={`${process.env.PUBLIC_URL}/`}>
                 {adminInfo.token !== '' ? <AdminManagement /> : <Redirect to="/login" />}
               </Route>
-              <Route path={`${process.env.PUBLIC_URL}/login`}>
+              <Route exact path={`${process.env.PUBLIC_URL}/login`}>
                 {adminInfo.token !== '' ? <Redirect to="/adminmanagement" /> : <Login />}
               </Route>
-              <Route path={`${process.env.PUBLIC_URL}/adminmanagement`}>
+              <Route exact path={`${process.env.PUBLIC_URL}/tutormanagement`}>
+                {adminInfo.token !== '' ? <TutorManagement /> : <Login />}
+              </Route>
+              <Route exact path={`${process.env.PUBLIC_URL}/adminmanagement`}>
                 {adminInfo.token !== '' ? <AdminManagement /> : <Redirect to="/login" />}
               </Route>
             </div>

@@ -1,4 +1,3 @@
-// đăng ký thành công hay chưa ?
 export const isAddNewAdminSucceed = (state = false, action) => {
   switch (action.type) {
     case 'ADD_NEW_ADMIN_SUCCEED': {
@@ -9,11 +8,9 @@ export const isAddNewAdminSucceed = (state = false, action) => {
   }
 };
 
-export const isLogin = (state = false, action) => {
+// the following reducer just to fix eslint
+export const hihi = (state = false, action) => {
   switch (action.type) {
-    case 'LOGIN_SUCCEED': {
-      return true;
-    }
     default:
       return state;
   }
