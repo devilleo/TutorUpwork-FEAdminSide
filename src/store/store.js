@@ -2,9 +2,6 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import throttle from 'lodash/throttle';
 import thunk from 'redux-thunk';
 
-// Cookies
-import Cookies from 'universal-cookie';
-
 // Local Storage
 import { loadState, saveState } from './local_storage';
 
@@ -23,7 +20,6 @@ export const configureStore = initialState => {
 };
 
 const store = configureStore(loadState());
-const cookies = new Cookies();
 
 store.subscribe(
   throttle(() => {
@@ -31,10 +27,8 @@ store.subscribe(
     saveState({
       adminRole: store.getState().adminRole,
       isLogin: store.getState().isLogin,
+      adminsList: store.getState().adminsList,
     });
-
-    // store token in cookie
-    cookies.set('token', store.getState().adminToken, { path: '/' });
   }, 1000),
 );
 

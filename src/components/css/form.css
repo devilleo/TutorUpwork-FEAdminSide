@@ -8,14 +8,14 @@
 .login-form-forgot {
   float: right;
 }
-.login-form-button {
+.submitBtn {
   width: 100%;
   background: linear-gradient(-45deg, #23a6d5, #23d5ab);
   border-color: #23d5ab;
 }
-.login-form-button:hover,
-.login-form-button:focus,
-.login-form-button:active {
+.submitBtn:hover,
+.submitBtn:focus,
+.submitBtn:active {
   background: linear-gradient(-45deg, #ee7752, #e73c7e);
   border-color: #ee7752;
 }

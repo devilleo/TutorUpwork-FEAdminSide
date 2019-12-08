@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { Form, Input, Modal, Button } from 'antd';
 
 const ModalAddNewAdmin = props => {
-  const { visible, handleok, confirmloading, handlecancel, addNewAdmin } = props;
+  const { visible, addNewAdmin, closeModal } = props;
   const [isLoading, setIsLoading] = useState(false);
   const done = () => {
     setIsLoading(false);
@@ -16,23 +16,11 @@ const ModalAddNewAdmin = props => {
     const formVal = $('.formAddNewAdmin').serializeArray();
     const cookies = new Cookies();
     // eslint-disable-next-line max-len
-    addNewAdmin(
-      cookies.get('token').token,
-      formVal[0].value,
-      formVal[1].value,
-      formVal[2].value,
-      done,
-    );
+    addNewAdmin(cookies.get('token'), formVal[0].value, formVal[1].value, formVal[2].value, done);
   };
 
   return (
-    <Modal
-      title="Thêm mới admin"
-      visible={visible}
-      onOk={handleok}
-      confirmLoading={confirmloading}
-      onCancel={handlecancel}
-    >
+    <Modal title="Thêm mới admin" visible={visible} footer={null} onCancel={closeModal}>
       <Form onSubmit={e => submit(e)} className="formAddNewAdmin">
         <Form.Item label="Email">
           <Input type="email" name="email" required placeholder="email..." />
@@ -57,12 +45,27 @@ const ModalAddNewAdmin = props => {
             <Select.Option value="adminLV2">Admin Level 2</Select.Option>
           </Select>
         </Form.Item> */}
-        <Form.Item>
+        <br />
+        <br />
+        <Form.Item style={{ paddingLeft: '10%', paddingRight: '10%' }}>
+          <Button
+            type="ghost"
+            htmlType="button"
+            className="login-form-button"
+            style={{ fontWeight: 'bold', width: '40%', marginRight: '10%' }}
+            onClick={closeModal}
+          >
+            Huỷ
+          </Button>
           <Button
             type="primary"
             htmlType="submit"
-            className="login-form-button registerBtn"
-            style={{ fontWeight: 'bold' }}
+            className="login-form-button submitBtn"
+            style={{
+              fontWeight: 'bold',
+              width: '40%',
+              marginLeft: '10%',
+            }}
             loading={isLoading}
           >
             Thêm
@@ -75,18 +78,14 @@ const ModalAddNewAdmin = props => {
 
 ModalAddNewAdmin.propTypes = {
   visible: PropTypes.bool,
-  handleok: PropTypes.func,
-  confirmloading: PropTypes.bool,
-  handlecancel: PropTypes.func,
   addNewAdmin: PropTypes.func,
+  closeModal: PropTypes.func,
 };
 
 ModalAddNewAdmin.defaultProps = {
   visible: false,
-  handleok: () => {},
-  confirmloading: false,
-  handlecancel: () => {},
   addNewAdmin: () => {},
+  closeModal: () => {},
 };
 
 export default ModalAddNewAdmin;

@@ -1,51 +1,112 @@
 import React from 'react';
 import { Col } from 'antd';
+import PropTypes from 'prop-types';
+import Cookies from 'universal-cookie';
 
-import ModalAddNewAdmin from '../../../containers/addNewAdminContainer';
+import ModalAddNewAdmin from './Modal_AddNewAdmin';
 
 class AdminManagement extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       openModalAddNewAdmin: false,
-      confirmLoading: false,
     };
   }
 
-  showModal = () => {
+  componentDidMount() {
+    const { getAdminsList } = this.props;
+    const cookies = new Cookies();
+    getAdminsList(cookies.get('token'));
+  }
+
+  showModalAddNewAdmin = () => {
     this.setState({
       openModalAddNewAdmin: true,
     });
   };
 
-  handleOk = () => {
-    this.setState({
-      confirmLoading: true,
-    });
-    setTimeout(() => {
-      this.setState({
-        openModalAddNewAdmin: false,
-        confirmLoading: false,
-      });
-    }, 2000);
-  };
-
-  handleCancel = () => {
+  closeModalAddNewAdmin = () => {
     this.setState({
       openModalAddNewAdmin: false,
     });
   };
 
   render() {
-    const { openModalAddNewAdmin, confirmLoading } = this.state;
+    const { openModalAddNewAdmin } = this.state;
 
+    const { addNewAdmin, adminsList } = this.props;
+    const displayAdminsList = [];
+    Object.keys(adminsList).forEach(item => {
+      displayAdminsList.push(
+        // eslint-disable-next-line no-underscore-dangle
+        <li key={adminsList[item]._id} className="ant-list-item">
+          <Col span={2}>
+            <ul className="ant-list-item-action" style={{ marginRight: '10px' }}>
+              <li>
+                <div>{item}</div>
+              </li>
+            </ul>
+          </Col>
+
+          <Col span={4}>
+            <div className="ant-list-item-meta">
+              <div className="ant-list-item-meta-avatar">
+                {/* eslint-disable-next-line max-len */}
+                <span className="ant-avatar ant-avatar-lg ant-avatar-square ant-avatar-image">
+                  <img
+                    alt=""
+                    // eslint-disable-next-line max-len
+                    src="https://gw.alipayobjects.com/zos/rmsportal/WdGqmHpayyMjiEhcKoVE.png"
+                  />
+                </span>
+              </div>
+            </div>
+          </Col>
+          <Col span={12}>
+            <div
+              className="antd-pro-pages-list-basic-list-style-listContent"
+              style={{ display: 'flex' }}
+            >
+              <Col span={12}>
+                <div className="antd-pro-pages-list-basic-list-style-listContentItem">
+                  <span>Admin</span>
+                  <p>{adminsList[item].name}</p>
+                </div>
+              </Col>
+              <Col span={12}>
+                <div className="antd-pro-pages-list-basic-list-style-listContentItem">
+                  <span>Email</span>
+                  <p>{adminsList[item].email}</p>
+                </div>
+              </Col>
+            </div>
+          </Col>
+          <Col span={6} style={{ textAlign: 'center' }}>
+            <ul className="ant-list-item-action">
+              <li>
+                <a href="/adminmanagement">Chỉnh sửa</a>
+                <em className="ant-list-item-action-split" />
+              </li>
+              <li>
+                <a href="/adminmanagement">Đổi mật khẩu</a>
+                <em className="ant-list-item-action-split" />
+              </li>
+              <li>
+                <a href="/adminmanagement" className="ant-dropdown-trigger">
+                  Xoá
+                </a>
+              </li>
+            </ul>
+          </Col>
+        </li>,
+      );
+    });
     return (
       <div style={{ padding: '30px' }}>
         <ModalAddNewAdmin
           visible={openModalAddNewAdmin}
-          confirmloading={confirmLoading}
-          handleok={this.handleOk}
-          handlecancel={this.handleCancel}
+          addNewAdmin={addNewAdmin}
+          closeModal={this.closeModalAddNewAdmin}
         />
         <div className="ant-card antd-pro-pages-list-basic-list-style-listCard">
           <div className="ant-card-head">
@@ -59,7 +120,7 @@ class AdminManagement extends React.Component {
               className="ant-btn ant-btn-dashed"
               style={{ width: '100%', marginBottom: '8px' }}
               ant-click-animating-without-extra-node="false"
-              onClick={this.showModal}
+              onClick={this.showModalAddNewAdmin}
             >
               <i aria-label="icon: plus" className="anticon anticon-plus">
                 <svg
@@ -81,143 +142,7 @@ class AdminManagement extends React.Component {
             <div className="ant-list ant-list-lg ant-list-split ant-list-something-after-last-item">
               <div className="ant-spin-nested-loading">
                 <div className="ant-spin-container">
-                  <ul className="ant-list-items">
-                    {/* admin 1 */}
-                    <li className="ant-list-item">
-                      <Col span={2}>
-                        <ul className="ant-list-item-action" style={{ marginRight: '10px' }}>
-                          <li>
-                            <div>1</div>
-                          </li>
-                        </ul>
-                      </Col>
-
-                      <Col span={4}>
-                        <div className="ant-list-item-meta">
-                          <div className="ant-list-item-meta-avatar">
-                            {/* eslint-disable-next-line max-len */}
-                            <span className="ant-avatar ant-avatar-lg ant-avatar-square ant-avatar-image">
-                              <img
-                                alt=""
-                                // eslint-disable-next-line max-len
-                                src="https://gw.alipayobjects.com/zos/rmsportal/WdGqmHpayyMjiEhcKoVE.png"
-                              />
-                            </span>
-                          </div>
-                        </div>
-                      </Col>
-                      <Col span={12}>
-                        <div
-                          className="antd-pro-pages-list-basic-list-style-listContent"
-                          style={{ display: 'flex' }}
-                        >
-                          <Col span={8}>
-                            <div className="antd-pro-pages-list-basic-list-style-listContentItem">
-                              <span>Admin</span>
-                              <p>Lê Xuân Kha</p>
-                            </div>
-                          </Col>
-                          <Col span={8}>
-                            <div className="antd-pro-pages-list-basic-list-style-listContentItem">
-                              <span>Vai trò</span>
-                              <p>Thiếu tướng</p>
-                            </div>
-                          </Col>
-                          <Col span={8}>
-                            <div className="antd-pro-pages-list-basic-list-style-listContentItem">
-                              <span>Email</span>
-                              <p>lexuankha2409@gmail.com</p>
-                            </div>
-                          </Col>
-                        </div>
-                      </Col>
-                      <Col span={6} style={{ textAlign: 'center' }}>
-                        <ul className="ant-list-item-action">
-                          <li>
-                            <a href="/adminmanagement">Chỉnh sửa</a>
-                            <em className="ant-list-item-action-split" />
-                          </li>
-                          <li>
-                            <a href="/adminmanagement">Đổi mật khẩu</a>
-                            <em className="ant-list-item-action-split" />
-                          </li>
-                          <li>
-                            <a href="/adminmanagement" className="ant-dropdown-trigger">
-                              Xoá
-                            </a>
-                          </li>
-                        </ul>
-                      </Col>
-                    </li>
-
-                    {/* admin 2 */}
-                    <li className="ant-list-item">
-                      <Col span={2}>
-                        <ul className="ant-list-item-action" style={{ marginRight: '10px' }}>
-                          <li>
-                            <div>2</div>
-                          </li>
-                        </ul>
-                      </Col>
-
-                      <Col span={4}>
-                        <div className="ant-list-item-meta">
-                          <div className="ant-list-item-meta-avatar">
-                            {/* eslint-disable-next-line max-len */}
-                            <span className="ant-avatar ant-avatar-lg ant-avatar-square ant-avatar-image">
-                              <img
-                                alt=""
-                                // eslint-disable-next-line max-len
-                                src="https://gw.alipayobjects.com/zos/rmsportal/WdGqmHpayyMjiEhcKoVE.png"
-                              />
-                            </span>
-                          </div>
-                        </div>
-                      </Col>
-                      <Col span={12}>
-                        <div
-                          className="antd-pro-pages-list-basic-list-style-listContent"
-                          style={{ display: 'flex' }}
-                        >
-                          <Col span={8}>
-                            <div className="antd-pro-pages-list-basic-list-style-listContentItem">
-                              <span>Admin</span>
-                              <p>Trần Đình Khải</p>
-                            </div>
-                          </Col>
-                          <Col span={8}>
-                            <div className="antd-pro-pages-list-basic-list-style-listContentItem">
-                              <span>Vai trò</span>
-                              <p>Thiếu tướng</p>
-                            </div>
-                          </Col>
-                          <Col span={8}>
-                            <div className="antd-pro-pages-list-basic-list-style-listContentItem">
-                              <span>Email</span>
-                              <p>trandinhkhai@gmail.com</p>
-                            </div>
-                          </Col>
-                        </div>
-                      </Col>
-                      <Col span={6} style={{ textAlign: 'center' }}>
-                        <ul className="ant-list-item-action">
-                          <li>
-                            <a href="/adminmanagement">Chỉnh sửa</a>
-                            <em className="ant-list-item-action-split" />
-                          </li>
-                          <li>
-                            <a href="/adminmanagement">Đổi mật khẩu</a>
-                            <em className="ant-list-item-action-split" />
-                          </li>
-                          <li>
-                            <a href="/adminmanagement" className="ant-dropdown-trigger">
-                              Xoá
-                            </a>
-                          </li>
-                        </ul>
-                      </Col>
-                    </li>
-                  </ul>
+                  <ul className="ant-list-items">{displayAdminsList}</ul>
                 </div>
               </div>
               <div className="ant-list-pagination">
@@ -341,5 +266,17 @@ class AdminManagement extends React.Component {
     );
   }
 }
+
+AdminManagement.propTypes = {
+  addNewAdmin: PropTypes.func,
+  getAdminsList: PropTypes.func,
+  adminsList: PropTypes.objectOf(PropTypes.object),
+};
+
+AdminManagement.defaultProps = {
+  addNewAdmin: () => {},
+  getAdminsList: () => {},
+  adminsList: {},
+};
 
 export default AdminManagement;

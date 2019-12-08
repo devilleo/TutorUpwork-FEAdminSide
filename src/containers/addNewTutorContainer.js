@@ -5,7 +5,6 @@ import { addNewTutorRequest } from '../actions/tutorManagementAction';
 const mapStateToProps = state => {
   return {
     isAddNewTutorsSucceed: state.isAddNewTutorsSucceed,
-    adminToken: state.adminToken,
   };
 };
 
