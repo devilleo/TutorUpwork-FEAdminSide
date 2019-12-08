@@ -1,6 +1,7 @@
 import fetch from 'cross-fetch';
 import Swal from 'sweetalert2';
 import $ from 'jquery';
+import Cookies from 'universal-cookie';
 import API from '../service/API';
 
 // CONST TYPE
@@ -8,6 +9,7 @@ export const ADMIN_ACTION = {
   LOGIN_SUCCEED: 'LOGIN_SUCCEED',
   LOGOUT: 'ADMIN_LOGOUT',
 };
+const cookies = new Cookies();
 
 // eslint-disable-next-line import/prefer-default-export
 export const loginRequest = (email, password, cb) => dispatch => {
@@ -22,7 +24,14 @@ export const loginRequest = (email, password, cb) => dispatch => {
     .then(response => response.json())
     .then(res => {
       if (res.status === 'success') {
-        dispatch({ type: ADMIN_ACTION.LOGIN_SUCCEED, token: res.token, role: res.role });
+        // store token in cookie
+        cookies.set('token', res.token, { path: '/' });
+
+        // eslint-disable-next-line max-len
+        const setRole =
+          res.role === undefined || res.role === false || res.role === '' ? '' : res.role;
+        dispatch({ type: ADMIN_ACTION.LOGIN_SUCCEED, token: res.token, role: setRole });
+
         Swal.fire('Thông báo', 'Thành công', 'success');
       } else {
         Swal.fire('Thông báo', res.message, 'error');
@@ -37,5 +46,6 @@ export const loginRequest = (email, password, cb) => dispatch => {
 };
 
 export const logoutRequest = () => dispatch => {
+  cookies.remove('state');
   dispatch({ type: ADMIN_ACTION.LOGOUT });
 };
