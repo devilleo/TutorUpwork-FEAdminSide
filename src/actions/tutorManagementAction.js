@@ -1,6 +1,11 @@
 import fetch from 'cross-fetch';
 import Swal from 'sweetalert2';
+import Cookies from 'universal-cookie';
 import API from '../service/API';
+
+import { ADMIN_ACTION } from './adminAction';
+
+const cookies = new Cookies();
 
 // eslint-disable-next-line import/prefer-default-export
 export const addNewTutorRequest = (token, emailF, passwordF, nameF, cb) => dispatch => {
@@ -19,6 +24,10 @@ export const addNewTutorRequest = (token, emailF, passwordF, nameF, cb) => dispa
         Swal.fire('Thông báo', 'Thành công', 'success');
       } else {
         Swal.fire('Thông báo', res.message, 'error');
+        if (res.message === 'Unauthorized') {
+          cookies.remove('state');
+          dispatch({ type: ADMIN_ACTION.LOGOUT });
+        }
       }
     })
     .catch(() => {

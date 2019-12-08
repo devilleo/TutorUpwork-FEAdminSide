@@ -21,13 +21,7 @@ const ModalAddNewTutor = props => {
     const cookies = new Cookies();
     const formVal = $('.formAddNewAdmin').serializeArray();
     // eslint-disable-next-line max-len
-    addNewTutor(
-      cookies.get('token').token,
-      formVal[0].value,
-      formVal[1].value,
-      formVal[2].value,
-      done,
-    );
+    addNewTutor(cookies.get('token'), formVal[0].value, formVal[1].value, formVal[2].value, done);
   };
 
   return (
@@ -66,7 +60,7 @@ const ModalAddNewTutor = props => {
           <Button
             type="primary"
             htmlType="submit"
-            className="login-form-button registerBtn"
+            className="login-form-button submitBtn"
             style={{ fontWeight: 'bold' }}
             loading={isLoading}
           >

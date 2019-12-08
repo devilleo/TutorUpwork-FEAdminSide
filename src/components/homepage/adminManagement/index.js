@@ -10,7 +10,6 @@ class AdminManagement extends React.Component {
     super(props);
     this.state = {
       openModalAddNewAdmin: false,
-      confirmLoading: false,
     };
   }
 
@@ -20,32 +19,20 @@ class AdminManagement extends React.Component {
     getAdminsList(cookies.get('token'));
   }
 
-  showModal = () => {
+  showModalAddNewAdmin = () => {
     this.setState({
       openModalAddNewAdmin: true,
     });
   };
 
-  handleOk = () => {
-    this.setState({
-      confirmLoading: true,
-    });
-    setTimeout(() => {
-      this.setState({
-        openModalAddNewAdmin: false,
-        confirmLoading: false,
-      });
-    }, 2000);
-  };
-
-  handleCancel = () => {
+  closeModalAddNewAdmin = () => {
     this.setState({
       openModalAddNewAdmin: false,
     });
   };
 
   render() {
-    const { openModalAddNewAdmin, confirmLoading } = this.state;
+    const { openModalAddNewAdmin } = this.state;
 
     const { addNewAdmin, adminsList } = this.props;
     const displayAdminsList = [];
@@ -118,10 +105,8 @@ class AdminManagement extends React.Component {
       <div style={{ padding: '30px' }}>
         <ModalAddNewAdmin
           visible={openModalAddNewAdmin}
-          confirmloading={confirmLoading}
-          handleok={this.handleOk}
-          handlecancel={this.handleCancel}
           addNewAdmin={addNewAdmin}
+          closeModal={this.closeModalAddNewAdmin}
         />
         <div className="ant-card antd-pro-pages-list-basic-list-style-listCard">
           <div className="ant-card-head">
@@ -135,7 +120,7 @@ class AdminManagement extends React.Component {
               className="ant-btn ant-btn-dashed"
               style={{ width: '100%', marginBottom: '8px' }}
               ant-click-animating-without-extra-node="false"
-              onClick={this.showModal}
+              onClick={this.showModalAddNewAdmin}
             >
               <i aria-label="icon: plus" className="anticon anticon-plus">
                 <svg
