@@ -43,7 +43,15 @@ const ModalAddNewTutor = props => {
           <Input type="email" name="email" required placeholder="email..." />
         </Form.Item>
         <Form.Item label="Mật khẩu">
-          <Input minLength="6" name="password" type="password" required placeholder="password..." />
+          {/* eslint-disable-next-line max-len */}
+          <Input
+            minLength="6"
+            name="password"
+            type="password"
+            required
+            placeholder="password..."
+            autoComplete="on"
+          />
         </Form.Item>
         <Form.Item label="Họ tên">
           <Input name="name" required placeholder="nhập họ tên..." />

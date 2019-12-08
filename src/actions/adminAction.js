@@ -3,6 +3,12 @@ import Swal from 'sweetalert2';
 import $ from 'jquery';
 import API from '../service/API';
 
+// CONST TYPE
+export const ADMIN_ACTION = {
+  LOGIN_SUCCEED: 'LOGIN_SUCCEED',
+  LOGOUT: 'ADMIN_LOGOUT',
+};
+
 // eslint-disable-next-line import/prefer-default-export
 export const loginRequest = (email, password, cb) => dispatch => {
   const data = $.param({ email, password });
@@ -16,7 +22,7 @@ export const loginRequest = (email, password, cb) => dispatch => {
     .then(response => response.json())
     .then(res => {
       if (res.status === 'success') {
-        dispatch({ type: 'LOGIN_SUCCEED', token: res.token, role: res.role });
+        dispatch({ type: ADMIN_ACTION.LOGIN_SUCCEED, token: res.token, role: res.role });
         Swal.fire('Thông báo', 'Thành công', 'success');
       } else {
         Swal.fire('Thông báo', res.message, 'error');
@@ -28,4 +34,8 @@ export const loginRequest = (email, password, cb) => dispatch => {
     .finally(() => {
       cb();
     });
+};
+
+export const logoutRequest = () => dispatch => {
+  dispatch({ type: ADMIN_ACTION.LOGOUT });
 };

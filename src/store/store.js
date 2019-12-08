@@ -13,14 +13,14 @@ import rootReducer from '../reducers/rootReducer';
 
 const middlewares = [thunk];
 
-export function configureStore(initialState) {
+export const configureStore = initialState => {
   const createdStore = createStore(
     rootReducer,
     initialState,
     compose(applyMiddleware(...middlewares)),
   );
   return createdStore;
-}
+};
 
 const store = configureStore(loadState());
 const cookies = new Cookies();

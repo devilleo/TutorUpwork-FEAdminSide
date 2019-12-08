@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Layout, Avatar, Row, Col } from 'antd';
+import { Layout, Avatar, Row, Col, Menu, Dropdown } from 'antd';
 import './header.css';
 
 const header = props => {
-  const { isLogin } = props;
+  const { isLogin, logout } = props;
   const { Header } = Layout;
   const styleLogo = { textAlign: 'center', height: '100%' };
   const styleHeader = {
@@ -18,6 +18,13 @@ const header = props => {
     styleHeader.paddingLeft = '0px';
     styleHeader.paddingRight = '0px';
   }
+  const menu = (
+    <Menu>
+      <Menu.Item>Xin chào Lê Xuân Kha!</Menu.Item>
+      <Menu.Divider />
+      <Menu.Item onClick={logout}>Logout</Menu.Item>
+    </Menu>
+  );
 
   return (
     <Header className="header" style={styleHeader}>
@@ -37,7 +44,11 @@ const header = props => {
             // verticalAlign: 'middle',
           }}
         >
-          {isLogin && <Avatar shape="square" icon="user" />}
+          {isLogin && (
+            <Dropdown overlay={menu}>
+              <Avatar shape="square" icon="user" />
+            </Dropdown>
+          )}
         </Col>
       </Row>
     </Header>
@@ -46,10 +57,12 @@ const header = props => {
 
 header.propTypes = {
   isLogin: PropTypes.bool,
+  logout: PropTypes.func,
 };
 
 header.defaultProps = {
   isLogin: false,
+  logout: () => {},
 };
 
 export default header;
