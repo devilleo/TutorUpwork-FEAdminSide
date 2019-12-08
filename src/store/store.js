@@ -27,6 +27,7 @@ store.subscribe(
     saveState({
       adminRole: store.getState().adminRole,
       isLogin: store.getState().isLogin,
+      adminsList: store.getState().adminsList,
     });
   }, 1000),
 );
