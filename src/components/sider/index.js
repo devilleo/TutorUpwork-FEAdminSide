@@ -12,14 +12,9 @@ const MyCustomSider = () => {
         style={{ backgroundColor: 'transparent' }}
         className="myCustomSider"
         theme="dark"
-        defaultSelectedKeys={['1']}
+        defaultSelectedKeys={['2']}
         mode="inline"
       >
-        <Menu.Item key="1">
-          <Icon type="desktop" />
-          <span>Option 1</span>
-          <Link to="/option1" />
-        </Menu.Item>
         <Menu.Item key="2">
           <Icon type="team" />
           <span>Danh sách Admin</span>
@@ -27,7 +22,8 @@ const MyCustomSider = () => {
         </Menu.Item>
         <Menu.Item key="3">
           <Icon type="desktop" />
-          <span>Option 3</span>
+          <span>Danh sách Giáo viên</span>
+          <Link to="/tutormanagement" />
         </Menu.Item>
         <Menu.Item key="4">
           <Icon type="pie-chart" />

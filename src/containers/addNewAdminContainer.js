@@ -5,7 +5,7 @@ import { addNewAdminRequest } from '../actions/adminManagementAction';
 const mapStateToProps = state => {
   return {
     isAddNewAdminSucceed: state.isAddNewAdminSucceed,
-    adminInfo: state.adminInfo,
+    adminRole: state.adminRole,
   };
 };
 

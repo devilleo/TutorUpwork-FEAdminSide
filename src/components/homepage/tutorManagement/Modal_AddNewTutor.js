@@ -4,19 +4,24 @@ import $ from 'jquery';
 import PropTypes from 'prop-types';
 import { Form, Input, Modal, Button } from 'antd';
 
-const ModalAddNewAdmin = props => {
-  const { visible, handleok, confirmloading, handlecancel, addNewAdmin } = props;
+const ModalAddNewTutor = props => {
+  const { visible, handleok, confirmloading, handlecancel, addNewTutor } = props;
   const [isLoading, setIsLoading] = useState(false);
+
   const done = () => {
     setIsLoading(false);
   };
   const submit = e => {
     e.preventDefault();
+    // eslint-disable-next-line no-alert
+    alert('chưa làm chức năng này...');
+    return;
+    // eslint-disable-next-line no-unreachable
     setIsLoading(true);
-    const formVal = $('.formAddNewAdmin').serializeArray();
     const cookies = new Cookies();
+    const formVal = $('.formAddNewAdmin').serializeArray();
     // eslint-disable-next-line max-len
-    addNewAdmin(
+    addNewTutor(
       cookies.get('token').token,
       formVal[0].value,
       formVal[1].value,
@@ -73,20 +78,20 @@ const ModalAddNewAdmin = props => {
   );
 };
 
-ModalAddNewAdmin.propTypes = {
+ModalAddNewTutor.propTypes = {
   visible: PropTypes.bool,
   handleok: PropTypes.func,
   confirmloading: PropTypes.bool,
   handlecancel: PropTypes.func,
-  addNewAdmin: PropTypes.func,
+  addNewTutor: PropTypes.func,
 };
 
-ModalAddNewAdmin.defaultProps = {
+ModalAddNewTutor.defaultProps = {
   visible: false,
   handleok: () => {},
   confirmloading: false,
   handlecancel: () => {},
-  addNewAdmin: () => {},
+  addNewTutor: () => {},
 };
 
-export default ModalAddNewAdmin;
+export default ModalAddNewTutor;

@@ -7,20 +7,21 @@ import { Layout } from 'antd';
 import Footer from './components/layout/footer';
 import Header from './containers/headerContainer';
 
-import Login from './containers/loginContainer';
+import Login from './containers/adminContainer';
 import MyCustomSider from './components/sider/index';
 import AdminManagement from './components/homepage/adminManagement/index';
+import TutorManagement from './components/homepage/tutorManagement/index';
 
 import './App.css';
 
 const App = props => {
-  const { adminInfo } = props;
+  const { isLogin } = props;
   const { Content } = Layout;
   return (
     <div>
       <Router>
         <Layout style={{ backgroundColor: 'transparent' }}>
-          {adminInfo.token !== '' && <MyCustomSider />}
+          {isLogin && <MyCustomSider />}
 
           <Content>
             <Header />
@@ -31,14 +32,17 @@ const App = props => {
                 minHeight: '90vh',
               }}
             >
-              <Route path={`${process.env.PUBLIC_URL}/`}>
-                {adminInfo.token !== '' ? <AdminManagement /> : <Redirect to="/login" />}
+              <Route exact path={`${process.env.PUBLIC_URL}/`}>
+                {isLogin ? <AdminManagement /> : <Redirect to="/login" />}
               </Route>
-              <Route path={`${process.env.PUBLIC_URL}/login`}>
-                {adminInfo.token !== '' ? <Redirect to="/adminmanagement" /> : <Login />}
+              <Route exact path={`${process.env.PUBLIC_URL}/login`}>
+                {isLogin ? <Redirect to="/adminmanagement" /> : <Login />}
               </Route>
-              <Route path={`${process.env.PUBLIC_URL}/adminmanagement`}>
-                {adminInfo.token !== '' ? <AdminManagement /> : <Redirect to="/login" />}
+              <Route exact path={`${process.env.PUBLIC_URL}/tutormanagement`}>
+                {isLogin ? <TutorManagement /> : <Login />}
+              </Route>
+              <Route exact path={`${process.env.PUBLIC_URL}/adminmanagement`}>
+                {isLogin ? <AdminManagement /> : <Redirect to="/login" />}
               </Route>
             </div>
             <Footer />
@@ -50,11 +54,11 @@ const App = props => {
 };
 
 App.propTypes = {
-  adminInfo: PropTypes.objectOf(PropTypes.string, PropTypes.string),
+  isLogin: PropTypes.bool,
 };
 
 App.defaultProps = {
-  adminInfo: { token: '', role: '' },
+  isLogin: false,
 };
 
 export default App;

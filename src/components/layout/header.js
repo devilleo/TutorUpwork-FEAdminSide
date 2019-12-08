@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Layout, Avatar, Row, Col } from 'antd';
+import { Layout, Avatar, Row, Col, Menu, Dropdown } from 'antd';
 import './header.css';
 
 const header = props => {
-  const { adminInfo } = props;
+  const { isLogin, logout } = props;
   const { Header } = Layout;
   const styleLogo = { textAlign: 'center', height: '100%' };
   const styleHeader = {
@@ -14,10 +14,17 @@ const header = props => {
     paddingLeft: '20%',
     paddingRight: '20%',
   };
-  if (adminInfo.token !== '') {
+  if (isLogin) {
     styleHeader.paddingLeft = '0px';
     styleHeader.paddingRight = '0px';
   }
+  const menu = (
+    <Menu>
+      <Menu.Item>Xin chào Lê Xuân Kha!</Menu.Item>
+      <Menu.Divider />
+      <Menu.Item onClick={logout}>Logout</Menu.Item>
+    </Menu>
+  );
 
   return (
     <Header className="header" style={styleHeader}>
@@ -37,7 +44,11 @@ const header = props => {
             // verticalAlign: 'middle',
           }}
         >
-          {adminInfo.token !== '' && <Avatar shape="square" icon="user" />}
+          {isLogin && (
+            <Dropdown overlay={menu}>
+              <Avatar shape="square" icon="user" />
+            </Dropdown>
+          )}
         </Col>
       </Row>
     </Header>
@@ -45,11 +56,13 @@ const header = props => {
 };
 
 header.propTypes = {
-  adminInfo: PropTypes.objectOf(PropTypes.string, PropTypes.string),
+  isLogin: PropTypes.bool,
+  logout: PropTypes.func,
 };
 
 header.defaultProps = {
-  adminInfo: { token: '', role: '' },
+  isLogin: false,
+  logout: () => {},
 };
 
 export default header;

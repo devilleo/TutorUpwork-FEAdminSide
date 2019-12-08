@@ -3,7 +3,7 @@ import Swal from 'sweetalert2';
 import API from '../service/API';
 
 // eslint-disable-next-line import/prefer-default-export
-export const addNewAdminRequest = (token, emailF, passwordF, nameF, cb) => dispatch => {
+export const addNewTutorRequest = (token, emailF, passwordF, nameF, cb) => dispatch => {
   return fetch(API.REGISTER, {
     method: 'POST',
     headers: {

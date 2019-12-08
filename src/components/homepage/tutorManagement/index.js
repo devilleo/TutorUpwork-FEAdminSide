@@ -1,20 +1,20 @@
 import React from 'react';
 import { Col } from 'antd';
 
-import ModalAddNewAdmin from '../../../containers/addNewAdminContainer';
+import AddNewTutorContainer from '../../../containers/addNewTutorContainer';
 
-class AdminManagement extends React.Component {
+class TutorManagement extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      openModalAddNewAdmin: false,
+      openModalAddNewTutor: false,
       confirmLoading: false,
     };
   }
 
   showModal = () => {
     this.setState({
-      openModalAddNewAdmin: true,
+      openModalAddNewTutor: true,
     });
   };
 
@@ -24,7 +24,7 @@ class AdminManagement extends React.Component {
     });
     setTimeout(() => {
       this.setState({
-        openModalAddNewAdmin: false,
+        openModalAddNewTutor: false,
         confirmLoading: false,
       });
     }, 2000);
@@ -32,17 +32,17 @@ class AdminManagement extends React.Component {
 
   handleCancel = () => {
     this.setState({
-      openModalAddNewAdmin: false,
+      openModalAddNewTutor: false,
     });
   };
 
   render() {
-    const { openModalAddNewAdmin, confirmLoading } = this.state;
+    const { openModalAddNewTutor, confirmLoading } = this.state;
 
     return (
       <div style={{ padding: '30px' }}>
-        <ModalAddNewAdmin
-          visible={openModalAddNewAdmin}
+        <AddNewTutorContainer
+          visible={openModalAddNewTutor}
           confirmloading={confirmLoading}
           handleok={this.handleOk}
           handlecancel={this.handleCancel}
@@ -50,7 +50,7 @@ class AdminManagement extends React.Component {
         <div className="ant-card antd-pro-pages-list-basic-list-style-listCard">
           <div className="ant-card-head">
             <div className="ant-card-head-wrapper">
-              <div className="ant-card-head-title">Danh sách Admin kkk</div>
+              <div className="ant-card-head-title">Danh sách Tutor</div>
             </div>
           </div>
           <div className="ant-card-body" style={{ padding: '0px 32px 40px' }}>
@@ -82,7 +82,7 @@ class AdminManagement extends React.Component {
               <div className="ant-spin-nested-loading">
                 <div className="ant-spin-container">
                   <ul className="ant-list-items">
-                    {/* admin 1 */}
+                    {/* tutor 1 */}
                     <li className="ant-list-item">
                       <Col span={2}>
                         <ul className="ant-list-item-action" style={{ marginRight: '10px' }}>
@@ -113,7 +113,7 @@ class AdminManagement extends React.Component {
                         >
                           <Col span={8}>
                             <div className="antd-pro-pages-list-basic-list-style-listContentItem">
-                              <span>Admin</span>
+                              <span>Tutor</span>
                               <p>Lê Xuân Kha</p>
                             </div>
                           </Col>
@@ -134,15 +134,15 @@ class AdminManagement extends React.Component {
                       <Col span={6} style={{ textAlign: 'center' }}>
                         <ul className="ant-list-item-action">
                           <li>
-                            <a href="/adminmanagement">Chỉnh sửa</a>
+                            <a href="/tutormanagement">Chỉnh sửa</a>
                             <em className="ant-list-item-action-split" />
                           </li>
                           <li>
-                            <a href="/adminmanagement">Đổi mật khẩu</a>
+                            <a href="/tutormanagement">Đổi mật khẩu</a>
                             <em className="ant-list-item-action-split" />
                           </li>
                           <li>
-                            <a href="/adminmanagement" className="ant-dropdown-trigger">
+                            <a href="/tutormanagement" className="ant-dropdown-trigger">
                               Xoá
                             </a>
                           </li>
@@ -150,7 +150,7 @@ class AdminManagement extends React.Component {
                       </Col>
                     </li>
 
-                    {/* admin 2 */}
+                    {/* tutor 2 */}
                     <li className="ant-list-item">
                       <Col span={2}>
                         <ul className="ant-list-item-action" style={{ marginRight: '10px' }}>
@@ -181,7 +181,7 @@ class AdminManagement extends React.Component {
                         >
                           <Col span={8}>
                             <div className="antd-pro-pages-list-basic-list-style-listContentItem">
-                              <span>Admin</span>
+                              <span>Tutor</span>
                               <p>Trần Đình Khải</p>
                             </div>
                           </Col>
@@ -202,15 +202,15 @@ class AdminManagement extends React.Component {
                       <Col span={6} style={{ textAlign: 'center' }}>
                         <ul className="ant-list-item-action">
                           <li>
-                            <a href="/adminmanagement">Chỉnh sửa</a>
+                            <a href="/tutormanagement">Chỉnh sửa</a>
                             <em className="ant-list-item-action-split" />
                           </li>
                           <li>
-                            <a href="/adminmanagement">Đổi mật khẩu</a>
+                            <a href="/tutormanagement">Đổi mật khẩu</a>
                             <em className="ant-list-item-action-split" />
                           </li>
                           <li>
-                            <a href="/adminmanagement" className="ant-dropdown-trigger">
+                            <a href="/tutormanagement" className="ant-dropdown-trigger">
                               Xoá
                             </a>
                           </li>
@@ -251,7 +251,7 @@ class AdminManagement extends React.Component {
                     // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
                     tabIndex="0"
                   >
-                    <a href="/adminmanagement">1</a>
+                    <a href="/tutormanagement">1</a>
                   </li>
                   <li
                     title="2"
@@ -259,7 +259,7 @@ class AdminManagement extends React.Component {
                     // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
                     tabIndex="0"
                   >
-                    <a href="/adminmanagement">2</a>
+                    <a href="/tutormanagement">2</a>
                   </li>
                   <li
                     title="3"
@@ -267,7 +267,7 @@ class AdminManagement extends React.Component {
                     // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
                     tabIndex="0"
                   >
-                    <a href="/adminmanagement">3</a>
+                    <a href="/tutormanagement">3</a>
                   </li>
                   <li
                     title="Next 5 Pages"
@@ -275,7 +275,7 @@ class AdminManagement extends React.Component {
                     tabIndex="0"
                     className="ant-pagination-jump-next ant-pagination-jump-next-custom-icon"
                   >
-                    <a href="/adminmanagement" className="ant-pagination-item-link">
+                    <a href="/tutormanagement" className="ant-pagination-item-link">
                       <div className="ant-pagination-item-container">
                         <i
                           aria-label="icon: double-right"
@@ -305,7 +305,7 @@ class AdminManagement extends React.Component {
                     // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
                     tabIndex="0"
                   >
-                    <a href="/adminmanagement">10</a>
+                    <a href="/tutormanagement">10</a>
                   </li>
                   <li
                     title="Next Page"
@@ -314,7 +314,7 @@ class AdminManagement extends React.Component {
                     className=" ant-pagination-next"
                     aria-disabled="false"
                   >
-                    <a href="/adminmanagement" className="ant-pagination-item-link">
+                    <a href="/tutormanagement" className="ant-pagination-item-link">
                       <i aria-label="icon: right" className="anticon anticon-right">
                         <svg
                           viewBox="64 64 896 896"
@@ -342,4 +342,4 @@ class AdminManagement extends React.Component {
   }
 }
 
-export default AdminManagement;
+export default TutorManagement;
