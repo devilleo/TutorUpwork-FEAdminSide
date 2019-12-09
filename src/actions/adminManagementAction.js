@@ -62,3 +62,31 @@ export const addNewAdminRequest = (token, emailF, passwordF, nameF, cb) => dispa
       cb();
     });
 };
+
+export const removeAdminRequest = (token, id) => dispatch => {
+  const trueURL = `${API.REMOVE_ADMIN}?id=${id}`;
+  return fetch(trueURL, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+      secret_token: token,
+    },
+  })
+    .then(response => response.json())
+    .then(res => {
+      if (res.status === 'success') {
+        dispatch({ type: 'REMOVE_ADMIN_SUCCESS', id });
+        Swal.fire('Thông báo', 'Thành công', 'success');
+      } else {
+        Swal.fire('Thông báo', res.message, 'error');
+        // if (res.message === 'Unauthorized') {
+        //   cookies.remove('state');
+        //   dispatch({ type: ADMIN_ACTION.LOGOUT });
+        // }
+      }
+    })
+    .catch(() => {
+      Swal.fire('Thông báo', 'Lỗi', 'error');
+    })
+    .finally(() => {});
+};

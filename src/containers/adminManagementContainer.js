@@ -1,6 +1,10 @@
 import { connect } from 'react-redux';
 import AdminManagement from '../components/homepage/adminManagement/index';
-import { addNewAdminRequest, getAdminsListRequest } from '../actions/adminManagementAction';
+import {
+  addNewAdminRequest,
+  getAdminsListRequest,
+  removeAdminRequest,
+} from '../actions/adminManagementAction';
 
 const mapStateToProps = state => {
   return {
@@ -14,6 +18,7 @@ const mapDispatchToProps = run => {
     getAdminsList: token => run(getAdminsListRequest(token)),
     addNewAdmin: (token, email, password, name, cb) =>
       run(addNewAdminRequest(token, email, password, name, cb)),
+    removeAdmin: (token, id) => run(removeAdminRequest(token, id)),
   };
   return actions;
 };
