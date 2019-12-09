@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col } from 'antd';
+import { Col, Button, Modal } from 'antd';
 import PropTypes from 'prop-types';
 import Cookies from 'universal-cookie';
 
@@ -8,6 +8,7 @@ import ModalAddNewAdmin from './Modal_AddNewAdmin';
 class AdminManagement extends React.Component {
   constructor(props) {
     super(props);
+    this.showDeleteConfirm = this.showDeleteConfirm.bind(this);
     this.state = {
       openModalAddNewAdmin: false,
     };
@@ -31,9 +32,26 @@ class AdminManagement extends React.Component {
     });
   };
 
+  showDeleteConfirm = admin => {
+    const { removeAdmin } = this.props;
+    const cookies = new Cookies();
+    const { confirm } = Modal;
+    confirm({
+      title: `Bạn có chắc muốn xoá Admin: ${admin.name} ?`,
+      content: 'Bạn đã suy nghĩ kĩ chưa?!',
+      okText: 'Xoá',
+      okType: 'danger',
+      cancelText: 'Huỷ',
+      onOk: () => {
+        // eslint-disable-next-line no-underscore-dangle
+        removeAdmin(cookies.get('token'), admin._id);
+      },
+      onCancel() {},
+    });
+  };
+
   render() {
     const { openModalAddNewAdmin } = this.state;
-
     const { addNewAdmin, adminsList } = this.props;
     const displayAdminsList = [];
     Object.keys(adminsList).forEach(item => {
@@ -62,7 +80,7 @@ class AdminManagement extends React.Component {
               </div>
             </div>
           </Col>
-          <Col span={12}>
+          <Col span={10}>
             <div
               className="antd-pro-pages-list-basic-list-style-listContent"
               style={{ display: 'flex' }}
@@ -81,20 +99,20 @@ class AdminManagement extends React.Component {
               </Col>
             </div>
           </Col>
-          <Col span={6} style={{ textAlign: 'center' }}>
+          <Col span={8} style={{ textAlign: 'center' }}>
             <ul className="ant-list-item-action">
               <li>
-                <a href="/adminmanagement">Chỉnh sửa</a>
+                <Button type="primary">Chỉnh sửa</Button>
                 <em className="ant-list-item-action-split" />
               </li>
               <li>
-                <a href="/adminmanagement">Đổi mật khẩu</a>
+                <Button type="dashed">Đổi mật khẩu</Button>
                 <em className="ant-list-item-action-split" />
               </li>
               <li>
-                <a href="/adminmanagement" className="ant-dropdown-trigger">
+                <Button onClick={() => this.showDeleteConfirm(adminsList[item])} type="danger">
                   Xoá
-                </a>
+                </Button>
               </li>
             </ul>
           </Col>
@@ -271,12 +289,14 @@ AdminManagement.propTypes = {
   addNewAdmin: PropTypes.func,
   getAdminsList: PropTypes.func,
   adminsList: PropTypes.objectOf(PropTypes.object),
+  removeAdmin: PropTypes.func,
 };
 
 AdminManagement.defaultProps = {
   addNewAdmin: () => {},
   getAdminsList: () => {},
   adminsList: {},
+  removeAdmin: () => {},
 };
 
 export default AdminManagement;
