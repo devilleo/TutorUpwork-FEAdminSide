@@ -1,11 +1,11 @@
 import fetch from 'cross-fetch';
 import Swal from 'sweetalert2';
-import Cookies from 'universal-cookie';
+// import Cookies from 'universal-cookie';
 import API from '../service/API';
 
-import { ADMIN_ACTION } from './adminAction';
+// import { ADMIN_ACTION } from './adminAction';
 
-const cookies = new Cookies();
+// const cookies = new Cookies();
 
 export const getAdminsListRequest = token => dispatch => {
   return fetch(API.GET_ADMIN_LIST, {
@@ -20,11 +20,11 @@ export const getAdminsListRequest = token => dispatch => {
       if (res.status === 'success') {
         dispatch({ type: 'UPDATE_ADMINS_LIST', adminsList: { ...res.list } });
       } else {
-        Swal.fire('Thông báo', res.message, 'error');
-        if (res.message === 'Unauthorized') {
-          cookies.remove('state');
-          dispatch({ type: ADMIN_ACTION.LOGOUT });
-        }
+        // Swal.fire('Thông báo', res.message, 'error');
+        // if (res.message === 'Unauthorized') {
+        //   cookies.remove('state');
+        //   dispatch({ type: ADMIN_ACTION.LOGOUT });
+        // }
       }
     })
     .catch(() => {

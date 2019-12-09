@@ -25,3 +25,24 @@ export const adminRole = (state = '', action) => {
       return state;
   }
 };
+
+// export const adminInfo = (state = { name: '', email: '' }, action) => {
+//   switch (action.type) {
+//     case ADMIN_ACTION.LOGIN_SUCCEED: {
+//       return {
+//         ...state,
+//         name: action.name,
+//         email: action.email
+//       };
+//     }
+//     case ADMIN_ACTION.LOGOUT: {
+//       return {
+//         ...state,
+//         name: '',
+//         email: ''
+//       };
+//     }
+//     default:
+//       return state;
+//   }
+// }

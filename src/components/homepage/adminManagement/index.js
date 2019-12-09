@@ -54,6 +54,7 @@ class AdminManagement extends React.Component {
     const { openModalAddNewAdmin } = this.state;
     const { addNewAdmin, adminsList } = this.props;
     const displayAdminsList = [];
+    // render admins list
     Object.keys(adminsList).forEach(item => {
       displayAdminsList.push(
         // eslint-disable-next-line no-underscore-dangle

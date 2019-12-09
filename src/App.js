@@ -15,13 +15,13 @@ import TutorManagement from './components/homepage/tutorManagement/index';
 import './App.css';
 
 const App = props => {
-  const { isLogin } = props;
+  const { isLogin, adminRole } = props;
   const { Content } = Layout;
   return (
     <div>
       <Router>
         <Layout style={{ backgroundColor: 'transparent' }}>
-          {isLogin && <MyCustomSider />}
+          {isLogin && <MyCustomSider adminRole={adminRole} />}
 
           <Content>
             <Header />
@@ -33,10 +33,10 @@ const App = props => {
               }}
             >
               <Route exact path={`${process.env.PUBLIC_URL}/`}>
-                {isLogin ? <AdminManagement /> : <Redirect to="/login" />}
+                {isLogin ? <TutorManagement /> : <Redirect to="/login" />}
               </Route>
               <Route exact path={`${process.env.PUBLIC_URL}/login`}>
-                {isLogin ? <Redirect to="/adminmanagement" /> : <Login />}
+                {isLogin ? <Redirect to="/tutormanagement" /> : <Login />}
               </Route>
               <Route exact path={`${process.env.PUBLIC_URL}/tutormanagement`}>
                 {isLogin ? <TutorManagement /> : <Login />}
@@ -55,10 +55,12 @@ const App = props => {
 
 App.propTypes = {
   isLogin: PropTypes.bool,
+  adminRole: PropTypes.string,
 };
 
 App.defaultProps = {
   isLogin: false,
+  adminRole: '',
 };
 
 export default App;
