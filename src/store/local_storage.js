@@ -19,3 +19,7 @@ export const saveState = state => {
     return false;
   }
 };
+
+export const removeState = () => {
+  localStorage.removeItem('state');
+};

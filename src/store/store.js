@@ -1,9 +1,10 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import throttle from 'lodash/throttle';
 import thunk from 'redux-thunk';
+import Cookies from 'universal-cookie';
 
 // Local Storage
-import { loadState, saveState } from './local_storage';
+import { loadState, saveState, removeState } from './local_storage';
 
 // Reducer
 import rootReducer from '../reducers/rootReducer';
@@ -20,15 +21,21 @@ export const configureStore = initialState => {
 };
 
 const store = configureStore(loadState());
+const cookies = new Cookies();
 
 store.subscribe(
   throttle(() => {
-    // store necessary reducer in local storage
-    saveState({
-      adminRole: store.getState().adminRole,
-      isLogin: store.getState().isLogin,
-      adminsList: store.getState().adminsList,
-    });
+    if (store.getState().isLogin === false) {
+      cookies.remove('token');
+      removeState();
+    } else {
+      // store necessary reducer in local storage
+      saveState({
+        adminRole: store.getState().adminRole,
+        isLogin: store.getState().isLogin,
+        adminsList: store.getState().adminsList,
+      });
+    }
   }, 1000),
 );
 

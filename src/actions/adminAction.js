@@ -12,7 +12,6 @@ export const ADMIN_ACTION = {
 const cookies = new Cookies();
 
 export const logoutRequest = () => dispatch => {
-  cookies.remove('state');
   dispatch({ type: ADMIN_ACTION.LOGOUT });
 };
 
