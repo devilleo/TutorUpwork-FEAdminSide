@@ -1,6 +1,7 @@
 import React from 'react';
-import { Col, Button, Modal } from 'antd';
+import { Col, Button, Modal, Form, Input } from 'antd';
 import PropTypes from 'prop-types';
+import $ from 'jquery';
 import Cookies from 'universal-cookie';
 
 import ModalAddNewAdmin from './Modal_AddNewAdmin';
@@ -11,6 +12,10 @@ class AdminManagement extends React.Component {
     this.showDeleteConfirm = this.showDeleteConfirm.bind(this);
     this.state = {
       openModalAddNewAdmin: false,
+
+      visibleChangePasswordModal: false,
+      loadingChangePasswordModal: false,
+      idAdminForChangePassword: '',
     };
   }
 
@@ -50,8 +55,38 @@ class AdminManagement extends React.Component {
     });
   };
 
+  // Change password Modal
+  showChangePasswordModal = admin => {
+    this.setState({
+      visibleChangePasswordModal: true,
+      // eslint-disable-next-line no-underscore-dangle
+      idAdminForChangePassword: admin._id,
+    });
+  };
+
+  submitChangePasswordForm = e => {
+    e.preventDefault();
+    const formVal = $('#ChangePasswordForm').serializeArray();
+    const cookies = new Cookies();
+    const { changePasswordAdmin } = this.props;
+    const { idAdminForChangePassword } = this.state;
+    this.setState({ loadingChangePasswordModal: true });
+    setTimeout(() => {
+      changePasswordAdmin(cookies.get('token'), idAdminForChangePassword, formVal[0].value);
+      this.setState({ loadingChangePasswordModal: false, visibleChangePasswordModal: false });
+    }, 3000);
+  };
+
+  handleCancelChangePassword = () => {
+    this.setState({ visibleChangePasswordModal: false });
+  };
+
   render() {
-    const { openModalAddNewAdmin } = this.state;
+    const {
+      openModalAddNewAdmin,
+      visibleChangePasswordModal,
+      loadingChangePasswordModal,
+    } = this.state;
     const { addNewAdmin, adminsList } = this.props;
     const displayAdminsList = [];
     // render admins list
@@ -107,7 +142,12 @@ class AdminManagement extends React.Component {
                 <em className="ant-list-item-action-split" />
               </li>
               <li>
-                <Button type="dashed">Đổi mật khẩu</Button>
+                <Button
+                  onClick={() => this.showChangePasswordModal(adminsList[item])}
+                  type="dashed"
+                >
+                  Đổi mật khẩu
+                </Button>
                 <em className="ant-list-item-action-split" />
               </li>
               <li>
@@ -122,6 +162,40 @@ class AdminManagement extends React.Component {
     });
     return (
       <div style={{ padding: '30px' }}>
+        <Modal
+          visible={visibleChangePasswordModal}
+          title="Đổi mật khẩu"
+          onCancel={this.handleCancelChangePassword}
+          footer={[
+            <Button key="back" onClick={this.handleCancelChangePassword}>
+              Huỷ
+            </Button>,
+            <Button
+              form="ChangePasswordForm"
+              // onClick={this.handleOkChangePassword}
+              key="submit"
+              htmlType="submit"
+              type="primary"
+              loading={loadingChangePasswordModal}
+            >
+              Đổi
+            </Button>,
+          ]}
+        >
+          <Form onSubmit={e => this.submitChangePasswordForm(e)} id="ChangePasswordForm">
+            <Form.Item label="Mật khẩu mới">
+              {/* eslint-disable-next-line max-len */}
+              <Input
+                minLength="6"
+                name="password"
+                type="password"
+                required
+                placeholder="nhâp mật khẩu mới..."
+                autoComplete="on"
+              />
+            </Form.Item>
+          </Form>
+        </Modal>
         <ModalAddNewAdmin
           visible={openModalAddNewAdmin}
           addNewAdmin={addNewAdmin}
@@ -291,6 +365,7 @@ AdminManagement.propTypes = {
   getAdminsList: PropTypes.func,
   adminsList: PropTypes.objectOf(PropTypes.object),
   removeAdmin: PropTypes.func,
+  changePasswordAdmin: PropTypes.func,
 };
 
 AdminManagement.defaultProps = {
@@ -298,6 +373,7 @@ AdminManagement.defaultProps = {
   getAdminsList: () => {},
   adminsList: {},
   removeAdmin: () => {},
+  changePasswordAdmin: () => {},
 };
 
 export default AdminManagement;

@@ -90,3 +90,26 @@ export const removeAdminRequest = (token, id) => dispatch => {
     })
     .finally(() => {});
 };
+
+export const changePasswordAdminRequest = (token, id, newPassword) => () => {
+  return fetch(API.CHANGE_PASSWORD, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+      secret_token: token,
+    },
+    body: `id=${id}&password=${newPassword}`,
+  })
+    .then(response => response.json())
+    .then(res => {
+      if (res.status === 'success') {
+        Swal.fire('Thông báo', 'Thành công', 'success');
+      } else {
+        Swal.fire('Thông báo', res.message, 'error');
+      }
+    })
+    .catch(() => {
+      Swal.fire('Thông báo', 'Lỗi', 'error');
+    })
+    .finally(() => {});
+};

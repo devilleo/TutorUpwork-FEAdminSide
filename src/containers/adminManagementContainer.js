@@ -4,6 +4,7 @@ import {
   addNewAdminRequest,
   getAdminsListRequest,
   removeAdminRequest,
+  changePasswordAdminRequest,
 } from '../actions/adminManagementAction';
 
 const mapStateToProps = state => {
@@ -19,6 +20,8 @@ const mapDispatchToProps = run => {
     addNewAdmin: (token, email, password, name, cb) =>
       run(addNewAdminRequest(token, email, password, name, cb)),
     removeAdmin: (token, id) => run(removeAdminRequest(token, id)),
+    changePasswordAdmin: (token, id, password) =>
+      run(changePasswordAdminRequest(token, id, password)),
   };
   return actions;
 };
