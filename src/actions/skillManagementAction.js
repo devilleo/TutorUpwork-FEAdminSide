@@ -7,8 +7,9 @@ import API from '../service/API';
 
 // const cookies = new Cookies();
 
-export const getAdminsListRequest = token => dispatch => {
-  return fetch(API.GET_ADMIN_LIST, {
+// eslint-disable-next-line import/prefer-default-export
+export const getSkillsListRequest = token => dispatch => {
+  return fetch(API.GET_SKILL_LIST, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
@@ -18,7 +19,7 @@ export const getAdminsListRequest = token => dispatch => {
     .then(response => response.json())
     .then(res => {
       if (res.status === 'success') {
-        dispatch({ type: 'UPDATE_ADMINS_LIST', adminsList: { ...res.list } });
+        dispatch({ type: 'UPDATE_SKILLS_LIST', skillsList: { ...res.list } });
       } else {
         // Swal.fire('Thông báo', res.message, 'error');
         // if (res.message === 'Unauthorized') {
@@ -33,37 +34,8 @@ export const getAdminsListRequest = token => dispatch => {
     .finally(() => {});
 };
 
-export const addNewAdminRequest = (token, emailF, passwordF, nameF, cb) => () => {
-  return fetch(API.REGISTER, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
-      secret_token: token,
-    },
-    body: `email=${emailF}&password=${passwordF}&name=${nameF}`,
-  })
-    .then(response => response.json())
-    .then(res => {
-      if (res.status === 'success') {
-        Swal.fire('Thông báo', 'Thành công', 'success');
-      } else {
-        Swal.fire('Thông báo', res.message, 'error');
-        // if (res.message === 'Unauthorized') {
-        //   cookies.remove('state');
-        //   dispatch({ type: ADMIN_ACTION.LOGOUT });
-        // }
-      }
-    })
-    .catch(() => {
-      Swal.fire('Thông báo', 'Lỗi', 'error');
-    })
-    .finally(() => {
-      cb();
-    });
-};
-
-export const removeAdminRequest = (token, id, cb) => dispatch => {
-  const trueURL = `${API.REMOVE_ADMIN}?id=${id}`;
+export const removeSkillRequest = (token, id, cb) => () => {
+  const trueURL = `${API.REMOVE_SKILL}?id=${id}`;
   return fetch(trueURL, {
     method: 'DELETE',
     headers: {
@@ -74,14 +46,9 @@ export const removeAdminRequest = (token, id, cb) => dispatch => {
     .then(response => response.json())
     .then(res => {
       if (res.status === 'success') {
-        dispatch({ type: 'REMOVE_ADMIN_SUCCESS', id });
         Swal.fire('Thông báo', 'Thành công', 'success');
       } else {
         Swal.fire('Thông báo', res.message, 'error');
-        // if (res.message === 'Unauthorized') {
-        //   cookies.remove('state');
-        //   dispatch({ type: ADMIN_ACTION.LOGOUT });
-        // }
       }
     })
     .catch(() => {
@@ -92,14 +59,14 @@ export const removeAdminRequest = (token, id, cb) => dispatch => {
     });
 };
 
-export const changePasswordAdminRequest = (token, id, newPassword) => () => {
-  return fetch(API.CHANGE_PASSWORD, {
+export const changeInfoSkillRequest = (token, id, newName, cb) => () => {
+  return fetch(API.UPDATE_SKILL_INFO, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
       secret_token: token,
     },
-    body: `id=${id}&password=${newPassword}`,
+    body: `id=${id}&name=${newName}`,
   })
     .then(response => response.json())
     .then(res => {
@@ -112,17 +79,19 @@ export const changePasswordAdminRequest = (token, id, newPassword) => () => {
     .catch(() => {
       Swal.fire('Thông báo', 'Lỗi', 'error');
     })
-    .finally(() => {});
+    .finally(() => {
+      cb();
+    });
 };
 
-export const changeInfoAdminRequest = (token, id, newEmail, newName, cb) => () => {
-  return fetch(API.UPDATE_INFO, {
+export const addNewSkillRequest = (token, name, cb) => () => {
+  return fetch(API.REGISTER_SKILL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
       secret_token: token,
     },
-    body: `id=${id}&email=${newEmail}&name=${newName}`,
+    body: `name=${name}`,
   })
     .then(response => response.json())
     .then(res => {
@@ -130,6 +99,10 @@ export const changeInfoAdminRequest = (token, id, newEmail, newName, cb) => () =
         Swal.fire('Thông báo', 'Thành công', 'success');
       } else {
         Swal.fire('Thông báo', res.message, 'error');
+        // if (res.message === 'Unauthorized') {
+        //   cookies.remove('state');
+        //   dispatch({ type: ADMIN_ACTION.LOGOUT });
+        // }
       }
     })
     .catch(() => {

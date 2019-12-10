@@ -20,7 +20,6 @@ export const addNewTutorRequest = (token, emailF, passwordF, nameF, cb) => dispa
     .then(response => response.json())
     .then(res => {
       if (res.status === 'success') {
-        dispatch({ type: 'REGISTER_SUCCEED' });
         Swal.fire('Thông báo', 'Thành công', 'success');
       } else {
         Swal.fire('Thông báo', res.message, 'error');

@@ -4,109 +4,59 @@ import PropTypes from 'prop-types';
 import $ from 'jquery';
 import Cookies from 'universal-cookie';
 
-import ModalAddNewAdmin from './Modal_AddNewAdmin';
-
-class AdminManagement extends React.Component {
+class SkillManagement extends React.Component {
   constructor(props) {
     super(props);
     this.showDeleteConfirm = this.showDeleteConfirm.bind(this);
     this.state = {
-      openModalAddNewAdmin: false,
-
-      visibleChangePasswordModal: false,
-      loadingChangePasswordModal: false,
-      idAdminForChangePassword: '',
-
+      idSkillForChangeInfo: '',
+      currentName: '',
       visibleChangeInfoModal: false,
       loadingChangeInfoModal: false,
-      idAdminForChangeInfo: '',
-      currentEmail: '',
-      currentName: '',
+
+      visibleAddNewSkillModal: false,
+      loadingAddNewSkillModal: false,
     };
   }
 
   componentDidMount() {
-    const { getAdminsList } = this.props;
+    const { getSkillsList } = this.props;
     const cookies = new Cookies();
-    getAdminsList(cookies.get('token'));
+    getSkillsList(cookies.get('token'));
   }
 
   // componentDidUpdate() {
-  //   const { getAdminsList } = this.props;
+  //   const { getSkillsList } = this.props;
   //   const cookies = new Cookies();
-  //   getAdminsList(cookies.get('token'));
+  //   getSkillsList(cookies.get('token'));
   // }
 
-  showModalAddNewAdmin = () => {
-    this.setState({
-      openModalAddNewAdmin: true,
-    });
-  };
-
-  closeModalAddNewAdmin = () => {
-    this.setState({
-      openModalAddNewAdmin: false,
-    });
-  };
-
-  showDeleteConfirm = admin => {
-    const { removeAdmin } = this.props;
+  // remove skill Modal
+  showDeleteConfirm = skill => {
+    const { removeSkill } = this.props;
     const cookies = new Cookies();
     const { confirm } = Modal;
     confirm({
-      title: `Bạn có chắc muốn xoá Admin: ${admin.name} ?`,
+      title: `Bạn có chắc muốn xoá Skill: ${skill.name} ?`,
       content: 'Bạn đã suy nghĩ kĩ chưa?!',
       okText: 'Xoá',
       okType: 'danger',
       cancelText: 'Huỷ',
       onOk: () => {
         // eslint-disable-next-line no-underscore-dangle
-        removeAdmin(cookies.get('token'), admin._id, this.doAdminsListAPI);
+        removeSkill(cookies.get('token'), skill._id, this.doSkillsListAPI);
       },
       onCancel() {},
     });
   };
 
-  // Change password Modal
-  showChangePasswordModal = admin => {
-    this.setState({
-      visibleChangePasswordModal: true,
-      // eslint-disable-next-line no-underscore-dangle
-      idAdminForChangePassword: admin._id,
-    });
-  };
-
-  submitChangePasswordForm = e => {
-    e.preventDefault();
-    const formVal = $('#ChangePasswordForm').serializeArray();
-    const cookies = new Cookies();
-    const { changePasswordAdmin } = this.props;
-    const { idAdminForChangePassword } = this.state;
-    this.setState({ loadingChangePasswordModal: true });
-    setTimeout(() => {
-      changePasswordAdmin(cookies.get('token'), idAdminForChangePassword, formVal[0].value);
-      this.setState({ loadingChangePasswordModal: false, visibleChangePasswordModal: false });
-    }, 1000);
-  };
-
-  handleCancelChangePassword = () => {
-    this.setState({ visibleChangePasswordModal: false });
-  };
-
   // Change Info
-  showChangeInfoModal = admin => {
+  showChangeInfoModal = skill => {
     this.setState({
       visibleChangeInfoModal: true,
       // eslint-disable-next-line no-underscore-dangle
-      idAdminForChangeInfo: admin._id,
-      currentEmail: admin.email,
-      currentName: admin.name,
-    });
-  };
-
-  handleCurrentEmailOnChange = e => {
-    this.setState({
-      currentEmail: e.target.value,
+      idSkillForChangeInfo: skill._id,
+      currentName: skill.name,
     });
   };
 
@@ -118,17 +68,16 @@ class AdminManagement extends React.Component {
 
   submitChangeInfoForm = () => {
     const cookies = new Cookies();
-    const { changeInfoAdmin } = this.props;
+    const { changeInfoSkill } = this.props;
     const formVal = $('#ChangeInfoForm').serializeArray();
-    const { idAdminForChangeInfo } = this.state;
+    const { idSkillForChangeInfo } = this.state;
     this.setState({ loadingChangeInfoModal: true });
     setTimeout(() => {
-      changeInfoAdmin(
+      changeInfoSkill(
         cookies.get('token'),
-        idAdminForChangeInfo,
+        idSkillForChangeInfo,
         formVal[0].value,
-        formVal[1].value,
-        this.doAdminsListAPI,
+        this.doSkillsListAPI,
       );
       this.setState({ loadingChangeInfoModal: false, visibleChangeInfoModal: false });
     }, 1000);
@@ -138,29 +87,47 @@ class AdminManagement extends React.Component {
     this.setState({ visibleChangeInfoModal: false });
   };
 
-  doAdminsListAPI = () => {
-    const { getAdminsList } = this.props;
+  doSkillsListAPI = () => {
+    const { getSkillsList } = this.props;
     const cookies = new Cookies();
-    getAdminsList(cookies.get('token'));
+    getSkillsList(cookies.get('token'));
+  };
+
+  // add new skill area
+  showModalAddNewAdmin = () => {
+    this.setState({ visibleAddNewSkillModal: true });
+  };
+
+  handleCancelAddNewSkill = () => {
+    this.setState({ visibleAddNewSkillModal: false });
+  };
+
+  submitAddNewSkillForm = () => {
+    const cookies = new Cookies();
+    const { addNewSkillRequest } = this.props;
+    const formVal = $('#AddNewSkillForm').serializeArray();
+    this.setState({ loadingAddNewSkillModal: true });
+    setTimeout(() => {
+      addNewSkillRequest(cookies.get('token'), formVal[0].value, this.doSkillsListAPI);
+      this.setState({ loadingAddNewSkillModal: false, visibleAddNewSkillModal: false });
+    }, 1000);
   };
 
   render() {
     const {
-      openModalAddNewAdmin,
-      visibleChangePasswordModal,
-      loadingChangePasswordModal,
       visibleChangeInfoModal,
       loadingChangeInfoModal,
-      currentEmail,
+      visibleAddNewSkillModal,
+      loadingAddNewSkillModal,
       currentName,
     } = this.state;
-    const { addNewAdmin, adminsList, getAdminsList } = this.props;
+    const { skillsList } = this.props;
     const displayAdminsList = [];
     // render admins list
-    Object.keys(adminsList).forEach(item => {
+    Object.keys(skillsList).forEach(item => {
       displayAdminsList.push(
         // eslint-disable-next-line no-underscore-dangle
-        <li key={adminsList[item]._id} className="ant-list-item">
+        <li key={skillsList[item]._id} className="ant-list-item">
           <Col span={2}>
             <ul className="ant-list-item-action" style={{ marginRight: '10px' }}>
               <li>
@@ -188,16 +155,10 @@ class AdminManagement extends React.Component {
               className="antd-pro-pages-list-basic-list-style-listContent"
               style={{ display: 'flex' }}
             >
-              <Col span={12}>
+              <Col span={24}>
                 <div className="antd-pro-pages-list-basic-list-style-listContentItem">
-                  <span>Admin</span>
-                  <p>{adminsList[item].name}</p>
-                </div>
-              </Col>
-              <Col span={12}>
-                <div className="antd-pro-pages-list-basic-list-style-listContentItem">
-                  <span>Email</span>
-                  <p>{adminsList[item].email}</p>
+                  <span>Kỹ năng</span>
+                  <p>{skillsList[item].name}</p>
                 </div>
               </Col>
             </div>
@@ -205,22 +166,14 @@ class AdminManagement extends React.Component {
           <Col span={8} style={{ textAlign: 'center' }}>
             <ul className="ant-list-item-action">
               <li>
-                <Button onClick={() => this.showChangeInfoModal(adminsList[item])} type="primary">
+                <Button onClick={() => this.showChangeInfoModal(skillsList[item])} type="primary">
                   Chỉnh sửa
                 </Button>
                 <em className="ant-list-item-action-split" />
               </li>
+
               <li>
-                <Button
-                  onClick={() => this.showChangePasswordModal(adminsList[item])}
-                  type="dashed"
-                >
-                  Đổi mật khẩu
-                </Button>
-                <em className="ant-list-item-action-split" />
-              </li>
-              <li>
-                <Button onClick={() => this.showDeleteConfirm(adminsList[item])} type="danger">
+                <Button onClick={() => this.showDeleteConfirm(skillsList[item])} type="danger">
                   Xoá
                 </Button>
               </li>
@@ -231,10 +184,38 @@ class AdminManagement extends React.Component {
     });
     return (
       <div style={{ padding: '30px' }}>
+        {/* add new skill modal */}
+        <Modal
+          visible={visibleAddNewSkillModal}
+          title="Thêm mới kỹ năng"
+          onCancel={this.handleCancelAddNewSkill}
+          footer={[
+            <Button key="back" onClick={this.handleCancelAddNewSkill}>
+              Huỷ
+            </Button>,
+            <Button
+              form="AddNewSkillForm"
+              key="submit"
+              htmlType="submit"
+              type="primary"
+              loading={loadingAddNewSkillModal}
+              onClick={this.submitAddNewSkillForm}
+            >
+              Thêm
+            </Button>,
+          ]}
+        >
+          <Form id="AddNewSkillForm">
+            <Form.Item label="Tên kỹ năng">
+              <Input name="name" required placeholder="nhập tên kỹ năng..." />
+            </Form.Item>
+          </Form>
+        </Modal>
+
         {/* change info modal */}
         <Modal
           visible={visibleChangeInfoModal}
-          title="Đổi thông tin"
+          title="Đổi thông tin kỹ năng"
           onCancel={this.handleCancelChangeInfo}
           footer={[
             <Button key="back" onClick={this.handleCancelChangeInfo}>
@@ -253,71 +234,22 @@ class AdminManagement extends React.Component {
           ]}
         >
           <Form id="ChangeInfoForm">
-            <Form.Item label="Email mới">
-              <Input
-                value={currentEmail}
-                onChange={e => this.handleCurrentEmailOnChange(e)}
-                type="email"
-                name="email"
-                required
-                placeholder="email..."
-              />
-            </Form.Item>
-            <Form.Item label="Họ tên mới">
+            <Form.Item label="Tên mới">
               <Input
                 value={currentName}
                 onChange={e => this.handleCurrentNameOnChange(e)}
                 name="name"
                 required
-                placeholder="nhập họ tên..."
+                placeholder="nhập tên mới..."
               />
             </Form.Item>
           </Form>
         </Modal>
-        {/* change password modal */}
-        <Modal
-          visible={visibleChangePasswordModal}
-          title="Đổi mật khẩu"
-          onCancel={this.handleCancelChangePassword}
-          footer={[
-            <Button key="back" onClick={this.handleCancelChangePassword}>
-              Huỷ
-            </Button>,
-            <Button
-              form="ChangePasswordForm"
-              key="submit"
-              htmlType="submit"
-              type="primary"
-              loading={loadingChangePasswordModal}
-            >
-              Đổi
-            </Button>,
-          ]}
-        >
-          <Form onSubmit={e => this.submitChangePasswordForm(e)} id="ChangePasswordForm">
-            <Form.Item label="Mật khẩu mới">
-              {/* eslint-disable-next-line max-len */}
-              <Input
-                minLength="6"
-                name="password"
-                type="password"
-                required
-                placeholder="nhâp mật khẩu mới..."
-                autoComplete="on"
-              />
-            </Form.Item>
-          </Form>
-        </Modal>
-        <ModalAddNewAdmin
-          visible={openModalAddNewAdmin}
-          addNewAdmin={addNewAdmin}
-          closeModal={this.closeModalAddNewAdmin}
-          getAdminsList={getAdminsList}
-        />
+
         <div className="ant-card antd-pro-pages-list-basic-list-style-listCard">
           <div className="ant-card-head">
             <div className="ant-card-head-wrapper">
-              <div className="ant-card-head-title">Danh sách Admin kkk</div>
+              <div className="ant-card-head-title">Danh sách kỹ năng</div>
             </div>
           </div>
           <div className="ant-card-body" style={{ padding: '0px 32px 40px' }}>
@@ -473,22 +405,20 @@ class AdminManagement extends React.Component {
   }
 }
 
-AdminManagement.propTypes = {
-  addNewAdmin: PropTypes.func,
-  getAdminsList: PropTypes.func,
-  adminsList: PropTypes.objectOf(PropTypes.object),
-  removeAdmin: PropTypes.func,
-  changePasswordAdmin: PropTypes.func,
-  changeInfoAdmin: PropTypes.func,
+SkillManagement.propTypes = {
+  getSkillsList: PropTypes.func,
+  skillsList: PropTypes.objectOf(PropTypes.object),
+  removeSkill: PropTypes.func,
+  changeInfoSkill: PropTypes.func,
+  addNewSkillRequest: PropTypes.func,
 };
 
-AdminManagement.defaultProps = {
-  addNewAdmin: () => {},
-  getAdminsList: () => {},
-  adminsList: {},
-  removeAdmin: () => {},
-  changePasswordAdmin: () => {},
-  changeInfoAdmin: () => {},
+SkillManagement.defaultProps = {
+  getSkillsList: () => {},
+  skillsList: {},
+  removeSkill: () => {},
+  changeInfoSkill: () => {},
+  addNewSkillRequest: () => {},
 };
 
-export default AdminManagement;
+export default SkillManagement;
