@@ -5,10 +5,12 @@ import PropTypes from 'prop-types';
 import { Form, Input, Modal, Button } from 'antd';
 
 const ModalAddNewAdmin = props => {
-  const { visible, addNewAdmin, closeModal } = props;
+  const { visible, addNewAdmin, closeModal, getAdminsList } = props;
   const [isLoading, setIsLoading] = useState(false);
   const done = () => {
     setIsLoading(false);
+    const cookies = new Cookies();
+    getAdminsList(cookies.get('token'));
   };
   const submit = e => {
     e.preventDefault();
@@ -80,12 +82,14 @@ ModalAddNewAdmin.propTypes = {
   visible: PropTypes.bool,
   addNewAdmin: PropTypes.func,
   closeModal: PropTypes.func,
+  getAdminsList: PropTypes.func,
 };
 
 ModalAddNewAdmin.defaultProps = {
   visible: false,
   addNewAdmin: () => {},
   closeModal: () => {},
+  getAdminsList: () => {},
 };
 
 export default ModalAddNewAdmin;

@@ -20,11 +20,11 @@ const mapDispatchToProps = run => {
     getAdminsList: token => run(getAdminsListRequest(token)),
     addNewAdmin: (token, email, password, name, cb) =>
       run(addNewAdminRequest(token, email, password, name, cb)),
-    removeAdmin: (token, id) => run(removeAdminRequest(token, id)),
+    removeAdmin: (token, id, cb) => run(removeAdminRequest(token, id, cb)),
     changePasswordAdmin: (token, id, password) =>
       run(changePasswordAdminRequest(token, id, password)),
-    changeInfoAdmin: (token, id, newEmail, newName) =>
-      run(changeInfoAdminRequest(token, id, newEmail, newName)),
+    changeInfoAdmin: (token, id, newEmail, newName, cb) =>
+      run(changeInfoAdminRequest(token, id, newEmail, newName, cb)),
   };
   return actions;
 };
