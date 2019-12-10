@@ -1,11 +1,11 @@
 import fetch from 'cross-fetch';
 import Swal from 'sweetalert2';
-import Cookies from 'universal-cookie';
+// import Cookies from 'universal-cookie';
 import API from '../service/API';
 
-import { ADMIN_ACTION } from './adminAction';
+// import { ADMIN_ACTION } from './adminAction';
 
-const cookies = new Cookies();
+// const cookies = new Cookies();
 
 export const getAdminsListRequest = token => dispatch => {
   return fetch(API.GET_ADMIN_LIST, {
@@ -20,11 +20,11 @@ export const getAdminsListRequest = token => dispatch => {
       if (res.status === 'success') {
         dispatch({ type: 'UPDATE_ADMINS_LIST', adminsList: { ...res.list } });
       } else {
-        Swal.fire('Thông báo', res.message, 'error');
-        if (res.message === 'Unauthorized') {
-          cookies.remove('state');
-          dispatch({ type: ADMIN_ACTION.LOGOUT });
-        }
+        // Swal.fire('Thông báo', res.message, 'error');
+        // if (res.message === 'Unauthorized') {
+        //   cookies.remove('state');
+        //   dispatch({ type: ADMIN_ACTION.LOGOUT });
+        // }
       }
     })
     .catch(() => {
@@ -45,7 +45,7 @@ export const addNewAdminRequest = (token, emailF, passwordF, nameF, cb) => dispa
     .then(response => response.json())
     .then(res => {
       if (res.status === 'success') {
-        dispatch({ type: 'REGISTER_SUCCEED' });
+        dispatch({ type: 'REGISTER_SUCCEED', email: emailF, name: nameF });
         Swal.fire('Thông báo', 'Thành công', 'success');
       } else {
         Swal.fire('Thông báo', res.message, 'error');
@@ -83,6 +83,53 @@ export const removeAdminRequest = (token, id) => dispatch => {
         //   cookies.remove('state');
         //   dispatch({ type: ADMIN_ACTION.LOGOUT });
         // }
+      }
+    })
+    .catch(() => {
+      Swal.fire('Thông báo', 'Lỗi', 'error');
+    })
+    .finally(() => {});
+};
+
+export const changePasswordAdminRequest = (token, id, newPassword) => () => {
+  return fetch(API.CHANGE_PASSWORD, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+      secret_token: token,
+    },
+    body: `id=${id}&password=${newPassword}`,
+  })
+    .then(response => response.json())
+    .then(res => {
+      if (res.status === 'success') {
+        Swal.fire('Thông báo', 'Thành công', 'success');
+      } else {
+        Swal.fire('Thông báo', res.message, 'error');
+      }
+    })
+    .catch(() => {
+      Swal.fire('Thông báo', 'Lỗi', 'error');
+    })
+    .finally(() => {});
+};
+
+export const changeInfoAdminRequest = (token, id, newEmail, newName) => dispatch => {
+  return fetch(API.UPDATE_INFO, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+      secret_token: token,
+    },
+    body: `id=${id}&email=${newEmail}&name=${newName}`,
+  })
+    .then(response => response.json())
+    .then(res => {
+      if (res.status === 'success') {
+        dispatch({ type: 'CHANGE_INFO_SUCCESS', id, email: newEmail, name: newName });
+        Swal.fire('Thông báo', 'Thành công', 'success');
+      } else {
+        Swal.fire('Thông báo', res.message, 'error');
       }
     })
     .catch(() => {

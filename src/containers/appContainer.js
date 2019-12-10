@@ -4,6 +4,7 @@ import app from '../App';
 const mapStateToProps = state => {
   return {
     isLogin: state.isLogin,
+    adminRole: state.adminRole,
   };
 };
 

@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Layout, Menu, Icon } from 'antd';
 import './sider.css';
 
-const MyCustomSider = () => {
+const MyCustomSider = ({ adminRole }) => {
   // eslint-disable-next-line react/prop-types
   const { Sider } = Layout;
   return (
@@ -15,23 +16,34 @@ const MyCustomSider = () => {
         defaultSelectedKeys={['2']}
         mode="inline"
       >
+        {adminRole && (
+          <Menu.Item key="1">
+            <Icon type="team" />
+            <span>Danh sách Admin</span>
+            <Link to="/adminmanagement" />
+          </Menu.Item>
+        )}
+
         <Menu.Item key="2">
-          <Icon type="team" />
-          <span>Danh sách Admin</span>
-          <Link to="/adminmanagement" />
-        </Menu.Item>
-        <Menu.Item key="3">
           <Icon type="desktop" />
           <span>Danh sách Giáo viên</span>
           <Link to="/tutormanagement" />
         </Menu.Item>
-        <Menu.Item key="4">
+        <Menu.Item key="3">
           <Icon type="pie-chart" />
           <span>Option 4</span>
         </Menu.Item>
       </Menu>
     </Sider>
   );
+};
+
+MyCustomSider.propTypes = {
+  adminRole: PropTypes.string,
+};
+
+MyCustomSider.defaultProps = {
+  adminRole: '',
 };
 
 export default MyCustomSider;
