@@ -6,6 +6,7 @@ const API = {
   GET_ADMIN_LIST: `${URL}/admins/list`,
   REMOVE_ADMIN: `${URL}/admins/remove`,
   CHANGE_PASSWORD: `${URL}/admins/changepassword`,
+  UPDATE_INFO: `${URL}/admins/updateinfo`,
 };
 
 export default API;

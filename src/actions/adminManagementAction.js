@@ -45,7 +45,7 @@ export const addNewAdminRequest = (token, emailF, passwordF, nameF, cb) => dispa
     .then(response => response.json())
     .then(res => {
       if (res.status === 'success') {
-        dispatch({ type: 'REGISTER_SUCCEED' });
+        dispatch({ type: 'REGISTER_SUCCEED', email: emailF, name: nameF });
         Swal.fire('Thông báo', 'Thành công', 'success');
       } else {
         Swal.fire('Thông báo', res.message, 'error');
@@ -103,6 +103,30 @@ export const changePasswordAdminRequest = (token, id, newPassword) => () => {
     .then(response => response.json())
     .then(res => {
       if (res.status === 'success') {
+        Swal.fire('Thông báo', 'Thành công', 'success');
+      } else {
+        Swal.fire('Thông báo', res.message, 'error');
+      }
+    })
+    .catch(() => {
+      Swal.fire('Thông báo', 'Lỗi', 'error');
+    })
+    .finally(() => {});
+};
+
+export const changeInfoAdminRequest = (token, id, newEmail, newName) => dispatch => {
+  return fetch(API.UPDATE_INFO, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+      secret_token: token,
+    },
+    body: `id=${id}&email=${newEmail}&name=${newName}`,
+  })
+    .then(response => response.json())
+    .then(res => {
+      if (res.status === 'success') {
+        dispatch({ type: 'CHANGE_INFO_SUCCESS', id, email: newEmail, name: newName });
         Swal.fire('Thông báo', 'Thành công', 'success');
       } else {
         Swal.fire('Thông báo', res.message, 'error');
