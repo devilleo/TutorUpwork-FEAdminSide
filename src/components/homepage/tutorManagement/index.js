@@ -151,9 +151,10 @@ class TutorManagement extends React.Component {
                       Bỏ chặn
                     </Button>
                   )}
-                {(tutorsList[item].valid === undefined || tutorsList[item].valid) && (
-                    <em className="ant-list-item-action-split" />
-                  ) && (
+                {
+                  (tutorsList[item].valid === undefined || tutorsList[item].valid) &&
+                  (<em className="ant-list-item-action-split" />) &&
+                  (
                     <Button
                       onClick={() => this.handleBlockRequest(tutorsList[item].email, this.id)}
                       type="danger"
@@ -163,7 +164,8 @@ class TutorManagement extends React.Component {
                     >
                       Chặn
                     </Button>
-                  )}
+                  )
+                }
               </li>
             </ul>
           </Col>
@@ -322,10 +324,10 @@ TutorManagement.propTypes = {
 
 TutorManagement.defaultProps = {
   tutorsList: {},
-  getTutorsList: () => {},
-  blockUser: () => {},
-  unblockUser: () => {},
-  getTutorDetail: () => {},
+  getTutorsList: () => { },
+  blockUser: () => { },
+  unblockUser: () => { },
+  getTutorDetail: () => { },
 };
 
 export default TutorManagement;
