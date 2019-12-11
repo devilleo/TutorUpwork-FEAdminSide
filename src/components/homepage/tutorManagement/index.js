@@ -167,7 +167,8 @@ class TutorManagement extends React.Component {
                     >
                       Chặn
                     </Button>
-                  )}
+                  )
+                }
               </li>
             </ul>
           </Col>
@@ -326,10 +327,10 @@ TutorManagement.propTypes = {
 
 TutorManagement.defaultProps = {
   tutorsList: {},
-  getTutorsList: () => {},
-  blockUser: () => {},
-  unblockUser: () => {},
-  getTutorDetail: () => {},
+  getTutorsList: () => { },
+  blockUser: () => { },
+  unblockUser: () => { },
+  getTutorDetail: () => { },
 };
 
 export default TutorManagement;
