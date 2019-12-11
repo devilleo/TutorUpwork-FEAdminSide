@@ -65,11 +65,13 @@ class TutorManagement extends React.Component {
     });
     const { unblockUser } = this.props;
     const cookies = new Cookies();
-    unblockUser(cookies.get('token'), email, this.updateTutorsList);
-    this.setState({
-      isRequestBlockOrUnblock: false,
-      idButtonProcessing: '',
-    });
+    setTimeout(() => {
+      unblockUser(cookies.get('token'), email, this.updateTutorsList);
+      this.setState({
+        isRequestBlockOrUnblock: false,
+        idButtonProcessing: '',
+      });
+    }, 1000);
   };
 
   updateTutorsList = () => {
@@ -151,10 +153,11 @@ class TutorManagement extends React.Component {
                       Bỏ chặn
                     </Button>
                   )}
-                {
-                  (tutorsList[item].valid === undefined || tutorsList[item].valid) &&
-                  (<em className="ant-list-item-action-split" />) &&
-                  (
+                {(tutorsList[item].valid === undefined || tutorsList[item].valid) && (
+                    // eslint-disable-next-line react/jsx-indent
+                    <em className="ant-list-item-action-split" />
+                  ) && (
+                    // eslint-disable-next-line react/jsx-indent
                     <Button
                       onClick={() => this.handleBlockRequest(tutorsList[item].email, this.id)}
                       type="danger"
