@@ -65,11 +65,13 @@ class TutorManagement extends React.Component {
     });
     const { unblockUser } = this.props;
     const cookies = new Cookies();
-    unblockUser(cookies.get('token'), email, this.updateTutorsList);
-    this.setState({
-      isRequestBlockOrUnblock: false,
-      idButtonProcessing: '',
-    });
+    setTimeout(() => {
+      unblockUser(cookies.get('token'), email, this.updateTutorsList);
+      this.setState({
+        isRequestBlockOrUnblock: false,
+        idButtonProcessing: '',
+      });
+    }, 1000);
   };
 
   updateTutorsList = () => {

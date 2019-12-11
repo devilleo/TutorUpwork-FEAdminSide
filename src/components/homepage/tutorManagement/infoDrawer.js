@@ -76,10 +76,10 @@ const MyInfoDrawer = props => {
         <Row gutter={16}>
           <Col span={24}>
             <Form.Item label="Mô tả về bản thân">
-              <Input.TextArea
-                rows={4}
-                placeholder="please enter url description"
-                value={tutorDetail.intro}
+              <div
+                style={{ padding: '4px 11px' }}
+                // eslint-disable-next-line react/no-danger
+                dangerouslySetInnerHTML={{ __html: tutorDetail.intro }}
               />
             </Form.Item>
           </Col>
