@@ -152,6 +152,7 @@ class TutorManagement extends React.Component {
                     </Button>
                   )}
                 {(tutorsList[item].valid === undefined || tutorsList[item].valid) && (
+                    // eslint-disable-next-line react/jsx-indent
                     <em className="ant-list-item-action-split" />
                   ) && (
                     // eslint-disable-next-line react/jsx-indent
