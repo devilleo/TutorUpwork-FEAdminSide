@@ -154,6 +154,7 @@ class TutorManagement extends React.Component {
                 {(tutorsList[item].valid === undefined || tutorsList[item].valid) && (
                     <em className="ant-list-item-action-split" />
                   ) && (
+                    // eslint-disable-next-line react/jsx-indent
                     <Button
                       onClick={() => this.handleBlockRequest(tutorsList[item].email, this.id)}
                       type="danger"
