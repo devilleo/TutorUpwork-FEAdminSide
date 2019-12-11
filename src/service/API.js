@@ -13,6 +13,14 @@ const API = {
   GET_SKILL_LIST: `${URL}/skills/list`,
   REMOVE_SKILL: `${URL}/skills/remove`,
   UPDATE_SKILL_INFO: `${URL}/skills/updateinfo`,
+
+  // users API
+  GET_TUTOR_LIST: `${URL}/users/tutorslist`,
+  GET_TUTOR_DETAIL: `${URL}/users/tutordetail`,
+  GET_STUDENT_LIST: `${URL}/users/studentslist`,
+  GET_STUDENT_DETAIL: `${URL}/users/studentdetail`,
+  BLOCK_USER: `${URL}/users/block`,
+  UNBLOCK_USER: `${URL}/users/unblock`,
 };
 
 export default API;

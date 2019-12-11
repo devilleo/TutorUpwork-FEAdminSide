@@ -10,7 +10,7 @@ import Header from './containers/headerContainer';
 import Login from './containers/adminContainer';
 import MyCustomSider from './components/sider/index';
 import AdminManagement from './containers/adminManagementContainer';
-import TutorManagement from './components/homepage/tutorManagement/index';
+import TutorManagement from './containers/tutorManagementContainer';
 import SkillManagement from './containers/skillManagementContainer';
 
 import './App.css';
