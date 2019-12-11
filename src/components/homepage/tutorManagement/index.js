@@ -1,223 +1,193 @@
 import React from 'react';
-import { Col } from 'antd';
+import { Col, Button } from 'antd';
+import PropTypes from 'prop-types';
+// import $ from 'jquery';
+import Cookies from 'universal-cookie';
 
-import AddNewTutorContainer from '../../../containers/addNewTutorContainer';
+import MyInfoDraw from './infoDrawer';
 
 class TutorManagement extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      openModalAddNewTutor: false,
-      confirmLoading: false,
+      isRequestBlockOrUnblock: false,
+      idButtonProcessing: '',
+
+      visibleInfoDrawer: false,
     };
   }
 
-  showModal = () => {
-    this.setState({
-      openModalAddNewTutor: true,
-    });
-  };
+  componentDidMount() {
+    const { getTutorsList } = this.props;
+    const cookies = new Cookies();
+    getTutorsList(cookies.get('token'));
+  }
 
-  handleOk = () => {
-    this.setState({
-      confirmLoading: true,
-    });
+  // info drawer
+  showInfoDrawer = id => {
+    const { getTutorDetail } = this.props;
+    const cookies = new Cookies();
     setTimeout(() => {
+      getTutorDetail(cookies.get('token'), id);
       this.setState({
-        openModalAddNewTutor: false,
-        confirmLoading: false,
+        visibleInfoDrawer: true,
       });
-    }, 2000);
+    }, 1000);
   };
 
-  handleCancel = () => {
+  onCloseInfoDrawer = () => {
     this.setState({
-      openModalAddNewTutor: false,
+      visibleInfoDrawer: false,
     });
+  };
+
+  // block/unblock
+  handleBlockRequest = email => {
+    this.setState({
+      isRequestBlockOrUnblock: true,
+      idButtonProcessing: email,
+    });
+    const { blockUser } = this.props;
+    const cookies = new Cookies();
+    setTimeout(() => {
+      blockUser(cookies.get('token'), email, this.updateTutorsList);
+      this.setState({
+        isRequestBlockOrUnblock: false,
+        idButtonProcessing: '',
+      });
+    }, 1000);
+  };
+
+  handleUnblockRequest = email => {
+    this.setState({
+      isRequestBlockOrUnblock: true,
+      idButtonProcessing: email,
+    });
+    const { unblockUser } = this.props;
+    const cookies = new Cookies();
+    unblockUser(cookies.get('token'), email, this.updateTutorsList);
+    this.setState({
+      isRequestBlockOrUnblock: false,
+      idButtonProcessing: '',
+    });
+  };
+
+  updateTutorsList = () => {
+    const { getTutorsList } = this.props;
+    const cookies = new Cookies();
+    getTutorsList(cookies.get('token'));
   };
 
   render() {
-    const { openModalAddNewTutor, confirmLoading } = this.state;
+    // eslint-disable-next-line react/prop-types
+    const { tutorsList, tutorDetail } = this.props;
+    const { isRequestBlockOrUnblock, idButtonProcessing, visibleInfoDrawer } = this.state;
+    const displayAdminsList = [];
+    // render admins list
+    Object.keys(tutorsList).forEach(item => {
+      displayAdminsList.push(
+        // eslint-disable-next-line no-underscore-dangle
+        <li key={tutorsList[item]._id} className="ant-list-item">
+          <Col span={2}>
+            <ul className="ant-list-item-action" style={{ marginRight: '10px' }}>
+              <li>
+                <div>{item}</div>
+              </li>
+            </ul>
+          </Col>
 
+          <Col span={4}>
+            <div className="ant-list-item-meta">
+              <div className="ant-list-item-meta-avatar">
+                {/* eslint-disable-next-line max-len */}
+                <span className="ant-avatar ant-avatar-lg ant-avatar-square ant-avatar-image">
+                  <img
+                    alt=""
+                    // eslint-disable-next-line max-len
+                    src="https://gw.alipayobjects.com/zos/rmsportal/WdGqmHpayyMjiEhcKoVE.png"
+                  />
+                </span>
+              </div>
+            </div>
+          </Col>
+          <Col span={10}>
+            <div
+              className="antd-pro-pages-list-basic-list-style-listContent"
+              style={{ display: 'flex' }}
+            >
+              <Col span={12}>
+                <div className="antd-pro-pages-list-basic-list-style-listContentItem">
+                  <span>Email</span>
+                  <p>{tutorsList[item].email}</p>
+                </div>
+              </Col>
+              <Col span={12}>
+                <div className="antd-pro-pages-list-basic-list-style-listContentItem">
+                  <span>Loại tài khoản</span>
+                  <p>{tutorsList[item].type}</p>
+                </div>
+              </Col>
+            </div>
+          </Col>
+          <Col span={8} style={{ textAlign: 'center' }}>
+            <ul className="ant-list-item-action">
+              <li>
+                <Button onClick={() => this.showInfoDrawer(tutorsList[item].id)} type="primary">
+                  Chi tiết
+                </Button>
+              </li>
+
+              <li>
+                {tutorsList[item].valid !== undefined &&
+                  !tutorsList[item].valid && <em className="ant-list-item-action-split" /> && (
+                    <Button
+                      style={{ backgroundColor: 'green', borderColor: 'green' }}
+                      onClick={() => this.handleUnblockRequest(tutorsList[item].email, this.id)}
+                      loading={
+                        isRequestBlockOrUnblock && idButtonProcessing === tutorsList[item].email
+                      }
+                      type="primary"
+                    >
+                      Bỏ chặn
+                    </Button>
+                  )}
+                {(tutorsList[item].valid === undefined || tutorsList[item].valid) && (
+                    <em className="ant-list-item-action-split" />
+                  ) && (
+                    <Button
+                      onClick={() => this.handleBlockRequest(tutorsList[item].email, this.id)}
+                      type="danger"
+                      loading={
+                        isRequestBlockOrUnblock && idButtonProcessing === tutorsList[item].email
+                      }
+                    >
+                      Chặn
+                    </Button>
+                  )}
+              </li>
+            </ul>
+          </Col>
+        </li>,
+      );
+    });
     return (
       <div style={{ padding: '30px' }}>
-        <AddNewTutorContainer
-          visible={openModalAddNewTutor}
-          confirmloading={confirmLoading}
-          handleok={this.handleOk}
-          handlecancel={this.handleCancel}
+        <MyInfoDraw
+          visible={visibleInfoDrawer}
+          onClose={this.onCloseInfoDrawer}
+          tutorDetail={tutorDetail}
         />
         <div className="ant-card antd-pro-pages-list-basic-list-style-listCard">
           <div className="ant-card-head">
             <div className="ant-card-head-wrapper">
-              <div className="ant-card-head-title">Danh sách Tutor</div>
+              <div className="ant-card-head-title">Danh sách tài khoản gia sư</div>
             </div>
           </div>
           <div className="ant-card-body" style={{ padding: '0px 32px 40px' }}>
-            <button
-              type="button"
-              className="ant-btn ant-btn-dashed"
-              style={{ width: '100%', marginBottom: '8px' }}
-              ant-click-animating-without-extra-node="false"
-              onClick={this.showModal}
-            >
-              <i aria-label="icon: plus" className="anticon anticon-plus">
-                <svg
-                  viewBox="64 64 896 896"
-                  focusable="false"
-                  className=""
-                  data-icon="plus"
-                  width="1em"
-                  height="1em"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path d="M482 152h60q8 0 8 8v704q0 8-8 8h-60q-8 0-8-8V160q0-8 8-8z" />
-                  <path d="M176 474h672q8 0 8 8v60q0 8-8 8H176q-8 0-8-8v-60q0-8 8-8z" />
-                </svg>
-              </i>
-              <span>Thêm mới</span>
-            </button>
             <div className="ant-list ant-list-lg ant-list-split ant-list-something-after-last-item">
               <div className="ant-spin-nested-loading">
                 <div className="ant-spin-container">
-                  <ul className="ant-list-items">
-                    {/* tutor 1 */}
-                    <li className="ant-list-item">
-                      <Col span={2}>
-                        <ul className="ant-list-item-action" style={{ marginRight: '10px' }}>
-                          <li>
-                            <div>1</div>
-                          </li>
-                        </ul>
-                      </Col>
-
-                      <Col span={4}>
-                        <div className="ant-list-item-meta">
-                          <div className="ant-list-item-meta-avatar">
-                            {/* eslint-disable-next-line max-len */}
-                            <span className="ant-avatar ant-avatar-lg ant-avatar-square ant-avatar-image">
-                              <img
-                                alt=""
-                                // eslint-disable-next-line max-len
-                                src="https://gw.alipayobjects.com/zos/rmsportal/WdGqmHpayyMjiEhcKoVE.png"
-                              />
-                            </span>
-                          </div>
-                        </div>
-                      </Col>
-                      <Col span={12}>
-                        <div
-                          className="antd-pro-pages-list-basic-list-style-listContent"
-                          style={{ display: 'flex' }}
-                        >
-                          <Col span={8}>
-                            <div className="antd-pro-pages-list-basic-list-style-listContentItem">
-                              <span>Tutor</span>
-                              <p>Lê Xuân Kha</p>
-                            </div>
-                          </Col>
-                          <Col span={8}>
-                            <div className="antd-pro-pages-list-basic-list-style-listContentItem">
-                              <span>Vai trò</span>
-                              <p>Thiếu tướng</p>
-                            </div>
-                          </Col>
-                          <Col span={8}>
-                            <div className="antd-pro-pages-list-basic-list-style-listContentItem">
-                              <span>Email</span>
-                              <p>lexuankha2409@gmail.com</p>
-                            </div>
-                          </Col>
-                        </div>
-                      </Col>
-                      <Col span={6} style={{ textAlign: 'center' }}>
-                        <ul className="ant-list-item-action">
-                          <li>
-                            <a href="/tutormanagement">Chỉnh sửa</a>
-                            <em className="ant-list-item-action-split" />
-                          </li>
-                          <li>
-                            <a href="/tutormanagement">Đổi mật khẩu</a>
-                            <em className="ant-list-item-action-split" />
-                          </li>
-                          <li>
-                            <a href="/tutormanagement" className="ant-dropdown-trigger">
-                              Xoá
-                            </a>
-                          </li>
-                        </ul>
-                      </Col>
-                    </li>
-
-                    {/* tutor 2 */}
-                    <li className="ant-list-item">
-                      <Col span={2}>
-                        <ul className="ant-list-item-action" style={{ marginRight: '10px' }}>
-                          <li>
-                            <div>2</div>
-                          </li>
-                        </ul>
-                      </Col>
-
-                      <Col span={4}>
-                        <div className="ant-list-item-meta">
-                          <div className="ant-list-item-meta-avatar">
-                            {/* eslint-disable-next-line max-len */}
-                            <span className="ant-avatar ant-avatar-lg ant-avatar-square ant-avatar-image">
-                              <img
-                                alt=""
-                                // eslint-disable-next-line max-len
-                                src="https://gw.alipayobjects.com/zos/rmsportal/WdGqmHpayyMjiEhcKoVE.png"
-                              />
-                            </span>
-                          </div>
-                        </div>
-                      </Col>
-                      <Col span={12}>
-                        <div
-                          className="antd-pro-pages-list-basic-list-style-listContent"
-                          style={{ display: 'flex' }}
-                        >
-                          <Col span={8}>
-                            <div className="antd-pro-pages-list-basic-list-style-listContentItem">
-                              <span>Tutor</span>
-                              <p>Trần Đình Khải</p>
-                            </div>
-                          </Col>
-                          <Col span={8}>
-                            <div className="antd-pro-pages-list-basic-list-style-listContentItem">
-                              <span>Vai trò</span>
-                              <p>Thiếu tướng</p>
-                            </div>
-                          </Col>
-                          <Col span={8}>
-                            <div className="antd-pro-pages-list-basic-list-style-listContentItem">
-                              <span>Email</span>
-                              <p>trandinhkhai@gmail.com</p>
-                            </div>
-                          </Col>
-                        </div>
-                      </Col>
-                      <Col span={6} style={{ textAlign: 'center' }}>
-                        <ul className="ant-list-item-action">
-                          <li>
-                            <a href="/tutormanagement">Chỉnh sửa</a>
-                            <em className="ant-list-item-action-split" />
-                          </li>
-                          <li>
-                            <a href="/tutormanagement">Đổi mật khẩu</a>
-                            <em className="ant-list-item-action-split" />
-                          </li>
-                          <li>
-                            <a href="/tutormanagement" className="ant-dropdown-trigger">
-                              Xoá
-                            </a>
-                          </li>
-                        </ul>
-                      </Col>
-                    </li>
-                  </ul>
+                  <ul className="ant-list-items">{displayAdminsList}</ul>
                 </div>
               </div>
               <div className="ant-list-pagination">
@@ -251,7 +221,7 @@ class TutorManagement extends React.Component {
                     // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
                     tabIndex="0"
                   >
-                    <a href="/tutormanagement">1</a>
+                    <a href="/adminmanagement">1</a>
                   </li>
                   <li
                     title="2"
@@ -259,7 +229,7 @@ class TutorManagement extends React.Component {
                     // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
                     tabIndex="0"
                   >
-                    <a href="/tutormanagement">2</a>
+                    <a href="/adminmanagement">2</a>
                   </li>
                   <li
                     title="3"
@@ -267,7 +237,7 @@ class TutorManagement extends React.Component {
                     // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
                     tabIndex="0"
                   >
-                    <a href="/tutormanagement">3</a>
+                    <a href="/adminmanagement">3</a>
                   </li>
                   <li
                     title="Next 5 Pages"
@@ -275,7 +245,7 @@ class TutorManagement extends React.Component {
                     tabIndex="0"
                     className="ant-pagination-jump-next ant-pagination-jump-next-custom-icon"
                   >
-                    <a href="/tutormanagement" className="ant-pagination-item-link">
+                    <a href="/adminmanagement" className="ant-pagination-item-link">
                       <div className="ant-pagination-item-container">
                         <i
                           aria-label="icon: double-right"
@@ -305,7 +275,7 @@ class TutorManagement extends React.Component {
                     // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
                     tabIndex="0"
                   >
-                    <a href="/tutormanagement">10</a>
+                    <a href="/adminmanagement">10</a>
                   </li>
                   <li
                     title="Next Page"
@@ -314,7 +284,7 @@ class TutorManagement extends React.Component {
                     className=" ant-pagination-next"
                     aria-disabled="false"
                   >
-                    <a href="/tutormanagement" className="ant-pagination-item-link">
+                    <a href="/adminmanagement" className="ant-pagination-item-link">
                       <i aria-label="icon: right" className="anticon anticon-right">
                         <svg
                           viewBox="64 64 896 896"
@@ -341,5 +311,21 @@ class TutorManagement extends React.Component {
     );
   }
 }
+
+TutorManagement.propTypes = {
+  tutorsList: PropTypes.objectOf(PropTypes.object, PropTypes.array),
+  getTutorsList: PropTypes.func,
+  blockUser: PropTypes.func,
+  unblockUser: PropTypes.func,
+  getTutorDetail: PropTypes.func,
+};
+
+TutorManagement.defaultProps = {
+  tutorsList: {},
+  getTutorsList: () => {},
+  blockUser: () => {},
+  unblockUser: () => {},
+  getTutorDetail: () => {},
+};
 
 export default TutorManagement;
