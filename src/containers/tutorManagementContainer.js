@@ -1,6 +1,12 @@
 import { connect } from 'react-redux';
 import TutorManagement from '../components/homepage/tutorManagement/index';
-import { getTutorsListRequest, getTutorDetailRequest } from '../actions/tutorManagementAction';
+import {
+  getTutorsListRequest,
+  getTutorDetailRequest,
+  removeInfoInDrawer,
+  getContractsRequest,
+  removeContractsInDrawer
+} from '../actions/tutorManagementAction';
 import { blockUserRequest, unblockUseRequest } from '../actions/userManagementAction';
 
 const mapStateToProps = state => {
@@ -8,15 +14,19 @@ const mapStateToProps = state => {
     adminRole: state.adminRole,
     tutorsList: state.tutorsList,
     tutorDetail: state.tutorDetail,
+    tutorContracts: state.tutorContracts,
   };
 };
 
 const mapDispatchToProps = run => {
   const actions = {
     getTutorsList: token => run(getTutorsListRequest(token)),
-    blockUser: (token, email, cb) => run(blockUserRequest(token, email, cb)),
-    unblockUser: (token, email, cb) => run(unblockUseRequest(token, email, cb)),
+    blockUser: (token, id, cb) => run(blockUserRequest(token, id, cb)),
+    unblockUser: (token, id, cb) => run(unblockUseRequest(token, id, cb)),
     getTutorDetail: (token, id) => run(getTutorDetailRequest(token, id)),
+    removeInfoInDrawer: () => run(removeInfoInDrawer()),
+    getContracts: (token, idContractsList) => run(getContractsRequest(token, idContractsList)),
+    removeContractsInDrawer: () => run(removeContractsInDrawer()),
   };
   return actions;
 };

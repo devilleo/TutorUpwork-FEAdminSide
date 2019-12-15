@@ -34,6 +34,9 @@ store.subscribe(
         adminRole: store.getState().adminRole,
         isLogin: store.getState().isLogin,
         adminsList: store.getState().adminsList,
+        skillsList: store.getState().skillsList,
+        tutorsList: store.getState().tutorsList,
+        tutorContracts: store.getState().tutorContracts
       });
     }
   }, 1000),
