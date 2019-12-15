@@ -3,14 +3,14 @@ import Swal from 'sweetalert2';
 // import Cookies from 'universal-cookie';
 import API from '../service/API';
 
-export const blockUserRequest = (token, email, cb) => () => {
+export const blockUserRequest = (token, id, cb) => () => {
   return fetch(API.BLOCK_USER, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
       secret_token: token,
     },
-    body: `email=${email}`,
+    body: `id=${id}`,
   })
     .then(response => response.json())
     .then(res => {
@@ -28,14 +28,14 @@ export const blockUserRequest = (token, email, cb) => () => {
     });
 };
 
-export const unblockUseRequest = (token, email, cb) => () => {
+export const unblockUseRequest = (token, id, cb) => () => {
   return fetch(API.UNBLOCK_USER, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
       secret_token: token,
     },
-    body: `email=${email}`,
+    body: `id=${id}`,
   })
     .then(response => response.json())
     .then(res => {

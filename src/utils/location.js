@@ -20,7 +20,7 @@ export const listDistricts = idCity => {
 };
 
 export const addressDetail = (idCity, idDis) => {
-  if (idCity < 0 || idCity > 62)
+  if (idCity === undefined || idDis === undefined || idCity < 0 || idCity > 62)
     return {
       cityName: 'Chưa cập nhật',
       disName: 'Chưa cập nhật',

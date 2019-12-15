@@ -27,30 +27,31 @@ class TutorManagement extends React.Component {
   showInfoDrawer = id => {
     const { getTutorDetail } = this.props;
     const cookies = new Cookies();
-    setTimeout(() => {
-      getTutorDetail(cookies.get('token'), id);
-      this.setState({
-        visibleInfoDrawer: true,
-      });
-    }, 1000);
+    getTutorDetail(cookies.get('token'), id);
+    this.setState({
+      visibleInfoDrawer: true,
+    });
   };
 
   onCloseInfoDrawer = () => {
+    const { removeInfoInDrawer, removeContractsInDrawer } = this.props
+    removeInfoInDrawer()
+    removeContractsInDrawer()
     this.setState({
       visibleInfoDrawer: false,
     });
   };
 
   // block/unblock
-  handleBlockRequest = email => {
+  handleBlockRequest = id => {
     this.setState({
       isRequestBlockOrUnblock: true,
-      idButtonProcessing: email,
+      idButtonProcessing: id,
     });
     const { blockUser } = this.props;
     const cookies = new Cookies();
     setTimeout(() => {
-      blockUser(cookies.get('token'), email, this.updateTutorsList);
+      blockUser(cookies.get('token'), id, this.updateTutorsList);
       this.setState({
         isRequestBlockOrUnblock: false,
         idButtonProcessing: '',
@@ -58,15 +59,15 @@ class TutorManagement extends React.Component {
     }, 1000);
   };
 
-  handleUnblockRequest = email => {
+  handleUnblockRequest = id => {
     this.setState({
       isRequestBlockOrUnblock: true,
-      idButtonProcessing: email,
+      idButtonProcessing: id,
     });
     const { unblockUser } = this.props;
     const cookies = new Cookies();
     setTimeout(() => {
-      unblockUser(cookies.get('token'), email, this.updateTutorsList);
+      unblockUser(cookies.get('token'), id, this.updateTutorsList);
       this.setState({
         isRequestBlockOrUnblock: false,
         idButtonProcessing: '',
@@ -82,7 +83,7 @@ class TutorManagement extends React.Component {
 
   render() {
     // eslint-disable-next-line react/prop-types
-    const { tutorsList, tutorDetail } = this.props;
+    const { tutorsList, tutorDetail, tutorContracts, getContracts } = this.props;
     const { isRequestBlockOrUnblock, idButtonProcessing, visibleInfoDrawer } = this.state;
     const displayAdminsList = [];
     // render admins list
@@ -144,25 +145,26 @@ class TutorManagement extends React.Component {
                   !tutorsList[item].valid && <em className="ant-list-item-action-split" /> && (
                     <Button
                       style={{ backgroundColor: 'green', borderColor: 'green' }}
-                      onClick={() => this.handleUnblockRequest(tutorsList[item].email, this.id)}
+                      onClick={() => this.handleUnblockRequest(tutorsList[item].id)}
                       loading={
-                        isRequestBlockOrUnblock && idButtonProcessing === tutorsList[item].email
+                        isRequestBlockOrUnblock && idButtonProcessing === tutorsList[item].id
                       }
                       type="primary"
                     >
                       Bỏ chặn
                     </Button>
                   )}
-                {(tutorsList[item].valid === undefined || tutorsList[item].valid) && (
+                {
+                  (tutorsList[item].valid === undefined || tutorsList[item].valid) && (
                     // eslint-disable-next-line react/jsx-indent
                     <em className="ant-list-item-action-split" />
                   ) && (
                     // eslint-disable-next-line react/jsx-indent
                     <Button
-                      onClick={() => this.handleBlockRequest(tutorsList[item].email, this.id)}
+                      onClick={() => this.handleBlockRequest(tutorsList[item].id)}
                       type="danger"
                       loading={
-                        isRequestBlockOrUnblock && idButtonProcessing === tutorsList[item].email
+                        isRequestBlockOrUnblock && idButtonProcessing === tutorsList[item].id
                       }
                     >
                       Chặn
@@ -180,7 +182,9 @@ class TutorManagement extends React.Component {
         <MyInfoDraw
           visible={visibleInfoDrawer}
           onClose={this.onCloseInfoDrawer}
+          tutorContracts={tutorContracts}
           tutorDetail={tutorDetail}
+          getContracts={getContracts}
         />
         <div className="ant-card antd-pro-pages-list-basic-list-style-listCard">
           <div className="ant-card-head">
@@ -323,6 +327,8 @@ TutorManagement.propTypes = {
   blockUser: PropTypes.func,
   unblockUser: PropTypes.func,
   getTutorDetail: PropTypes.func,
+  removeInfoInDrawer: PropTypes.func,
+  removeContractsInDrawer: PropTypes.func,
 };
 
 TutorManagement.defaultProps = {
@@ -331,6 +337,8 @@ TutorManagement.defaultProps = {
   blockUser: () => { },
   unblockUser: () => { },
   getTutorDetail: () => { },
+  removeInfoInDrawer: () => { },
+  removeContractsInDrawer: () => { },
 };
 
 export default TutorManagement;
