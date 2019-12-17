@@ -9,22 +9,23 @@ import moment from 'moment';
 // import $ from 'jquery';
 
 const MyContractsDrawer = props => {
-    const { tutorContracts, visible, onClose } = props
+    const { contracts, visible, onClose } = props
     const { Panel } = Collapse;
     // display contracts list
     const signedContracts = [];
-    if (tutorContracts !== undefined) {
-        for (let i = 0; i < Object.values(tutorContracts).length; i += 1) {
+    if (contracts !== undefined) {
+        for (let i = 0; i < Object.values(contracts).length; i += 1) {
             signedContracts.push(
                 <Panel header={`Hợp đồng ${i}`} key={i}>
-                    <p>{`ID: ${tutorContracts[i].id}`}</p>
-                    <p>{`Student ID: ${tutorContracts[i].studentId}`}</p>
-                    <p>{`Tutor ID: ${tutorContracts[i].tutorId}`}</p>
-                    <p>{`Ngày bắt đầu: ${moment(tutorContracts[i].beginTime).format('DD/MM/YYYY')}`}</p>
-                    <p>{`Ngày kết thúc: ${moment(tutorContracts[i].endTime).format('DD/MM/YYYY')}`}</p>
-                    <p>{`Price per hour: ${tutorContracts[i].totalHour}`}</p>
-                    <p>{`Total hour: ${tutorContracts[i].pricePerHour}`}</p>
-                    <p>{`Total Price: ${tutorContracts[i].totalPrice}`}</p>
+                    <p>{`ID: ${contracts[i].id}`}</p>
+                    <p>{`Student ID: ${contracts[i].studentId}`}</p>
+                    <p>{`Tutor ID: ${contracts[i].tutorId}`}</p>
+                    <p>{`Kỹ năng: ${contracts[i].skill}`}</p>
+                    <p>{`Ngày bắt đầu: ${moment(contracts[i].beginTime).format('DD/MM/YYYY')}`}</p>
+                    <p>{`Ngày kết thúc: ${moment(contracts[i].endTime).format('DD/MM/YYYY')}`}</p>
+                    <p>{`Price per hour: ${contracts[i].totalHour}`}</p>
+                    <p>{`Total hour: ${contracts[i].pricePerHour}`}</p>
+                    <p>{`Total Price: ${contracts[i].totalPrice}`}</p>
                 </Panel>,
             );
         }

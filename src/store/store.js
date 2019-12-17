@@ -36,6 +36,7 @@ store.subscribe(
         adminsList: store.getState().adminsList,
         skillsList: store.getState().skillsList,
         tutorsList: store.getState().tutorsList,
+        studentsList: store.getState().studentsList,
         tutorContracts: store.getState().tutorContracts
       });
     }

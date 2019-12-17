@@ -11,6 +11,7 @@ import Login from './containers/adminContainer';
 import MyCustomSider from './components/sider/index';
 import AdminManagement from './containers/adminManagementContainer';
 import TutorManagement from './containers/tutorManagementContainer';
+import StudentManagement from './containers/studentManagementContainer';
 import SkillManagement from './containers/skillManagementContainer';
 
 import './App.css';
@@ -41,6 +42,9 @@ const App = props => {
               </Route>
               <Route exact path={`${process.env.PUBLIC_URL}/tutormanagement`}>
                 {isLogin ? <TutorManagement /> : <Login />}
+              </Route>
+              <Route exact path={`${process.env.PUBLIC_URL}/studentmanagement`}>
+                {isLogin ? <StudentManagement /> : <Login />}
               </Route>
               <Route exact path={`${process.env.PUBLIC_URL}/adminmanagement`}>
                 {isLogin ? <AdminManagement /> : <Redirect to="/login" />}

@@ -30,6 +30,11 @@ const MyCustomSider = ({ adminRole }) => {
           <Link to="/tutormanagement" />
         </Menu.Item>
         <Menu.Item key="3">
+          <Icon type="desktop" />
+          <span>Danh sách học viên</span>
+          <Link to="/studentmanagement" />
+        </Menu.Item>
+        <Menu.Item key="4">
           <Icon type="pie-chart" />
           <span>Danh sách Skill</span>
           <Link to="/skillmanagement" />

@@ -2,19 +2,18 @@
 /* eslint-disable react/jsx-indent-props */
 /* eslint-disable react/jsx-indent */
 import React, { useState } from 'react';
-import { Drawer, Button, Form, Row, Col, Input, Avatar, Rate, Card } from 'antd';
+import { Drawer, Button, Form, Row, Col, Input, Avatar, Card } from 'antd';
 import PropTypes from 'prop-types';
 import Cookies from 'universal-cookie';
 import moment from 'moment';
 import { addressDetail } from '../../../utils/location';
-import MyContractsDrawer from './contractsDrawer';
+import MyContractsDrawer from '../tutorManagement/contractsDrawer';
 
 // import $ from 'jquery';
 
 const MyInfoDrawer = props => {
   // eslint-disable-next-line react/prop-types
-  const { onClose, visible, tutorDetail, tutorContracts } = props;
-  const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
+  const { onClose, visible, studentDetail, studentContracts } = props;
   const [visibleContractsDrawer, setVisibleContractsDrawer] = useState(false);
 
   const onCloseContractsDrawer = () => {
@@ -26,25 +25,31 @@ const MyInfoDrawer = props => {
     const cookies = new Cookies();
     getContracts(
       cookies.get('token'),
-      (tutorDetail.contracts !== undefined) ? tutorDetail.contracts : []
+      (studentDetail.contracts !== undefined) ? studentDetail.contracts : []
     )
     setVisibleContractsDrawer(true)
   }
 
   let address = {};
-  if (tutorDetail !== undefined && tutorDetail.address !== undefined) {
+  if (studentDetail !== undefined && studentDetail.address !== undefined) {
     address = {
       ...address,
-      cityName: addressDetail(tutorDetail.address.city, tutorDetail.address.district).cityName.name,
-      disName: addressDetail(tutorDetail.address.city, tutorDetail.address.district).disName.name,
+      cityName: addressDetail(
+        studentDetail.address.city,
+        studentDetail.address.district
+      ).cityName.name,
+      disName: addressDetail(
+        studentDetail.address.city,
+        studentDetail.address.district
+      ).disName.name,
     };
   }
 
   // display skills list
   const displayListSkill = [];
-  if (tutorDetail !== undefined && tutorDetail.skills !== undefined) {
-    for (let i = 0; i < tutorDetail.skills.length; i += 1) {
-      displayListSkill.push(<p key={tutorDetail.skills[i]}>{tutorDetail.skills[i]}</p>);
+  if (studentDetail !== undefined && studentDetail.skills !== undefined) {
+    for (let i = 0; i < studentDetail.skills.length; i += 1) {
+      displayListSkill.push(<p key={studentDetail.skills[i]}>{studentDetail.skills[i]}</p>);
     }
   }
 
@@ -59,13 +64,13 @@ const MyInfoDrawer = props => {
     >
       <MyContractsDrawer
         visible={visibleContractsDrawer}
-        contracts={tutorContracts}
+        contracts={studentContracts}
         onClose={onCloseContractsDrawer}
       />
       <Form layout="vertical" hideRequiredMark>
         <Row style={{ textAlign: 'center' }} gutter={16}>
           <Col span={24}>
-            <Avatar src={tutorDetail.avatar} size={100} icon="user" />
+            <Avatar src={studentDetail.avatar} size={100} icon="user" />
           </Col>
         </Row>
         <br />
@@ -73,62 +78,31 @@ const MyInfoDrawer = props => {
         <Row gutter={16}>
           <Col span={12}>
             <Form.Item label="Họ tên">
-              <Input placeholder="chưa cập nhật..." value={tutorDetail.name} />
+              <Input placeholder="chưa cập nhật..." value={studentDetail.name} />
             </Form.Item>
           </Col>
           <Col span={12}>
             <Form.Item label="Email">
-              <Input placeholder="chưa cập nhật..." value={tutorDetail.email} />
+              <Input placeholder="chưa cập nhật..." value={studentDetail.email} />
             </Form.Item>
           </Col>
         </Row>
         <Row gutter={16}>
-          <Col span={24}>
-            <Form.Item label="Mô tả về bản thân">
-              {tutorDetail.intro && (
-                <div
-                  style={{ padding: '4px 11px' }}
-                  // eslint-disable-next-line react/no-danger
-                  dangerouslySetInnerHTML={{ __html: tutorDetail.intro }}
-                />
-              )}
-              {!tutorDetail.intro && (
-                <Input placeholder="chưa cập nhật..." value={tutorDetail.intro} />
-              )}
-            </Form.Item>
-          </Col>
-        </Row>
-        <Row gutter={16}>
-          <Col span={8}>
+          <Col span={6}>
             <Form.Item label="Giới tính">
-              <Input placeholder="chưa cập nhật..." value={tutorDetail.gender} />
+              <Input placeholder="chưa cập nhật..." value={studentDetail.gender} />
             </Form.Item>
           </Col>
-          <Col span={8}>
+          <Col span={6}>
             <Form.Item label="Ngày sinh">
               <Input
                 placeholder="chưa cập nhật..."
                 value={
-                  tutorDetail.birthday ?
-                    moment(tutorDetail.birthday).format('DD/MM/YYYY') :
+                  studentDetail.birthday ?
+                    moment(studentDetail.birthday).format('DD/MM/YYYY') :
                     null
                 }
               />
-            </Form.Item>
-          </Col>
-          <Col span={8}>
-            <Form.Item label="Đánh giá">
-              <span>
-                <Rate tooltips={desc} value={tutorDetail.star} />
-                <span className="ant-rate-text">{desc[tutorDetail.star - 1]}</span>
-              </span>
-            </Form.Item>
-          </Col>
-        </Row>
-        <Row gutter={16}>
-          <Col span={12}>
-            <Form.Item label="Lương theo giờ">
-              <Input placeholder="chưa cập nhật..." value={tutorDetail.price} />
             </Form.Item>
           </Col>
           <Col span={12}>
@@ -148,11 +122,6 @@ const MyInfoDrawer = props => {
           </Col>
         </Row>
         <Row gutter={16}>
-          <Col span={12}>
-            <Card size="small" title="Kỹ năng">
-              {displayListSkill}
-            </Card>
-          </Col>
           <Col span={12}>
             <Card size="small" title="Hợp đồng đã ký">
               <Button onClick={onOpenContractsDrawer}>Xem</Button>

@@ -63,7 +63,7 @@ class AdminManagement extends React.Component {
         // eslint-disable-next-line no-underscore-dangle
         removeAdmin(cookies.get('token'), admin._id, this.doAdminsListAPI);
       },
-      onCancel() {},
+      onCancel() { },
     });
   };
 
@@ -188,13 +188,14 @@ class AdminManagement extends React.Component {
               className="antd-pro-pages-list-basic-list-style-listContent"
               style={{ display: 'flex' }}
             >
-              <Col span={12}>
+              <Col span={10}>
                 <div className="antd-pro-pages-list-basic-list-style-listContentItem">
                   <span>Admin</span>
                   <p>{adminsList[item].name}</p>
                 </div>
               </Col>
-              <Col span={12}>
+              <Col span={2} />
+              <Col span={10}>
                 <div className="antd-pro-pages-list-basic-list-style-listContentItem">
                   <span>Email</span>
                   <p>{adminsList[item].email}</p>
@@ -317,7 +318,7 @@ class AdminManagement extends React.Component {
         <div className="ant-card antd-pro-pages-list-basic-list-style-listCard">
           <div className="ant-card-head">
             <div className="ant-card-head-wrapper">
-              <div className="ant-card-head-title">Danh sách Admin kkk</div>
+              <div className="ant-card-head-title">Danh sách Admin</div>
             </div>
           </div>
           <div className="ant-card-body" style={{ padding: '0px 32px 40px' }}>
@@ -483,12 +484,12 @@ AdminManagement.propTypes = {
 };
 
 AdminManagement.defaultProps = {
-  addNewAdmin: () => {},
-  getAdminsList: () => {},
+  addNewAdmin: () => { },
+  getAdminsList: () => { },
   adminsList: {},
-  removeAdmin: () => {},
-  changePasswordAdmin: () => {},
-  changeInfoAdmin: () => {},
+  removeAdmin: () => { },
+  changePasswordAdmin: () => { },
+  changeInfoAdmin: () => { },
 };
 
 export default AdminManagement;
