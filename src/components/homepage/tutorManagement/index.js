@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Button } from 'antd';
+import { Col, Button, Spin } from 'antd';
 import PropTypes from 'prop-types';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -220,6 +220,7 @@ class TutorManagement extends React.Component {
             <div className="ant-list ant-list-lg ant-list-split ant-list-something-after-last-item">
               <div className="ant-spin-nested-loading">
                 <div className="ant-spin-container">
+                  {displayAdminsList.length === 0 && <Spin size="large" />}
                   <ul className="ant-list-items">{displayAdminsList}</ul>
                 </div>
               </div>

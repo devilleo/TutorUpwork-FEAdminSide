@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Button, Modal, Form, Input } from 'antd';
+import { Col, Button, Modal, Form, Input, Spin } from 'antd';
 import PropTypes from 'prop-types';
 import $ from 'jquery';
 import Cookies from 'universal-cookie';
@@ -84,8 +84,12 @@ class AdminManagement extends React.Component {
     const { idAdminForChangePassword } = this.state;
     this.setState({ loadingChangePasswordModal: true });
     setTimeout(() => {
-      changePasswordAdmin(cookies.get('token'), idAdminForChangePassword, formVal[0].value);
-      this.setState({ loadingChangePasswordModal: false, visibleChangePasswordModal: false });
+      changePasswordAdmin(
+        cookies.get('token'),
+        idAdminForChangePassword,
+        formVal[0].value,
+        this.doAdminsListAPI
+      );
     }, 1000);
   };
 
@@ -130,7 +134,6 @@ class AdminManagement extends React.Component {
         formVal[1].value,
         this.doAdminsListAPI,
       );
-      this.setState({ loadingChangeInfoModal: false, visibleChangeInfoModal: false });
     }, 1000);
   };
 
@@ -142,6 +145,8 @@ class AdminManagement extends React.Component {
     const { getAdminsList } = this.props;
     const cookies = new Cookies();
     getAdminsList(cookies.get('token'));
+    this.setState({ loadingChangeInfoModal: false, visibleChangeInfoModal: false });
+    this.setState({ loadingChangePasswordModal: false, visibleChangePasswordModal: false });
   };
 
   render() {
@@ -349,6 +354,7 @@ class AdminManagement extends React.Component {
             <div className="ant-list ant-list-lg ant-list-split ant-list-something-after-last-item">
               <div className="ant-spin-nested-loading">
                 <div className="ant-spin-container">
+                  {displayAdminsList.length === 0 && <Spin size="large" />}
                   <ul className="ant-list-items">{displayAdminsList}</ul>
                 </div>
               </div>

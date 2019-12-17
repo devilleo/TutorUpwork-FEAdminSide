@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Button, Modal, Form, Input } from 'antd';
+import { Col, Button, Modal, Form, Input, Spin } from 'antd';
 import PropTypes from 'prop-types';
 import $ from 'jquery';
 import Cookies from 'universal-cookie';
@@ -46,7 +46,7 @@ class SkillManagement extends React.Component {
         // eslint-disable-next-line no-underscore-dangle
         removeSkill(cookies.get('token'), skill._id, this.doSkillsListAPI);
       },
-      onCancel() {},
+      onCancel() { },
     });
   };
 
@@ -79,7 +79,6 @@ class SkillManagement extends React.Component {
         formVal[0].value,
         this.doSkillsListAPI,
       );
-      this.setState({ loadingChangeInfoModal: false, visibleChangeInfoModal: false });
     }, 1000);
   };
 
@@ -91,6 +90,8 @@ class SkillManagement extends React.Component {
     const { getSkillsList } = this.props;
     const cookies = new Cookies();
     getSkillsList(cookies.get('token'));
+    this.setState({ loadingAddNewSkillModal: false, visibleAddNewSkillModal: false });
+    this.setState({ loadingChangeInfoModal: false, visibleChangeInfoModal: false });
   };
 
   // add new skill area
@@ -109,7 +110,6 @@ class SkillManagement extends React.Component {
     this.setState({ loadingAddNewSkillModal: true });
     setTimeout(() => {
       addNewSkillRequest(cookies.get('token'), formVal[0].value, this.doSkillsListAPI);
-      this.setState({ loadingAddNewSkillModal: false, visibleAddNewSkillModal: false });
     }, 1000);
   };
 
@@ -122,10 +122,10 @@ class SkillManagement extends React.Component {
       currentName,
     } = this.state;
     const { skillsList } = this.props;
-    const displayAdminsList = [];
+    const displaySkillsList = [];
     // render admins list
     Object.keys(skillsList).forEach(item => {
-      displayAdminsList.push(
+      displaySkillsList.push(
         // eslint-disable-next-line no-underscore-dangle
         <li key={skillsList[item]._id} className="ant-list-item">
           <Col span={2}>
@@ -280,7 +280,8 @@ class SkillManagement extends React.Component {
             <div className="ant-list ant-list-lg ant-list-split ant-list-something-after-last-item">
               <div className="ant-spin-nested-loading">
                 <div className="ant-spin-container">
-                  <ul className="ant-list-items">{displayAdminsList}</ul>
+                  {displaySkillsList.length === 0 && <Spin size="large" />}
+                  <ul className="ant-list-items">{displaySkillsList}</ul>
                 </div>
               </div>
               <div className="ant-list-pagination">
@@ -414,11 +415,11 @@ SkillManagement.propTypes = {
 };
 
 SkillManagement.defaultProps = {
-  getSkillsList: () => {},
+  getSkillsList: () => { },
   skillsList: {},
-  removeSkill: () => {},
-  changeInfoSkill: () => {},
-  addNewSkillRequest: () => {},
+  removeSkill: () => { },
+  changeInfoSkill: () => { },
+  addNewSkillRequest: () => { },
 };
 
 export default SkillManagement;

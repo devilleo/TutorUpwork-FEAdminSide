@@ -21,8 +21,8 @@ const mapDispatchToProps = run => {
     addNewAdmin: (token, email, password, name, cb) =>
       run(addNewAdminRequest(token, email, password, name, cb)),
     removeAdmin: (token, id, cb) => run(removeAdminRequest(token, id, cb)),
-    changePasswordAdmin: (token, id, password) =>
-      run(changePasswordAdminRequest(token, id, password)),
+    changePasswordAdmin: (token, id, password, cb) =>
+      run(changePasswordAdminRequest(token, id, password, cb)),
     changeInfoAdmin: (token, id, newEmail, newName, cb) =>
       run(changeInfoAdminRequest(token, id, newEmail, newName, cb)),
   };
