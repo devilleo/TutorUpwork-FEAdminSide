@@ -133,11 +133,11 @@ class StudentManagement extends React.Component {
                 <div className="antd-pro-pages-list-basic-list-style-listContentItem">
                   <span>Loại tài khoản</span>
                   <p>
-                    {studentsList[item].type === 3 &&
+                    {studentsList[item].type === 1 &&
                       <FontAwesomeIcon size="2x" icon={faCreditCard} />}
                     {studentsList[item].type === 2 &&
                       <FontAwesomeIcon size="2x" color="#4267B2" icon={faFacebookSquare} />}
-                    {studentsList[item].type === 1 && (
+                    {studentsList[item].type === 3 && (
                       <FontAwesomeIcon
                         size="2x"
                         color="#d34836"
