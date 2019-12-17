@@ -30,7 +30,7 @@ export const getAdminsListRequest = token => dispatch => {
     .catch(() => {
       Swal.fire('Thông báo', 'Lỗi', 'error');
     })
-    .finally(() => {});
+    .finally(() => { });
 };
 
 export const addNewAdminRequest = (token, emailF, passwordF, nameF, cb) => () => {
@@ -92,7 +92,7 @@ export const removeAdminRequest = (token, id, cb) => dispatch => {
     });
 };
 
-export const changePasswordAdminRequest = (token, id, newPassword) => () => {
+export const changePasswordAdminRequest = (token, id, newPassword, cb) => () => {
   return fetch(API.CHANGE_PASSWORD, {
     method: 'POST',
     headers: {
@@ -112,7 +112,9 @@ export const changePasswordAdminRequest = (token, id, newPassword) => () => {
     .catch(() => {
       Swal.fire('Thông báo', 'Lỗi', 'error');
     })
-    .finally(() => {});
+    .finally(() => {
+      cb();
+    });
 };
 
 export const changeInfoAdminRequest = (token, id, newEmail, newName, cb) => () => {
