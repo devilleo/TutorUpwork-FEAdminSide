@@ -135,7 +135,7 @@ class TutorManagement extends React.Component {
                 <div className="antd-pro-pages-list-basic-list-style-listContentItem">
                   <span>Loại tài khoản</span>
                   <p>
-                    {tutorsList[item].type === 3 &&
+                    {tutorsList[item].type === 1 &&
                       <FontAwesomeIcon size="2x" icon={faCreditCard} />}
                     {tutorsList[item].type === 2 && (
                       <FontAwesomeIcon
@@ -144,7 +144,7 @@ class TutorManagement extends React.Component {
                         icon={faFacebookSquare}
                       />
                     )}
-                    {tutorsList[item].type === 1 && (
+                    {tutorsList[item].type === 3 && (
                       <FontAwesomeIcon
                         size="2x"
                         color="#d34836"
