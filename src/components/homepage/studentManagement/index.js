@@ -1,18 +1,16 @@
 import React from 'react';
 import { Col, Button } from 'antd';
 import PropTypes from 'prop-types';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import { faCoffee } from '@fortawesome/free-solid-svg-icons'
 import { faFacebookSquare, faGooglePlusSquare } from '@fortawesome/free-brands-svg-icons'
 import { faCreditCard } from '@fortawesome/free-regular-svg-icons'
-
-
 // import $ from 'jquery';
 import Cookies from 'universal-cookie';
 
 import MyInfoDraw from './infoDrawer';
 
-class TutorManagement extends React.Component {
+class StudentManagement extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,24 +22,24 @@ class TutorManagement extends React.Component {
   }
 
   componentDidMount() {
-    const { getTutorsList } = this.props;
+    const { getStudentsList } = this.props;
     const cookies = new Cookies();
-    getTutorsList(cookies.get('token'));
+    getStudentsList(cookies.get('token'));
   }
 
   // info drawer
   showInfoDrawer = id => {
-    const { getTutorDetail } = this.props;
+    const { getStudentDetail } = this.props;
     const cookies = new Cookies();
-    getTutorDetail(cookies.get('token'), id);
+    getStudentDetail(cookies.get('token'), id);
     this.setState({
       visibleInfoDrawer: true,
     });
   };
 
   onCloseInfoDrawer = () => {
-    const { removeInfoInDrawer, removeContractsInDrawer } = this.props
-    removeInfoInDrawer()
+    const { removeInfoStudentInDrawer, removeContractsInDrawer } = this.props
+    removeInfoStudentInDrawer()
     removeContractsInDrawer()
     this.setState({
       visibleInfoDrawer: false,
@@ -57,7 +55,7 @@ class TutorManagement extends React.Component {
     const { blockUser } = this.props;
     const cookies = new Cookies();
     setTimeout(() => {
-      blockUser(cookies.get('token'), id, this.updateTutorsList);
+      blockUser(cookies.get('token'), id, this.updateStudentsList);
       this.setState({
         isRequestBlockOrUnblock: false,
         idButtonProcessing: '',
@@ -73,7 +71,7 @@ class TutorManagement extends React.Component {
     const { unblockUser } = this.props;
     const cookies = new Cookies();
     setTimeout(() => {
-      unblockUser(cookies.get('token'), id, this.updateTutorsList);
+      unblockUser(cookies.get('token'), id, this.updateStudentsList);
       this.setState({
         isRequestBlockOrUnblock: false,
         idButtonProcessing: '',
@@ -81,22 +79,22 @@ class TutorManagement extends React.Component {
     }, 1000);
   };
 
-  updateTutorsList = () => {
-    const { getTutorsList } = this.props;
+  updateStudentsList = () => {
+    const { getStudentsList } = this.props;
     const cookies = new Cookies();
-    getTutorsList(cookies.get('token'));
+    getStudentsList(cookies.get('token'));
   };
 
   render() {
     // eslint-disable-next-line react/prop-types
-    const { tutorsList, tutorDetail, tutorContracts, getContracts } = this.props;
+    const { studentsList, studentDetail, studentContracts, getContracts } = this.props;
     const { isRequestBlockOrUnblock, idButtonProcessing, visibleInfoDrawer } = this.state;
-    const displayAdminsList = [];
+    const displayStudentsList = [];
     // render admins list
-    Object.keys(tutorsList).forEach(item => {
-      displayAdminsList.push(
+    Object.keys(studentsList).forEach(item => {
+      displayStudentsList.push(
         // eslint-disable-next-line no-underscore-dangle
-        <li key={tutorsList[item]._id} className="ant-list-item">
+        <li key={studentsList[item]._id} className="ant-list-item">
           <Col span={2}>
             <ul className="ant-list-item-action" style={{ marginRight: '10px' }}>
               <li>
@@ -126,8 +124,8 @@ class TutorManagement extends React.Component {
             >
               <Col span={10}>
                 <div className="antd-pro-pages-list-basic-list-style-listContentItem">
-                  <span></span>
-                  <p>{tutorsList[item].email}</p>
+                  <span>Email</span>
+                  <p>{studentsList[item].email}</p>
                 </div>
               </Col>
               <Col span={2} />
@@ -135,16 +133,11 @@ class TutorManagement extends React.Component {
                 <div className="antd-pro-pages-list-basic-list-style-listContentItem">
                   <span>Loại tài khoản</span>
                   <p>
-                    {tutorsList[item].type === 1 &&
+                    {studentsList[item].type === 1 &&
                       <FontAwesomeIcon size="2x" icon={faCreditCard} />}
-                    {tutorsList[item].type === 2 && (
-                      <FontAwesomeIcon
-                        size="2x"
-                        color="#4267B2"
-                        icon={faFacebookSquare}
-                      />
-                    )}
-                    {tutorsList[item].type === 3 && (
+                    {studentsList[item].type === 2 &&
+                      <FontAwesomeIcon size="2x" color="#4267B2" icon={faFacebookSquare} />}
+                    {studentsList[item].type === 3 && (
                       <FontAwesomeIcon
                         size="2x"
                         color="#d34836"
@@ -159,19 +152,19 @@ class TutorManagement extends React.Component {
           <Col span={8} style={{ textAlign: 'center' }}>
             <ul className="ant-list-item-action">
               <li>
-                <Button onClick={() => this.showInfoDrawer(tutorsList[item].id)} type="primary">
+                <Button onClick={() => this.showInfoDrawer(studentsList[item].id)} type="primary">
                   Chi tiết
                 </Button>
               </li>
 
               <li>
-                {tutorsList[item].valid !== undefined &&
-                  !tutorsList[item].valid && <em className="ant-list-item-action-split" /> && (
+                {studentsList[item].valid !== undefined &&
+                  !studentsList[item].valid && <em className="ant-list-item-action-split" /> && (
                     <Button
                       style={{ backgroundColor: 'green', borderColor: 'green' }}
-                      onClick={() => this.handleUnblockRequest(tutorsList[item].id)}
+                      onClick={() => this.handleUnblockRequest(studentsList[item].id)}
                       loading={
-                        isRequestBlockOrUnblock && idButtonProcessing === tutorsList[item].id
+                        isRequestBlockOrUnblock && idButtonProcessing === studentsList[item].id
                       }
                       type="primary"
                     >
@@ -179,16 +172,16 @@ class TutorManagement extends React.Component {
                     </Button>
                   )}
                 {
-                  (tutorsList[item].valid === undefined || tutorsList[item].valid) && (
+                  (studentsList[item].valid === undefined || studentsList[item].valid) && (
                     // eslint-disable-next-line react/jsx-indent
                     <em className="ant-list-item-action-split" />
                   ) && (
                     // eslint-disable-next-line react/jsx-indent
                     <Button
-                      onClick={() => this.handleBlockRequest(tutorsList[item].id)}
+                      onClick={() => this.handleBlockRequest(studentsList[item].id)}
                       type="danger"
                       loading={
-                        isRequestBlockOrUnblock && idButtonProcessing === tutorsList[item].id
+                        isRequestBlockOrUnblock && idButtonProcessing === studentsList[item].id
                       }
                     >
                       Chặn
@@ -206,21 +199,21 @@ class TutorManagement extends React.Component {
         <MyInfoDraw
           visible={visibleInfoDrawer}
           onClose={this.onCloseInfoDrawer}
-          tutorContracts={tutorContracts}
-          tutorDetail={tutorDetail}
+          studentContracts={studentContracts}
+          studentDetail={studentDetail}
           getContracts={getContracts}
         />
         <div className="ant-card antd-pro-pages-list-basic-list-style-listCard">
           <div className="ant-card-head">
             <div className="ant-card-head-wrapper">
-              <div className="ant-card-head-title">Danh sách tài khoản gia sư</div>
+              <div className="ant-card-head-title">Danh sách tài khoản học viên</div>
             </div>
           </div>
           <div className="ant-card-body" style={{ padding: '0px 32px 40px' }}>
             <div className="ant-list ant-list-lg ant-list-split ant-list-something-after-last-item">
               <div className="ant-spin-nested-loading">
                 <div className="ant-spin-container">
-                  <ul className="ant-list-items">{displayAdminsList}</ul>
+                  <ul className="ant-list-items">{displayStudentsList}</ul>
                 </div>
               </div>
               <div className="ant-list-pagination">
@@ -345,24 +338,24 @@ class TutorManagement extends React.Component {
   }
 }
 
-TutorManagement.propTypes = {
-  tutorsList: PropTypes.objectOf(PropTypes.object, PropTypes.array),
-  getTutorsList: PropTypes.func,
+StudentManagement.propTypes = {
+  studentsList: PropTypes.objectOf(PropTypes.object, PropTypes.array),
+  getStudentsList: PropTypes.func,
   blockUser: PropTypes.func,
   unblockUser: PropTypes.func,
-  getTutorDetail: PropTypes.func,
-  removeInfoInDrawer: PropTypes.func,
+  getStudentDetail: PropTypes.func,
+  removeInfoStudentInDrawer: PropTypes.func,
   removeContractsInDrawer: PropTypes.func,
 };
 
-TutorManagement.defaultProps = {
-  tutorsList: {},
-  getTutorsList: () => { },
+StudentManagement.defaultProps = {
+  studentsList: {},
+  getStudentsList: () => { },
   blockUser: () => { },
   unblockUser: () => { },
-  getTutorDetail: () => { },
-  removeInfoInDrawer: () => { },
+  getStudentDetail: () => { },
+  removeInfoStudentInDrawer: () => { },
   removeContractsInDrawer: () => { },
 };
 
-export default TutorManagement;
+export default StudentManagement;

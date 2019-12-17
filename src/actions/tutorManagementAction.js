@@ -68,7 +68,7 @@ export const getContractsRequest = (token, idContractsList) => dispatch => {
     if (i !== idContractsList.length - 1)
       params += '&';
   }
-  const trueURL = `${API.GET_TUTOR_CONTRACTS}?${params}`;
+  const trueURL = `${API.GET_CONTRACTS}?${params}`;
   return fetch(trueURL, {
     method: 'GET',
     headers: {
