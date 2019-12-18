@@ -4,6 +4,7 @@ import * as tutorManagementReducer from './tutorManagementReducer';
 import * as studentManagementReducer from './studentManagementReducer';
 import * as adminReducer from './adminReducer';
 import * as skillManagementReducer from './skillManagementReducer';
+import * as contractManagementReducer from './contractManagementReducer';
 
 const rootReducer = combineReducers({
   ...adminReducer,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   ...tutorManagementReducer,
   ...studentManagementReducer,
   ...skillManagementReducer,
+  ...contractManagementReducer,
 });
 
 export default rootReducer;

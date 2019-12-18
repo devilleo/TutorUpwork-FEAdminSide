@@ -24,6 +24,10 @@ const API = {
   GET_STUDENT_DETAIL: `${URL}/users/studentdetail`,
   BLOCK_USER: `${URL}/users/block`,
   UNBLOCK_USER: `${URL}/users/unblock`,
+
+  // contracts Api
+  GET_CONTRACT_LIST: `${URL}/contracts/list`,
+  UPDATE_CONTRACT_INFO: `${URL}/contracts/update`,
 };
 
 export default API;
