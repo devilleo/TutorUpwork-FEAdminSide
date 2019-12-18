@@ -163,7 +163,7 @@ class SkillManagement extends React.Component {
               </Col>
             </div>
           </Col>
-          <Col span={8} style={{ textAlign: 'center' }}>
+          <Col>
             <ul className="ant-list-item-action">
               <li>
                 <Button onClick={() => this.showChangeInfoModal(skillsList[item])} type="primary">

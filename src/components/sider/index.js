@@ -35,6 +35,11 @@ const MyCustomSider = ({ adminRole }) => {
           <Link to="/studentmanagement" />
         </Menu.Item>
         <Menu.Item key="4">
+          <Icon type="desktop" />
+          <span>Danh sách hợp đồng</span>
+          <Link to="/contractmanagement" />
+        </Menu.Item>
+        <Menu.Item key="5">
           <Icon type="pie-chart" />
           <span>Danh sách Skill</span>
           <Link to="/skillmanagement" />

@@ -156,12 +156,17 @@ class TutorManagement extends React.Component {
               </Col>
             </div>
           </Col>
-          <Col span={8} style={{ textAlign: 'center' }}>
+          <Col>
             <ul className="ant-list-item-action">
               <li>
-                <Button onClick={() => this.showInfoDrawer(tutorsList[item].id)} type="primary">
+                <Button
+                  className="btnDetail"
+                  onClick={() => this.showInfoDrawer(tutorsList[item].id)}
+                  type="primary"
+                >
                   Chi tiết
                 </Button>
+                <em className="ant-list-item-action-split" />
               </li>
 
               <li>

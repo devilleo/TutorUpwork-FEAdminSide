@@ -13,6 +13,7 @@ import AdminManagement from './containers/adminManagementContainer';
 import TutorManagement from './containers/tutorManagementContainer';
 import StudentManagement from './containers/studentManagementContainer';
 import SkillManagement from './containers/skillManagementContainer';
+import ContractManagement from './containers/contractManagementContainer';
 
 import './App.css';
 
@@ -48,6 +49,9 @@ const App = props => {
               </Route>
               <Route exact path={`${process.env.PUBLIC_URL}/adminmanagement`}>
                 {isLogin ? <AdminManagement /> : <Redirect to="/login" />}
+              </Route>
+              <Route exact path={`${process.env.PUBLIC_URL}/contractmanagement`}>
+                {isLogin ? <ContractManagement /> : <Redirect to="/login" />}
               </Route>
               <Route exact path={`${process.env.PUBLIC_URL}/skillmanagement`}>
                 {isLogin ? <SkillManagement /> : <Redirect to="/login" />}
