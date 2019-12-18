@@ -114,7 +114,7 @@ PaginacionTabla.propTypes = {
 }
 
 PaginacionTabla.defaultProps = {
-    itemsperpage: 10,
+    itemsperpage: 5,
     items: [],
     pagesspan: 3
 }

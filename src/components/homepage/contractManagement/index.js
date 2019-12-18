@@ -1,10 +1,9 @@
 import React from 'react';
-import { Col, Button, Modal, Form, Input } from 'antd';
+import { Col, Button, Modal, Form, Select, Icon } from 'antd';
 import PropTypes from 'prop-types';
-// import $ from 'jquery';
 import Cookies from 'universal-cookie';
 
-import PaginacionTabla from "./pagination";
+import PaginacionTabla from "../pagination";
 import MyInfoDraw from "./infoDrawer"
 
 class ContractManagement extends React.Component {
@@ -37,32 +36,24 @@ class ContractManagement extends React.Component {
   showChangeInfoModal = contract => {
     this.setState({
       visibleChangeInfoModal: true,
-      // eslint-disable-next-line no-underscore-dangle
-      // idContractForChangeInfo: contract.id,
+      idContractForChangeInfo: contract.id,
       currentStatus: contract.status,
     });
   };
 
-  handleCurrentStatusOnChange = e => {
-    this.setState({
-      currentStatus: e.target.value,
-    });
-  };
-
   submitChangeInfoForm = () => {
-    // const cookies = new Cookies();
-    // const { changeInfoSkill } = this.props;
-    // const formVal = $('#ChangeInfoForm').serializeArray();
-    // const { idContractForChangeInfo } = this.state;
-    // this.setState({ loadingChangeInfoModal: true });
-    // setTimeout(() => {
-    //   changeInfoSkill(
-    //     cookies.get('token'),
-    //     idContractForChangeInfo,
-    //     formVal[0].value,
-    //     this.docontractsListAPI,
-    //   );
-    // }, 1000);
+    const cookies = new Cookies();
+    const { changeInfoContract } = this.props;
+    const { idContractForChangeInfo, currentStatus } = this.state;
+    this.setState({ loadingChangeInfoModal: true });
+    setTimeout(() => {
+      changeInfoContract(
+        cookies.get('token'),
+        idContractForChangeInfo,
+        currentStatus,
+        this.docontractsListAPI,
+      );
+    }, 1000);
   };
 
   handleCancelChangeInfo = () => {
@@ -89,7 +80,24 @@ class ContractManagement extends React.Component {
     this.setState({ loadingChangeInfoModal: false, visibleChangeInfoModal: false });
   };
 
+  // update status
+  onChange = value => {
+    this.setState({
+      currentStatus: value
+    })
+  }
+
+  onBlur = () => {
+  }
+
+  onFocus = () => {
+  }
+
+  onSearch = () => {
+  }
+
   render() {
+    const { Option } = Select;
     const {
       visibleChangeInfoModal,
       loadingChangeInfoModal,
@@ -146,7 +154,19 @@ class ContractManagement extends React.Component {
               <Col span={8}>
                 <div className="antd-pro-pages-list-basic-list-style-listContentItem">
                   <span>Trạng thái</span>
-                  <p>{contractsList[item].status}</p>
+                  <p>
+                    {
+                      contractsList[item].status === "Đã thanh toán" && (
+                        <Icon type="check-circle" theme="twoTone" twoToneColor="#52c41a" />
+                      )
+                    }
+                    {
+                      contractsList[item].status === "Chưa thanh toán" && (
+                        <Icon type="close-circle" theme="twoTone" twoToneColor="#E43343" />
+                      )
+                    }
+                    {` ${contractsList[item].status}`}
+                  </p>
                 </div>
               </Col>
             </div>
@@ -186,7 +206,7 @@ class ContractManagement extends React.Component {
         {/* change info modal */}
         <Modal
           visible={visibleChangeInfoModal}
-          title="Đổi thông tin kỹ năng"
+          title="Cập nhật trạng thái"
           onCancel={this.handleCancelChangeInfo}
           footer={[
             <Button key="back" onClick={this.handleCancelChangeInfo}>
@@ -205,16 +225,28 @@ class ContractManagement extends React.Component {
           ]}
         >
           <Form id="ChangeInfoForm">
-            <Form.Item label="Tên mới">
-              <Input
+            <Form.Item label="Trạng thái">
+              <Select
+                showSearch
+                style={{ width: 200 }}
+                placeholder="Select a person"
+                optionFilterProp="children"
+                onChange={this.onChange}
+                onFocus={this.onFocus}
+                onBlur={this.onBlur}
+                onSearch={this.onSearch}
                 value={currentStatus}
-                onChange={e => this.handleCurrentStatusOnChange(e)}
-                name="name"
-                required
-                placeholder="nhập tên mới..."
-              />
+                filterOption={
+                  (input, option) =>
+                    option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                }
+              >
+                <Option value="Chưa thanh toán">Chưa thanh toán</Option>
+                <Option value="Đã thanh toán">Đã thanh toán</Option>
+              </Select>
             </Form.Item>
           </Form>
+
         </Modal>
 
         <div className="ant-card antd-pro-pages-list-basic-list-style-listCard">
@@ -225,7 +257,7 @@ class ContractManagement extends React.Component {
           </div>
           <div className="ant-card-body" style={{ padding: '0px 32px 40px' }}>
             <PaginacionTabla
-              itemsperpage={10}
+              itemsperpage={5}
               items={displaycontractsList}
               pagesspan={3}
             />
@@ -239,13 +271,13 @@ class ContractManagement extends React.Component {
 ContractManagement.propTypes = {
   getContractsList: PropTypes.func,
   contractsList: PropTypes.objectOf(PropTypes.object),
-  // changeInfoSkill: PropTypes.func,
+  changeInfoContract: PropTypes.func,
 };
 
 ContractManagement.defaultProps = {
   getContractsList: () => { },
   contractsList: {},
-  // changeInfoSkill: () => { },
+  changeInfoContract: () => { },
 };
 
 export default ContractManagement;

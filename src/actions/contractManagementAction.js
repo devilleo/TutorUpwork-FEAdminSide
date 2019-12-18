@@ -28,3 +28,28 @@ export const getContractsListRequest = token => dispatch => {
         })
         .finally(() => { });
 };
+
+export const changeInfoContractRequest = (token, id, newStatus, cb) => () => {
+    return fetch(API.UPDATE_CONTRACT_INFO, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+            secret_token: token,
+        },
+        body: `id=${id}&status=${newStatus}`,
+    })
+        .then(response => response.json())
+        .then(res => {
+            if (res.status === 'success') {
+                Swal.fire('Thông báo', 'Thành công', 'success');
+            } else {
+                Swal.fire('Thông báo', res.message, 'error');
+            }
+        })
+        .catch(() => {
+            Swal.fire('Thông báo', 'Lỗi', 'error');
+        })
+        .finally(() => {
+            cb();
+        });
+};

@@ -27,6 +27,7 @@ const API = {
 
   // contracts Api
   GET_CONTRACT_LIST: `${URL}/contracts/list`,
+  UPDATE_CONTRACT_INFO: `${URL}/contracts/update`,
 };
 
 export default API;
