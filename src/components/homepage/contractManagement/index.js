@@ -85,6 +85,12 @@ class ContractManagement extends React.Component {
     })
   }
 
+  onClose = () => {
+    this.setState({
+      currentStatus: ''
+    })
+  }
+
   onBlur = () => {
   }
 
@@ -124,7 +130,7 @@ class ContractManagement extends React.Component {
         sortDirections: ['descend', 'ascend'],
       },
       {
-        title: 'Tổng tiền',
+        title: 'Chi phí',
         dataIndex: 'totalPrice',
         render: (value, record) => (
           <div className="antd-pro-pages-list-basic-list-style-listContentItem">
@@ -137,7 +143,7 @@ class ContractManagement extends React.Component {
         sortDirections: ['descend', 'ascend'],
       },
       {
-        title: 'Status',
+        title: 'Trạng thái',
         dataIndex: 'status',
         render: (value, record) => (
           <div className="antd-pro-pages-list-basic-list-style-listContentItem">
@@ -150,6 +156,16 @@ class ContractManagement extends React.Component {
               {
                 record.status === "Chưa thanh toán" && (
                   <Icon type="close-circle" theme="twoTone" twoToneColor="#E43343" />
+                )
+              }
+              {
+                record.status === "Đang khiếu nại" && (
+                  <Icon type="frown" theme="twoTone" twoToneColor="#E8C812" />
+                )
+              }
+              {
+                record.status === "Hoàn thành" && (
+                  <Icon type="smile" theme="twoTone" />
                 )
               }
               {` ${record.status}`}
@@ -166,16 +182,23 @@ class ContractManagement extends React.Component {
             text: 'Chưa thanh toán',
             value: 'Chưa thanh toán',
           },
+          {
+            text: 'Đang khiếu nại',
+            value: 'Đang khiếu nại',
+          },
+          {
+            text: 'Hoàn thành',
+            value: 'Hoàn thành',
+          },
         ],
         // specify the condition of filtering result
         // here is that finding the name started with `value
-        filterMultiple: false,
         onFilter: (value, record) => record.status === value,
         sorter: (a, b) => (a.status ? a.status.length : 0) - (b.status ? b.status.length : 0),
         sortDirections: ['descend', 'ascend'],
       },
       {
-        title: 'Action',
+        title: 'Thao tác',
         key: 'action',
         render: (value, record) => (
           <ul className="ant-list-item-action" style={{ marginLeft: '0px' }}>
@@ -254,7 +277,7 @@ class ContractManagement extends React.Component {
               </Col>
               <Col span={8}>
                 <div className="antd-pro-pages-list-basic-list-style-listContentItem">
-                  <span>Tổng tiền</span>
+                  <span>Chi phí</span>
                   <p>{contractsList[item].totalPrice}</p>
                 </div>
               </Col>
@@ -337,9 +360,10 @@ class ContractManagement extends React.Component {
               <Select
                 showSearch
                 style={{ width: 200 }}
-                placeholder="Select a person"
+                placeholder="Chọn trạng thái"
                 optionFilterProp="children"
                 onChange={this.onChange}
+                onClose={this.onClose}
                 onFocus={this.onFocus}
                 onBlur={this.onBlur}
                 onSearch={this.onSearch}
@@ -351,6 +375,8 @@ class ContractManagement extends React.Component {
               >
                 <Option value="Chưa thanh toán">Chưa thanh toán</Option>
                 <Option value="Đã thanh toán">Đã thanh toán</Option>
+                <Option value="Đang khiếu nại">Đang khiếu nại</Option>
+                <Option value="Hoàn thành">Hoàn thành</Option>
               </Select>
             </Form.Item>
           </Form>
