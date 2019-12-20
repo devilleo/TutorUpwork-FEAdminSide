@@ -1,9 +1,8 @@
 import React from 'react';
-import { Col, Button, Modal, Form, Select, Icon } from 'antd';
+import { Col, Button, Modal, Form, Select, Icon, Table } from 'antd';
 import PropTypes from 'prop-types';
 import Cookies from 'universal-cookie';
 
-import PaginacionTabla from "../pagination";
 import MyInfoDraw from "./infoDrawer"
 
 class ContractManagement extends React.Component {
@@ -16,7 +15,7 @@ class ContractManagement extends React.Component {
       loadingChangeInfoModal: false,
 
       visibleInfoDrawer: false,
-      detail: {}
+      detail: {},
     };
   }
 
@@ -25,7 +24,6 @@ class ContractManagement extends React.Component {
     const cookies = new Cookies();
     getContractsList(cookies.get('token'));
   }
-
   // componentDidUpdate() {
   //   const { getContractsList } = this.props;
   //   const cookies = new Cookies();
@@ -97,6 +95,112 @@ class ContractManagement extends React.Component {
   }
 
   render() {
+    const columns = [
+      {
+        title: 'Số thứ tự',
+        dataIndex: 'stt',
+        render: (value, record) => (
+          <div className="antd-pro-pages-list-basic-list-style-listContentItem">
+            <p>{record.stt}</p>
+          </div>
+        ),
+        // specify the condition of filtering result
+        // here is that finding the name started with `value`
+        sorter: (a, b) => a.stt - b.stt,
+        sortDirections: ['descend', 'ascend'],
+      },
+      {
+        title: 'Kỹ năng',
+        dataIndex: 'skill',
+        render: (value, record) => (
+          <div className="antd-pro-pages-list-basic-list-style-listContentItem">
+            <p>{record.skill}</p>
+          </div>
+        ),
+        // specify the condition of filtering result
+        // here is that finding the name started with `value`
+        onFilter: (value, record) => record.skill === value,
+        sorter: (a, b) => (a.skill ? a.skill.length : 0) - (b.skill ? b.skill.length : 0),
+        sortDirections: ['descend', 'ascend'],
+      },
+      {
+        title: 'Tổng tiền',
+        dataIndex: 'totalPrice',
+        render: (value, record) => (
+          <div className="antd-pro-pages-list-basic-list-style-listContentItem">
+            <p>{record.totalPrice}</p>
+          </div>
+        ),
+        // specify the condition of filtering result
+        // here is that finding the name started with `value`
+        sorter: (a, b) => a.totalPrice - b.totalPrice,
+        sortDirections: ['descend', 'ascend'],
+      },
+      {
+        title: 'Status',
+        dataIndex: 'status',
+        render: (value, record) => (
+          <div className="antd-pro-pages-list-basic-list-style-listContentItem">
+            <p>
+              {
+                record.status === "Đã thanh toán" && (
+                  <Icon type="check-circle" theme="twoTone" twoToneColor="#52c41a" />
+                )
+              }
+              {
+                record.status === "Chưa thanh toán" && (
+                  <Icon type="close-circle" theme="twoTone" twoToneColor="#E43343" />
+                )
+              }
+              {` ${record.status}`}
+            </p>
+          </div>
+
+        ),
+        filters: [
+          {
+            text: 'Đã thanh toán',
+            value: 'Đã thanh toán',
+          },
+          {
+            text: 'Chưa thanh toán',
+            value: 'Chưa thanh toán',
+          },
+        ],
+        // specify the condition of filtering result
+        // here is that finding the name started with `value
+        filterMultiple: false,
+        onFilter: (value, record) => record.status === value,
+        sorter: (a, b) => (a.status ? a.status.length : 0) - (b.status ? b.status.length : 0),
+        sortDirections: ['descend', 'ascend'],
+      },
+      {
+        title: 'Action',
+        key: 'action',
+        render: (value, record) => (
+          <ul className="ant-list-item-action" style={{ marginLeft: '0px' }}>
+            <li>
+              <Button
+                className="btnDetail"
+                onClick={() => this.showInfoDrawer(record)}
+                type="primary"
+              >
+                Chi tiết
+              </Button>
+              <em className="ant-list-item-action-split" />
+            </li>
+            <li>
+              <Button
+                onClick={() => this.showChangeInfoModal(record)}
+                type="primary"
+              >
+                Chỉnh sửa
+              </Button>
+            </li>
+          </ul>
+        ),
+      },
+    ];
     const { Option } = Select;
     const {
       visibleChangeInfoModal,
@@ -107,8 +211,11 @@ class ContractManagement extends React.Component {
     } = this.state;
     const { contractsList } = this.props;
     const displaycontractsList = [];
+
     // render admins list
     Object.keys(contractsList).forEach(item => {
+      contractsList[item].key = contractsList[item].id
+      contractsList[item].stt = Number(item) + 1;
       displaycontractsList.push(
         // eslint-disable-next-line no-underscore-dangle
         <li key={contractsList[item]._id} className="ant-list-item">
@@ -196,6 +303,7 @@ class ContractManagement extends React.Component {
         </li>,
       );
     });
+
     return (
       <div style={{ padding: '30px' }}>
         <MyInfoDraw
@@ -256,11 +364,7 @@ class ContractManagement extends React.Component {
             </div>
           </div>
           <div className="ant-card-body" style={{ padding: '0px 32px 40px' }}>
-            <PaginacionTabla
-              itemsperpage={5}
-              items={displaycontractsList}
-              pagesspan={3}
-            />
+            <Table columns={columns} dataSource={Object.values(contractsList)} />
           </div>
         </div>
       </div>
