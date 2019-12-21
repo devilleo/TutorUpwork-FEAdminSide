@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Button, Modal, Form, Select, Icon, Table } from 'antd';
+import { Col, Button, Modal, Form, Select, Icon, Table, Spin } from 'antd';
 import PropTypes from 'prop-types';
 import Cookies from 'universal-cookie';
 
@@ -390,6 +390,9 @@ class ContractManagement extends React.Component {
             </div>
           </div>
           <div className="ant-card-body" style={{ padding: '0px 32px 40px' }}>
+            <div className="ant-spin-container" style={{ textAlign: 'center' }}>
+              {displaycontractsList.length === 0 && <Spin size="large" />}
+            </div>
             <Table columns={columns} dataSource={Object.values(contractsList)} />
           </div>
         </div>
