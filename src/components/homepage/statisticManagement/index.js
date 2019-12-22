@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-indent-props */
 /* eslint-disable react/jsx-indent */
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Statistic, Card, Row, Col, Icon } from 'antd'
 import Chart from './chart'
 
@@ -19,7 +20,6 @@ class StatisticManagement extends React.Component {
     }
 
     onTabChange = (key, type) => {
-        console.log(key, type);
         this.setState({ [type]: key });
     };
 
@@ -39,14 +39,10 @@ class StatisticManagement extends React.Component {
                 tab: 'project',
             },
         ];
-
+        const { contractsList } = this.props
         const contentListNoTitle = {
             'Doanh thu': (
-                <Row gutter={20}>
-                    <Col span={18}>
-                        <Chart height="200" />
-                    </Col>
-                </Row>
+                <Chart contractsList={contractsList} />
             ),
             app: <p>app content</p>,
             project: <p>project content</p>,
@@ -134,6 +130,14 @@ class StatisticManagement extends React.Component {
             </div>
         )
     }
+}
+
+StatisticManagement.propTypes = {
+    contractsList: PropTypes.objectOf(PropTypes.object)
+}
+
+StatisticManagement.defaultProps = {
+    contractsList: {}
 }
 
 export default StatisticManagement;

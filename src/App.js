@@ -14,7 +14,7 @@ import TutorManagement from './containers/tutorManagementContainer';
 import StudentManagement from './containers/studentManagementContainer';
 import SkillManagement from './containers/skillManagementContainer';
 import ContractManagement from './containers/contractManagementContainer';
-import StatisticManagement from './components/homepage/statisticManagement'
+import StatisticManagement from './containers/statisticContainer'
 
 import './App.css';
 
