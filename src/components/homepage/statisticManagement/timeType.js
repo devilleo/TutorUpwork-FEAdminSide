@@ -6,12 +6,9 @@ import PropTypes from 'prop-types'
 import { Row, Radio, DatePicker } from 'antd'
 import moment from 'moment'
 
-const MyTimeType = ({ typeTime, setTypeTime, week, setWeek }) => {
+const MyTimeType = ({ typeTime, setTypeTime, week, setWeek, month, setMonth, year, setYear }) => {
     const { WeekPicker, MonthPicker } = DatePicker;
 
-
-    const [month, setMonth] = useState(false)
-    const [year, setYear] = useState(false)
     const [visibleYearPicker, setVisibleYearPicker] = useState(false)
 
     const handlePickWeek = value => {
@@ -81,6 +78,10 @@ MyTimeType.propTypes = {
     setTypeTime: PropTypes.func,
     week: PropTypes.shape(),
     setWeek: PropTypes.func,
+    month: PropTypes.shape(),
+    setMonth: PropTypes.func,
+    year: PropTypes.shape(),
+    setYear: PropTypes.func,
 };
 
 MyTimeType.defaultProps = {
@@ -88,6 +89,10 @@ MyTimeType.defaultProps = {
     setTypeTime: () => { },
     week: moment(),
     setWeek: () => { },
+    month: moment(),
+    setMonth: () => { },
+    year: moment(),
+    setYear: () => { },
 };
 
 export default MyTimeType
