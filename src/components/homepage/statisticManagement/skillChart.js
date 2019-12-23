@@ -7,7 +7,7 @@ import { HorizontalBar } from 'react-chartjs-2'
 import { Row, Col } from 'antd'
 import moment from 'moment'
 
-import MyTimeType2 from './timeType2'
+import MyTimeType2 from './timePicker/timeType2'
 
 
 
@@ -91,6 +91,7 @@ class SkillChart extends Component {
         this.setWeek(moment())
         this.setMonth(moment())
         this.setYear(moment())
+        this.setCustomRange([moment(), moment()])
     }
 
     componentDidUpdate() {
@@ -305,9 +306,9 @@ class SkillChart extends Component {
             }
 
             if (
-                new Date((moment(arrayContractsList[i].beginTime))) >=
+                new Date((moment(arrayContractsList[i].beginTime)).format("MM-DD-YYYY")) >=
                 new Date(moment(value[0]).format('MM-DD-YYYY')) &&
-                new Date((moment(arrayContractsList[i].beginTime))) <=
+                new Date((moment(arrayContractsList[i].beginTime)).format("MM-DD-YYYY")) <=
                 new Date(moment(value[1]).format('MM-DD-YYYY')) &&
                 arrayContractsList[i].skill !== undefined
             ) {

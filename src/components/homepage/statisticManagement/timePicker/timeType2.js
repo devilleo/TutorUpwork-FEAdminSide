@@ -116,7 +116,7 @@ const MyTimeType2 = (
                         'This Month': [moment().startOf('month'), moment().endOf('month')],
                     }}
                     showTime
-                    format="DD-MM-YYYY"
+                    format="YYYY-MM-DD"
                     defaultValue={customRange}
                     onChange={value => handlePickCustom(value)}
                 />

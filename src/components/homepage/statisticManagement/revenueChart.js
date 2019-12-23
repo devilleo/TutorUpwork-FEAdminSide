@@ -7,7 +7,7 @@ import { Bar } from 'react-chartjs-2'
 import { Row, Col, DatePicker } from 'antd'
 import moment from 'moment'
 
-import MyTimeType from './timeType'
+import MyTimeType from './timePicker/timeType'
 
 
 
