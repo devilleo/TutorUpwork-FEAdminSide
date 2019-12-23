@@ -14,6 +14,7 @@ import TutorManagement from './containers/tutorManagementContainer';
 import StudentManagement from './containers/studentManagementContainer';
 import SkillManagement from './containers/skillManagementContainer';
 import ContractManagement from './containers/contractManagementContainer';
+import StatisticManagement from './containers/statisticContainer'
 
 import './App.css';
 
@@ -55,6 +56,9 @@ const App = props => {
               </Route>
               <Route exact path={`${process.env.PUBLIC_URL}/skillmanagement`}>
                 {isLogin ? <SkillManagement /> : <Redirect to="/login" />}
+              </Route>
+              <Route exact path={`${process.env.PUBLIC_URL}/statisticmanagement`}>
+                {isLogin ? <StatisticManagement /> : <Redirect to="/login" />}
               </Route>
             </div>
             <Footer />

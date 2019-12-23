@@ -44,6 +44,11 @@ const MyCustomSider = ({ adminRole }) => {
           <span>Danh sách Skill</span>
           <Link to="/skillmanagement" />
         </Menu.Item>
+        <Menu.Item key="6">
+          <Icon type="pie-chart" />
+          <span>Thong ke</span>
+          <Link to="/statisticmanagement" />
+        </Menu.Item>
       </Menu>
     </Sider>
   );
