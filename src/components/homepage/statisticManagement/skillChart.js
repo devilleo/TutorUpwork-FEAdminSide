@@ -80,6 +80,9 @@ class SkillChart extends Component {
 
             year: moment(),
             chartYearData: {},
+
+            customRange: [moment(), moment()],
+            chartCustomData: {}
         }
     }
 
@@ -116,10 +119,10 @@ class SkillChart extends Component {
                 continue;
             }
 
-            const currentItemDate = ((moment(arrayContractsList[i].beginTime))).format('DD-MM-YYYY')
+            const currentItemDate = ((moment(arrayContractsList[i].beginTime))).format('MM-DD-YYYY')
             for (let j = 0; j < arraySkillsList.length; j += 1) {
                 if (currentItemDate ===
-                    (moment(value).format('DD-MM-YYYY')) &&
+                    (moment(value).format('MM-DD-YYYY')) &&
                     arraySkillsList[j].name ===
                     (arrayContractsList[i].skill ? arrayContractsList[i].skill : '')
                 ) {
@@ -284,6 +287,54 @@ class SkillChart extends Component {
         })
     }
 
+    setCustomRange = value => {
+        const { contractsList, skillsList } = this.props
+        const { colorTemplate } = this.state
+
+        const arrayContractsList = Object.values(contractsList)
+        const arraySkillsList = Object.values(skillsList)
+
+        const listSkilsName = Array(arraySkillsList.length);
+        for (let k = 0; k < arraySkillsList.length; k += 1) {
+            listSkilsName[k] = arraySkillsList[k].name
+        }
+        const arrMoney = Array(arraySkillsList.length).fill(0)
+        for (let i = 0; i <= arrayContractsList.length; i += 1) {
+            if (arrayContractsList[i]?.beginTime === undefined) {
+                continue;
+            }
+
+            if (
+                new Date((moment(arrayContractsList[i].beginTime))) >=
+                new Date(moment(value[0]).format('MM-DD-YYYY')) &&
+                new Date((moment(arrayContractsList[i].beginTime))) <=
+                new Date(moment(value[1]).format('MM-DD-YYYY')) &&
+                arrayContractsList[i].skill !== undefined
+            ) {
+                for (let j = 0; j < arraySkillsList.length; j += 1) {
+
+                    if (arraySkillsList[j].name === arrayContractsList[i].skill) {
+                        arrMoney[j] += arrayContractsList[i].totalPrice
+                        break;
+                    }
+                }
+            }
+        }
+        this.setState({
+            customRange: value,
+            chartCustomData: {
+                labels: listSkilsName,
+                datasets: [
+                    {
+                        label: 'VND',
+                        data: arrMoney,
+                        backgroundColor: colorTemplate
+                    },
+                ],
+            }
+        })
+    }
+
     render() {
         const {
             typeTime,
@@ -294,7 +345,9 @@ class SkillChart extends Component {
             month,
             chartMonthData,
             year,
-            chartYearData
+            chartYearData,
+            customRange,
+            chartCustomData
         } = this.state
         return (
             <Row>
@@ -310,6 +363,8 @@ class SkillChart extends Component {
                         setMonth={this.setMonth}
                         year={year}
                         setYear={this.setYear}
+                        customRange={customRange}
+                        setCustomRange={this.setCustomRange}
                     />
                     <Row style={{ marginTop: '30px' }}>
                         <HorizontalBar
@@ -319,9 +374,13 @@ class SkillChart extends Component {
                                     // eslint-disable-next-line no-nested-ternary
                                     typeTime === "Week" ?
                                         chartWeekData :
+                                        // eslint-disable-next-line no-nested-ternary
                                         (typeTime === "Month" ?
                                             chartMonthData :
-                                            chartYearData
+                                            (typeTime === "Year" ?
+                                                chartYearData :
+                                                chartCustomData
+                                            )
                                         )
                                 )
                             }

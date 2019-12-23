@@ -17,10 +17,12 @@ const MyTimeType2 = (
         month,
         setMonth,
         year,
-        setYear
+        setYear,
+        customRange,
+        setCustomRange
     }
 ) => {
-    const { WeekPicker, MonthPicker } = DatePicker;
+    const { WeekPicker, MonthPicker, RangePicker } = DatePicker;
 
     const [visibleYearPicker, setVisibleYearPicker] = useState(false)
 
@@ -41,6 +43,9 @@ const MyTimeType2 = (
         setVisibleYearPicker(false)
     }
 
+    const handlePickCustom = value => {
+        setCustomRange(value)
+    }
     return (
         <Row>
             <Radio.Group defaultValue='Week'>
@@ -67,6 +72,12 @@ const MyTimeType2 = (
                     value="Year"
                 >
                     Year
+                </Radio.Button>
+                <Radio.Button
+                    onClick={() => setTypeTime('Custom')}
+                    value="Custom"
+                >
+                    Custom
                 </Radio.Button>
             </Radio.Group>
 
@@ -98,6 +109,18 @@ const MyTimeType2 = (
                     onOpenChange={() => setVisibleYearPicker(true)}
                 />
             )}
+            {typeTime === 'Custom' && (
+                <RangePicker
+                    ranges={{
+                        Today: [moment(), moment()],
+                        'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    }}
+                    showTime
+                    format="DD-MM-YYYY"
+                    defaultValue={customRange}
+                    onChange={value => handlePickCustom(value)}
+                />
+            )}
         </Row>
     )
 }
@@ -113,6 +136,8 @@ MyTimeType2.propTypes = {
     setMonth: PropTypes.func,
     year: PropTypes.shape(),
     setYear: PropTypes.func,
+    customRange: PropTypes.arrayOf(PropTypes.object),
+    setCustomRange: PropTypes.func,
 };
 
 MyTimeType2.defaultProps = {
@@ -126,6 +151,8 @@ MyTimeType2.defaultProps = {
     setMonth: () => { },
     year: moment(),
     setYear: () => { },
+    customRange: [moment(), moment()],
+    setCustomRange: () => { }
 };
 
 export default MyTimeType2

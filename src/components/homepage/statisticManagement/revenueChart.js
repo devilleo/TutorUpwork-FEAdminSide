@@ -176,9 +176,9 @@ class RevenueChart extends Component {
                 continue;
             }
 
-            const currentItemDate = ((moment(arrayContractsList[i].beginTime))).format('DD-MM-YYYY')
+            const currentItemDate = ((moment(arrayContractsList[i].beginTime))).format('MM-DD-YYYY')
             if (currentItemDate ===
-                (moment(value).format('DD-MM-YYYY')
+                (moment(value).format('MM-DD-YYYY')
                 )) {
                 totalMoney += arrayContractsList[i].totalPrice
                 continue;
@@ -202,10 +202,10 @@ class RevenueChart extends Component {
                 continue;
             }
 
-            const currentItemDate = ((moment(arrayContractsList[i].beginTime))).format('DD-MM-YYYY')
+            const currentItemDate = ((moment(arrayContractsList[i].beginTime))).format('MM-DD-YYYY')
             for (let j = 0; j < 7; j += 1) {
                 if (currentItemDate ===
-                    (moment(value.startOf('week')).add(j, 'day')).format('DD-MM-YYYY')
+                    (moment(value.startOf('week')).add(j, 'day')).format('MM-DD-YYYY')
                 ) {
                     weekDataArr[j] += arrayContractsList[i].totalPrice
                     break;
@@ -254,10 +254,10 @@ class RevenueChart extends Component {
                 continue;
             }
 
-            const currentItemDate = ((moment(arrayContractsList[i].beginTime))).format('DD-MM-YYYY')
+            const currentItemDate = ((moment(arrayContractsList[i].beginTime))).format('MM-DD-YYYY')
             for (let j = 0; j < numberOfDays; j += 1) {
                 if (currentItemDate ===
-                    (moment(value.startOf('month')).add(j, 'day')).format('DD-MM-YYYY')
+                    (moment(value.startOf('month')).add(j, 'day')).format('MM-DD-YYYY')
                 ) {
                     monthDataArr[j] += arrayContractsList[i].totalPrice
                     break;
