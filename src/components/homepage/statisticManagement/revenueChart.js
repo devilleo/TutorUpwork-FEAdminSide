@@ -375,7 +375,7 @@ class RevenueChart extends Component {
                 <Col span={6}>
                     <Row style={{ textAlign: 'center', marginBottom: '20px' }}>
                         <ul id="menu">
-                            <li><div>Doanh thu trong ngay</div></li>
+                            <li><div>Doanh thu trong ngày</div></li>
                         </ul>
                     </Row>
                     <Row style={{ textAlign: 'right' }}>
