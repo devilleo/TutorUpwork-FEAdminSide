@@ -11,7 +11,7 @@ import MyTimeType from './timeType'
 
 
 
-class Chart extends Component {
+class RevenueChart extends Component {
     constructor(props) {
         super(props)
 
@@ -153,6 +153,7 @@ class Chart extends Component {
 
     componentDidMount() {
         this.setDay(moment())
+        this.setWeek(moment())
         this.setMonth(moment())
         this.setYear(moment())
     }
@@ -343,64 +344,60 @@ class Chart extends Component {
         } = this.state
         return (
             <Row>
-                <Row style={{ marginBottom: '20px' }}>
-                    <Col span={16}>
-                        <MyTimeType
-                            typeTime={typeTime}
-                            setTypeTime={this.setTypeTime}
-                            week={week}
-                            setWeek={this.setWeek}
-                            month={month}
-                            setMonth={this.setMonth}
-                            year={year}
-                            setYear={this.setYear}
+                <Col span={16}>
+                    <MyTimeType
+                        typeTime={typeTime}
+                        setTypeTime={this.setTypeTime}
+                        week={week}
+                        setWeek={this.setWeek}
+                        month={month}
+                        setMonth={this.setMonth}
+                        year={year}
+                        setYear={this.setYear}
+                    />
+                    <Row style={{ marginTop: '30px' }}>
+                        <Bar
+                            data={
+                                // eslint-disable-next-line no-nested-ternary
+                                typeTime === "Week" ?
+                                    chartWeekData :
+                                    (typeTime === "Month" ?
+                                        chartMonthData :
+                                        chartYearData
+                                    )
+                            }
+                            option={{ maintainAspectRatio: false }}
                         />
-                        <Row style={{ marginTop: '30px' }}>
-                            <Bar
-                                data={
-                                    // eslint-disable-next-line no-nested-ternary
-                                    typeTime === "Week" ?
-                                        chartWeekData :
-                                        (typeTime === "Month" ?
-                                            chartMonthData :
-                                            chartYearData
-                                        )
-                                }
-                                option={{ maintainAspectRatio: false }}
-                            />
-                        </Row>
-                    </Col>
-                    <Col span={2} />
-                    <Col span={6}>
-                        <Row style={{ textAlign: 'center', marginBottom: '20px' }}>
-                            Doanh thu trong ngay
-                        </Row>
-                        <Row style={{ textAlign: 'right' }}>
-                            <DatePicker
-                                defaultValue={currentDay}
-                                onChange={this.setDay}
-                            />
-                        </Row>
-                        <Row style={{ textAlign: 'center', marginTop: '80px' }}>
-                            {totalMoneyInDay}
-                        </Row>
-                    </Col>
-                </Row>
-
-
+                    </Row>
+                </Col>
+                <Col span={2} />
+                <Col span={6}>
+                    <Row style={{ textAlign: 'center', marginBottom: '20px' }}>
+                        Doanh thu trong ngay
+                    </Row>
+                    <Row style={{ textAlign: 'right' }}>
+                        <DatePicker
+                            defaultValue={currentDay}
+                            onChange={this.setDay}
+                        />
+                    </Row>
+                    <Row style={{ textAlign: 'center', marginTop: '80px' }}>
+                        {totalMoneyInDay}
+                    </Row>
+                </Col>
             </Row>
         )
     }
 }
 
-Chart.propTypes = {
+RevenueChart.propTypes = {
     contractsList: PropTypes.objectOf(PropTypes.object),
     // week: PropTypes.objectOf(PropTypes.object),
 }
 
-Chart.defaultProps = {
+RevenueChart.defaultProps = {
     contractsList: {},
     // week: moment(),
 }
 
-export default Chart
+export default RevenueChart

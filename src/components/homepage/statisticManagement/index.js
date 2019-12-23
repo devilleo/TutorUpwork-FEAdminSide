@@ -3,7 +3,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Statistic, Card, Row, Col, Icon } from 'antd'
-import Chart from './chart'
+import RevenueChart from './revenueChart'
+import SkillChart from './skillChart'
 
 
 class StatisticManagement extends React.Component {
@@ -31,21 +32,21 @@ class StatisticManagement extends React.Component {
                 tab: 'Doanh thu',
             },
             {
-                key: 'app',
-                tab: 'app',
+                key: 'Kỹ năng',
+                tab: 'Kỹ năng',
             },
             {
-                key: 'project',
-                tab: 'project',
+                key: 'Người dạy',
+                tab: 'Người dạy',
             },
         ];
-        const { contractsList } = this.props
+        const { contractsList, skillsList } = this.props
         const contentListNoTitle = {
             'Doanh thu': (
-                <Chart contractsList={contractsList} />
+                <RevenueChart contractsList={contractsList} />
             ),
-            app: <p>app content</p>,
-            project: <p>project content</p>,
+            'Kỹ năng': <SkillChart contractsList={contractsList} skillsList={skillsList} />,
+            'Người dạy': <p>project content</p>,
         };
         const { noTitleKey } = this.state
         return (
@@ -133,11 +134,13 @@ class StatisticManagement extends React.Component {
 }
 
 StatisticManagement.propTypes = {
-    contractsList: PropTypes.objectOf(PropTypes.object)
+    contractsList: PropTypes.objectOf(PropTypes.object),
+    skillsList: PropTypes.objectOf(PropTypes.object)
 }
 
 StatisticManagement.defaultProps = {
-    contractsList: {}
+    contractsList: {},
+    skillsList: {},
 }
 
 export default StatisticManagement;

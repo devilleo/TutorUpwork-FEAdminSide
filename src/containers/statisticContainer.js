@@ -4,6 +4,7 @@ import StatisticManagement from '../components/homepage/statisticManagement/inde
 const mapStateToProps = state => {
     return {
         contractsList: state.contractsList,
+        skillsList: state.skillsList,
     };
 };
 
