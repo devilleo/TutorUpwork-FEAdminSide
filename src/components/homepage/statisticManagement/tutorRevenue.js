@@ -291,7 +291,7 @@ class TutorRevenue extends Component {
                 // specify the condition of filtering result
                 // here is that finding the name started with `value`
                 onFilter: (value, record) => record.skill === value,
-                sorter: (a, b) => (a.skill ? a.skill.length : 0) - (b.skill ? b.skill.length : 0),
+                sorter: (a, b) => a.id - b.id,
                 sortDirections: ['descend', 'ascend'],
             },
             {
@@ -318,7 +318,7 @@ class TutorRevenue extends Component {
                 ),
                 // specify the condition of filtering result
                 // here is that finding the name started with `value`
-                sorter: (a, b) => a.totalPrice - b.totalPrice,
+                sorter: (a, b) => a.revenue - b.revenue,
                 sortDirections: ['descend', 'ascend'],
             },
             {

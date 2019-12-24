@@ -2,6 +2,7 @@
 /* eslint-disable react/jsx-indent */
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import './myTimePicker.css'
 
 import { Row, Radio, DatePicker } from 'antd'
 import moment from 'moment'
@@ -83,24 +84,28 @@ const MyTimeType2 = (
 
             {typeTime === 'Day' && (
                 <DatePicker
+                    className="myTimeType"
                     onChange={value => handlePickDay(value)}
                     value={day ? moment(day) : null}
                 />
             )}
             {typeTime === 'Week' && (
                 <WeekPicker
+                    className="myTimeType"
                     value={week ? moment(week) : null}
                     onChange={value => handlePickWeek(value)}
                 />
             )}
             {typeTime === 'Month' && (
                 <MonthPicker
+                    className="myTimeType"
                     value={month ? moment(month) : null}
                     onChange={value => handlePickMonth(value)}
                 />
             )}
             {typeTime === 'Year' && (
                 <DatePicker
+                    className="myTimeType"
                     onPanelChange={value => handlePickYear(value)}
                     mode='year'
                     format='YYYY'
@@ -111,6 +116,7 @@ const MyTimeType2 = (
             )}
             {typeTime === 'Custom' && (
                 <RangePicker
+                    className="myTimeType"
                     ranges={{
                         Today: [moment(), moment()],
                         'This Month': [moment().startOf('month'), moment().endOf('month')],

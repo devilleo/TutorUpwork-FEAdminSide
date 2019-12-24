@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 import { Bar } from 'react-chartjs-2'
 import { Row, Col, DatePicker } from 'antd'
 import moment from 'moment'
+import './statistic.css'
 
 import MyTimeType from './timePicker/timeType'
 
@@ -373,10 +374,13 @@ class RevenueChart extends Component {
                 <Col span={2} />
                 <Col span={6}>
                     <Row style={{ textAlign: 'center', marginBottom: '20px' }}>
-                        Doanh thu trong ngay
+                        <ul id="menu">
+                            <li><div>Doanh thu trong ngày</div></li>
+                        </ul>
                     </Row>
                     <Row style={{ textAlign: 'right' }}>
                         <DatePicker
+                            className="myTimeType"
                             defaultValue={currentDay}
                             onChange={this.setDay}
                         />
