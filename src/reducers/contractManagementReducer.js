@@ -13,3 +13,13 @@ export const contractsList = (state = {}, action) => {
             return state;
     }
 };
+
+export const messages = (state = [], action) => {
+    switch (action.type) {
+        case "UPDATE_MESSAGES_CONVERSATION": {
+            return Object.values(action.messagesConversation)
+        }
+        default:
+            return state;
+    }
+}
