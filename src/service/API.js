@@ -19,6 +19,7 @@ const API = {
   GET_TUTOR_DETAIL: `${URL}/users/tutordetail`,
 
   GET_CONTRACTS: `${URL}/users/contracts`,
+  GET_MESSAGES_CONVERSATION: `${URL}/conversations/messages`,
 
   GET_STUDENT_LIST: `${URL}/users/studentslist`,
   GET_STUDENT_DETAIL: `${URL}/users/studentdetail`,
