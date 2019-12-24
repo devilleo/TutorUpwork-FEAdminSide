@@ -3,6 +3,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Statistic, Card, Row, Col, Icon } from 'antd'
+import Cookies from 'universal-cookie';
+
 import RevenueChart from './revenueChart'
 import SkillChart from './skillChart'
 import TutorRevenue from './tutorRevenue'
@@ -18,7 +20,12 @@ class StatisticManagement extends React.Component {
     }
 
     componentDidMount() {
-
+        const { getContractsList, getSkillsList, getStudentsList, getTutorsList } = this.props;
+        const cookies = new Cookies();
+        getContractsList(cookies.get('token'));
+        getSkillsList(cookies.get('token'));
+        getStudentsList(cookies.get('token'));
+        getTutorsList(cookies.get('token'));
     }
 
     onTabChange = (key, type) => {
@@ -41,10 +48,10 @@ class StatisticManagement extends React.Component {
                 tab: 'Người dạy',
             },
         ];
-        const { contractsList, skillsList, tutorsList } = this.props
+        const { contractsList, skillsList, tutorsList, studentsList, getContractsList } = this.props
         const contentListNoTitle = {
             'Doanh thu': (
-                <RevenueChart contractsList={contractsList} />
+                <RevenueChart contractsList={contractsList} getContractsList={getContractsList} />
             ),
             'Kỹ năng': <SkillChart contractsList={contractsList} skillsList={skillsList} />,
             'Người dạy': <TutorRevenue contractsList={contractsList} tutorsList={tutorsList} />,
@@ -58,7 +65,7 @@ class StatisticManagement extends React.Component {
                             <Col span={12}>
                                 <Statistic
                                     title="Tutor"
-                                    value={10}
+                                    value={Object.values(tutorsList).length}
                                     valueStyle={{ overflow: 'auto', display: 'flex' }}
                                     prefix={<Icon type="user" />}
                                 />
@@ -66,7 +73,7 @@ class StatisticManagement extends React.Component {
                             <Col span={12}>
                                 <Statistic
                                     title="Student"
-                                    value={11}
+                                    value={Object.values(studentsList).length}
                                     valueStyle={{ overflow: 'auto', display: 'flex' }}
                                     prefix={<Icon type="user" />}
                                 />
@@ -138,12 +145,22 @@ StatisticManagement.propTypes = {
     contractsList: PropTypes.objectOf(PropTypes.object),
     skillsList: PropTypes.objectOf(PropTypes.object),
     tutorsList: PropTypes.objectOf(PropTypes.object),
+    studentsList: PropTypes.objectOf(PropTypes.object),
+    getContractsList: PropTypes.func,
+    getSkillsList: PropTypes.func,
+    getStudentsList: PropTypes.func,
+    getTutorsList: PropTypes.func,
 }
 
 StatisticManagement.defaultProps = {
     contractsList: {},
     skillsList: {},
-    tutorsList: {}
+    tutorsList: {},
+    studentsList: {},
+    getContractsList: () => { },
+    getSkillsList: () => { },
+    getStudentsList: () => { },
+    getTutorsList: () => { },
 }
 
 export default StatisticManagement;
