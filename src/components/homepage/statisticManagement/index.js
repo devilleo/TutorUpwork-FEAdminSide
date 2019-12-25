@@ -9,7 +9,6 @@ import RevenueChart from './revenueChart'
 import SkillChart from './skillChart'
 import TutorRevenue from './tutorRevenue'
 
-
 class StatisticManagement extends React.Component {
     constructor(props) {
         super(props)
@@ -49,6 +48,27 @@ class StatisticManagement extends React.Component {
             },
         ];
         const { contractsList, skillsList, tutorsList, studentsList, getContractsList } = this.props
+        const theMostSkill = { name: '', count: 0 }
+        const arrayContractsList = Object.values(contractsList);
+        const { length } = arrayContractsList;
+        for (let i = 0; i < length - 1; i += 1) {
+            if (arrayContractsList[i].skill === undefined) {
+                // eslint-disable-next-line no-continue
+                continue;
+            }
+            const tempName = arrayContractsList[i].skill;
+            let tempCount = 1;
+            for (let j = i + 1; j < length; j += 1) {
+                if (arrayContractsList[j].skill === tempName) {
+                    tempCount += 1;
+                }
+            }
+            if (tempCount > theMostSkill.count) {
+                theMostSkill.name = tempName;
+                theMostSkill.count = tempCount;
+            }
+        }
+
         const contentListNoTitle = {
             'Doanh thu': (
                 <RevenueChart contractsList={contractsList} getContractsList={getContractsList} />
@@ -85,15 +105,16 @@ class StatisticManagement extends React.Component {
                             <Col span={12}>
                                 <Statistic
                                     title="So ky nang"
-                                    value={11}
+                                    value={Object.values(skillsList).length}
                                     valueStyle={{ overflow: 'auto', display: 'flex' }}
                                     prefix={<Icon type="user" />}
                                 />
+
                             </Col>
                             <Col span={12}>
                                 <Statistic
                                     title="Ky nang hoc nhieu nhat"
-                                    value={11}
+                                    value={theMostSkill.name}
                                     valueStyle={{ overflow: 'auto', display: 'flex' }}
                                     prefix={<Icon type="user" />}
                                 />
@@ -102,18 +123,18 @@ class StatisticManagement extends React.Component {
                     </Col>
                     <Col span={8}>
                         <Card title="Luot xem" size="small">
-                            <Col span={12}>
+                            <Col span={14}>
                                 <Statistic
                                     title="Luong truy cap"
-                                    value={`${11}/ngay`}
+                                    value={`${200}/ngay`}
                                     valueStyle={{ overflow: 'auto', display: 'flex' }}
                                     prefix={<Icon type="user" />}
                                 />
                             </Col>
-                            <Col span={12}>
+                            <Col span={10}>
                                 <Statistic
-                                    title="So nguoi dang online"
-                                    value={11}
+                                    title="Dang online"
+                                    value={3}
                                     valueStyle={{ overflow: 'auto', display: 'flex' }}
                                     prefix={<Icon type="user" />}
                                 />

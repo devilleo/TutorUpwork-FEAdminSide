@@ -5,12 +5,15 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Bar } from 'react-chartjs-2'
 import { Row, Col, DatePicker } from 'antd'
+import TweenOne from 'rc-tween-one';
+import Children from 'rc-tween-one/lib/plugin/ChildrenPlugin';
 import moment from 'moment'
 import './statistic.css'
 
 import MyTimeType from './timePicker/timeType'
 
 
+TweenOne.plugins.push(Children);
 
 class RevenueChart extends Component {
     constructor(props) {
@@ -71,7 +74,6 @@ class RevenueChart extends Component {
             ],
 
             currentDay: moment(),
-            totalMoneyInDay: 0,
 
             week: moment(),
             chartWeekData: {},
@@ -149,6 +151,11 @@ class RevenueChart extends Component {
 
             year: moment(),
             chartYearData: {},
+
+            animation: {
+                Children: {},
+                duration: 1000,
+            }
         }
     }
 
@@ -187,7 +194,15 @@ class RevenueChart extends Component {
         }
         this.setState({
             currentDay: value,
-            totalMoneyInDay: totalMoney
+        })
+
+        this.setState({
+            animation: {
+                Children: {
+                    value: typeof totalMoney === 'number' ? totalMoney : 0, floatLength: 0
+                },
+                duration: 1000,
+            }
         })
     }
 
@@ -335,13 +350,13 @@ class RevenueChart extends Component {
         const {
             typeTime,
             currentDay,
-            totalMoneyInDay,
             week,
             chartWeekData,
             month,
             chartMonthData,
             year,
-            chartYearData
+            chartYearData,
+            animation
         } = this.state
         return (
             <Row>
@@ -385,8 +400,15 @@ class RevenueChart extends Component {
                             onChange={this.setDay}
                         />
                     </Row>
-                    <Row style={{ textAlign: 'center', marginTop: '80px' }}>
-                        {totalMoneyInDay}
+                    <Row style={{ textAlign: 'center', marginTop: '40px' }}>
+                        <TweenOne
+                            animation={animation}
+                            style={{
+                                fontSize: 30,
+                            }}
+                        >
+                            0
+                        </TweenOne>
                     </Row>
                 </Col>
             </Row>

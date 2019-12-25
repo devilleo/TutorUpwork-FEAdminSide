@@ -271,16 +271,19 @@ class ContractManagement extends React.Component {
               >
                 Chi tiết
               </Button>
-              <em className="ant-list-item-action-split" />
+              {record.status !== "Hoàn thành" && <em className="ant-list-item-action-split" />}
             </li>
-            <li>
-              <Button
-                onClick={() => this.showChangeInfoModal(record)}
-                type="primary"
-              >
-                Chỉnh sửa
-              </Button>
-            </li>
+            {record.status !== "Hoàn thành" && (
+              <li>
+                <Button
+                  onClick={() => this.showChangeInfoModal(record)}
+                  type="primary"
+                >
+                  Chỉnh sửa
+                </Button>
+              </li>
+            )}
+
             {
               record.status === "Đang khiếu nại" && (
                 <li>
