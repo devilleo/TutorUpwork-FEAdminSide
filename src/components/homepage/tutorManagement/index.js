@@ -106,7 +106,7 @@ class TutorManagement extends React.Component {
             </ul>
           </Col>
 
-          <Col span={4}>
+          <Col span={2}>
             <div className="ant-list-item-meta">
               <div className="ant-list-item-meta-avatar">
                 {/* eslint-disable-next-line max-len */}
@@ -120,19 +120,19 @@ class TutorManagement extends React.Component {
               </div>
             </div>
           </Col>
-          <Col span={10}>
+          <Col span={12}>
             <div
               className="antd-pro-pages-list-basic-list-style-listContent"
               style={{ display: 'flex' }}
             >
-              <Col span={10}>
+              <Col span={15}>
                 <div className="antd-pro-pages-list-basic-list-style-listContentItem">
-                  <span></span>
+                  <span>Email</span>
                   <p>{tutorsList[item].email}</p>
                 </div>
               </Col>
               <Col span={2} />
-              <Col span={10}>
+              <Col span={7}>
                 <div className="antd-pro-pages-list-basic-list-style-listContentItem">
                   <span>Loại tài khoản</span>
                   <p>

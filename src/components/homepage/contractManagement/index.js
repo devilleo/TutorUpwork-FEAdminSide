@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button, Modal, Form, Select, Icon, Table, Spin } from 'antd';
+import { Button, Modal, Form, Select, Icon, Table, Input } from 'antd';
+import Highlighter from 'react-highlight-words';
 import PropTypes from 'prop-types';
 import Cookies from 'universal-cookie';
 
@@ -21,6 +22,9 @@ class ContractManagement extends React.Component {
       visibleMessagesDrawer: false,
       messages: {},
       currentIdContract: '',
+
+      searchText: '',
+      searchedColumn: '',
     };
   }
 
@@ -34,6 +38,77 @@ class ContractManagement extends React.Component {
   //   const cookies = new Cookies();
   //   getContractsList(cookies.get('token'));
   // }
+
+  getColumnSearchProps = dataIndex => ({
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+      <div style={{ padding: 8 }}>
+        <Input
+          ref={node => {
+            this.searchInput = node;
+          }}
+          placeholder={`Tìm ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onPressEnter={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{ width: 188, marginBottom: 8, display: 'block' }}
+        />
+        <Button
+          type="primary"
+          onClick={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
+          icon="search"
+          size="small"
+          style={{ width: 90, marginRight: 8 }}
+        >
+          Tìm
+        </Button>
+        <Button onClick={() => this.handleReset(clearFilters)} size="small" style={{ width: 90 }}>
+          Khôi phục
+        </Button>
+      </div>
+    ),
+    filterIcon: filtered => (
+      <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }} />
+    ),
+    onFilter: (value, record) => {
+      if (record[dataIndex] === undefined)
+        return null
+      return record[dataIndex]
+        .toString()
+        .toLowerCase()
+        .includes(value.toLowerCase())
+    },
+    onFilterDropdownVisibleChange: visible => {
+      if (visible) {
+        setTimeout(() => this.searchInput.select());
+      }
+    },
+    render: text =>
+      // eslint-disable-next-line react/destructuring-assignment
+      this.state.searchedColumn === dataIndex ? (
+        <Highlighter
+          highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+          // eslint-disable-next-line react/destructuring-assignment
+          searchWords={[this.state.searchText]}
+          autoEscape
+          textToHighlight={text.toString()}
+        />
+      ) : (
+          text
+        ),
+  });
+
+  handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm();
+    this.setState({
+      searchText: selectedKeys[0],
+      searchedColumn: dataIndex,
+    });
+  };
+
+  handleReset = clearFilters => {
+    clearFilters();
+    this.setState({ searchText: '' });
+  };
 
   // Change Info
   showChangeInfoModal = contract => {
@@ -136,8 +211,10 @@ class ContractManagement extends React.Component {
   render() {
     const columns = [
       {
-        title: 'Số thứ tự',
+        title: 'STT',
         dataIndex: 'stt',
+        width: 80,
+        fixed: 'left',
         render: (value, record) => (
           <div className="antd-pro-pages-list-basic-list-style-listContentItem">
             <p>{record.stt}</p>
@@ -146,6 +223,33 @@ class ContractManagement extends React.Component {
         // specify the condition of filtering result
         // here is that finding the name started with `value`
         sorter: (a, b) => a.stt - b.stt,
+        sortDirections: ['descend', 'ascend'],
+      },
+      {
+        title: 'ID Giáo viên',
+        dataIndex: 'tutorId',
+        ...this.getColumnSearchProps('tutorId'),
+        render: (value, record) => (
+          <p>{record.tutorId}</p>
+        ),
+        // specify the condition of filtering result
+        // here is that finding the name started with `value`
+        onFilter: (value, record) => record.tutorId === value,
+        sorter: (a, b) => (a.tutorId ? a.tutorId.length : 0) - (b.tutorId ? b.tutorId.length : 0),
+        sortDirections: ['descend', 'ascend'],
+      },
+      {
+        title: 'ID Học sinh',
+        dataIndex: 'studentId',
+        ...this.getColumnSearchProps('studentId'),
+        render: (value, record) => (
+          <p>{record.studentId}</p>
+        ),
+        // specify the condition of filtering result
+        // here is that finding the name started with `value`
+        onFilter: (value, record) => record.studentId === value,
+        sorter: (a, b) =>
+          (a.studentId ? a.studentId.length : 0) - (b.studentId ? b.studentId.length : 0),
         sortDirections: ['descend', 'ascend'],
       },
       {
@@ -165,6 +269,7 @@ class ContractManagement extends React.Component {
       {
         title: 'Chi phí',
         dataIndex: 'totalPrice',
+        ...this.getColumnSearchProps('totalPrice'),
         render: (value, record) => (
           <div className="antd-pro-pages-list-basic-list-style-listContentItem">
             <p>{record.totalPrice}</p>
@@ -261,6 +366,8 @@ class ContractManagement extends React.Component {
       {
         title: 'Thao tác',
         key: 'action',
+        width: 370,
+        fixed: 'right',
         render: (value, record) => (
           <ul className="ant-list-item-action" style={{ marginLeft: '0px' }}>
             <li>
@@ -271,33 +378,31 @@ class ContractManagement extends React.Component {
               >
                 Chi tiết
               </Button>
-              {record.status !== "Hoàn thành" && <em className="ant-list-item-action-split" />}
+              <em className="ant-list-item-action-split" />
             </li>
-            {record.status !== "Hoàn thành" && (
-              <li>
-                <Button
-                  onClick={() => this.showChangeInfoModal(record)}
-                  type="primary"
-                >
-                  Chỉnh sửa
-                </Button>
-              </li>
-            )}
 
-            {
-              record.status === "Đang khiếu nại" && (
-                <li>
-                  <Button
-                    type="danger"
-                    ghost
-                    style={{ borderColor: '#9368B7' }}
-                    onClick={() => this.onOpenComplainsResolveDrawer(record)}
-                  >
-                    Xử lý khiếu nại
-                  </Button>
-                </li>
-              )
-            }
+            <li>
+              <Button
+                onClick={() => this.showChangeInfoModal(record)}
+                disabled={record.status === "Hoàn thành"}
+                type="primary"
+              >
+                Chỉnh sửa
+              </Button>
+              <em className="ant-list-item-action-split" />
+            </li>
+
+            <li>
+              <Button
+                type="danger"
+                ghost
+                style={{ borderColor: '#9368B7' }}
+                onClick={() => this.onOpenComplainsResolveDrawer(record)}
+                disabled={record.status !== "Đang khiếu nại"}
+              >
+                Xử lý khiếu nại
+              </Button>
+            </li>
           </ul>
         ),
       },
@@ -394,10 +499,12 @@ class ContractManagement extends React.Component {
             </div>
           </div>
           <div className="ant-card-body" style={{ padding: '0px 32px 40px' }}>
-            <div className="ant-spin-container" style={{ textAlign: 'center' }}>
-              {contractsList.length === 0 && <Spin size="large" />}
-            </div>
-            <Table columns={columns} dataSource={Object.values(contractsList)} />
+            <Table
+              loading={Object.values(contractsList).length === 0}
+              columns={columns}
+              dataSource={Object.values(contractsList)}
+              scroll={{ x: 1500, y: 400 }}
+            />
           </div>
         </div>
       </div>
