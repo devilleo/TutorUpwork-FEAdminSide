@@ -81,42 +81,48 @@ class StatisticManagement extends React.Component {
             <div style={{ padding: '30px', backgroundColor: 'white' }}>
                 <Row gutter={20} type="flex">
                     <Col span={8}>
-                        <Card title="User" size="small">
+                        <Card title="Người dùng" size="small">
                             <Col span={12}>
                                 <Statistic
-                                    title="Tutor"
+                                    title="Giáo viên"
                                     value={Object.values(tutorsList).length}
                                     valueStyle={{ overflow: 'auto', display: 'flex' }}
-                                    prefix={<Icon type="user" />}
+                                    prefix={<Icon type="user" style={{ color: '#AD343E' }} />}
                                 />
                             </Col>
                             <Col span={12}>
                                 <Statistic
-                                    title="Student"
+                                    title="Học sinh"
                                     value={Object.values(studentsList).length}
                                     valueStyle={{ overflow: 'auto', display: 'flex' }}
-                                    prefix={<Icon type="user" />}
+                                    prefix={<Icon type="team" style={{ color: '#00A896' }} />}
                                 />
                             </Col>
                         </Card>
                     </Col>
                     <Col span={8}>
-                        <Card title="Ky nang" size="small">
+                        <Card title="Kỹ năng" size="small">
                             <Col span={12}>
                                 <Statistic
-                                    title="So ky nang"
+                                    title="Số kỹ năng"
                                     value={Object.values(skillsList).length}
                                     valueStyle={{ overflow: 'auto', display: 'flex' }}
-                                    prefix={<Icon type="user" />}
+                                    prefix={<Icon type="bars" style={{ color: '#E2980C' }} />}
                                 />
 
                             </Col>
                             <Col span={12}>
                                 <Statistic
-                                    title="Ky nang hoc nhieu nhat"
+                                    title="Kỹ năng học nhiều nhất"
                                     value={theMostSkill.name}
                                     valueStyle={{ overflow: 'auto', display: 'flex' }}
-                                    prefix={<Icon type="user" />}
+                                    prefix={(
+                                        <Icon
+                                            type="star"
+                                            theme="twoTone"
+                                            twoToneColor="#eb2f96"
+                                        />
+                                    )}
                                 />
                             </Col>
                         </Card>
@@ -125,18 +131,18 @@ class StatisticManagement extends React.Component {
                         <Card title="Luot xem" size="small">
                             <Col span={14}>
                                 <Statistic
-                                    title="Luong truy cap"
+                                    title="Lượng truy cập"
                                     value={`${200}/ngay`}
                                     valueStyle={{ overflow: 'auto', display: 'flex' }}
-                                    prefix={<Icon type="user" />}
+                                    prefix={<Icon type="cluster" style={{ color: '#5B965F' }} />}
                                 />
                             </Col>
                             <Col span={10}>
                                 <Statistic
-                                    title="Dang online"
+                                    title="Đang trực tuyến"
                                     value={3}
                                     valueStyle={{ overflow: 'auto', display: 'flex' }}
-                                    prefix={<Icon type="user" />}
+                                    prefix={<Icon type="global" style={{ color: '#2892D7' }} />}
                                 />
                             </Col>
                         </Card>

@@ -33,19 +33,19 @@ const MyTimeType = ({ typeTime, setTypeTime, week, setWeek, month, setMonth, yea
                     onClick={() => setTypeTime('Week')}
                     value="Week"
                 >
-                    Week
+                    Tuần
                 </Radio.Button>
                 <Radio.Button
                     onClick={() => setTypeTime('Month')}
                     value="Month"
                 >
-                    Month
+                    Tháng
                 </Radio.Button>
                 <Radio.Button
                     onClick={() => setTypeTime('Year')}
                     value="Year"
                 >
-                    Year
+                    Năm
                 </Radio.Button>
             </Radio.Group>
             {typeTime === 'Week' && (
