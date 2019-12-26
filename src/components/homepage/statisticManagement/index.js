@@ -128,7 +128,7 @@ class StatisticManagement extends React.Component {
                         </Card>
                     </Col>
                     <Col span={8}>
-                        <Card title="Luot xem" size="small">
+                        <Card title="Lượt xem" size="small">
                             <Col span={14}>
                                 <Statistic
                                     title="Lượng truy cập"
